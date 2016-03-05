@@ -4,7 +4,9 @@ package com.geditor;
  * Created by marcin on 23.02.16.
  */
 
+import com.geditor.container.FigureContainer;
 import com.geditor.util.Mode;
+import com.geditor.util.Point;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -19,29 +21,35 @@ public class Editor extends JComponent {
     private Image image;
     private Graphics2D graphics;
     private Mode mode;
-    private int currentX, currentY, oldX, oldY;
+    private Point old;
+    private Point current;
+
+    private FigureContainer figureContainer;
+
+    @Override
+    public Component findComponentAt(java.awt.Point p) {
+        return super.findComponentAt(p);
+    }
 
     public Editor() {
         setDoubleBuffered(false);
+
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 logger.trace("Mouse pressed.");
-                oldX = e.getX();
-                oldY = e.getY();
+                old = new Point(e.getX(), e.getY());
             }
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 logger.trace("Mouse dragged.");
-                currentX = e.getX();
-                currentY = e.getY();
+                current = new Point(e.getX(), e.getY());
 
                 if (graphics != null) {
-                    graphics.drawLine(oldX, oldY, currentX, currentY);
+                    graphics.drawLine(old.getX(), old.getY(), current.getX(), current.getY());
                     repaint();
-                    oldX = currentX;
-                    oldY = currentY;
+                    old = new Point(current);
                 }
             }
         });
@@ -68,6 +76,10 @@ public class Editor extends JComponent {
 
     public void black() {
         graphics.setPaint(Color.black);
+    }
+
+    public void drawPoint() {
+        mode = Mode.POINT;
     }
 
     public void drawLine() {

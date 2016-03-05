@@ -9,17 +9,21 @@ import java.awt.event.ActionListener;
  * Created by marcin on 23.02.16.
  */
 public class Main {
-    JButton clearButton, lineButton, rectangleButton, ovalButton;
+    JButton clearButton, lineButton, rectangleButton, ovalButton, pointButton;
     Editor editor;
-    ActionListener actionListener = new ActionListener() {
 
+    ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearButton) {
                 editor.clear();
+            } else if(e.getSource() == pointButton) {
+                editor.drawPoint();
             } else if (e.getSource() == lineButton) {
-
+                editor.drawLine();
             } else if (e.getSource() == rectangleButton) {
+                editor.drawRectangle();
             } else if (e.getSource() == ovalButton) {
+                editor.drawOval();
             }
         }
     };
@@ -38,6 +42,15 @@ public class Main {
 
         JPanel controls = new JPanel();
 
+        createButtons(content, controls);
+
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+    }
+
+    private void createButtons(Container content, JPanel controls) {
         clearButton = new JButton("Clear");
         clearButton.addActionListener(actionListener);
         lineButton = new JButton("Line");
@@ -52,10 +65,5 @@ public class Main {
         controls.add(clearButton);
 
         content.add(controls, BorderLayout.NORTH);
-
-        frame.setSize(600, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
     }
 }

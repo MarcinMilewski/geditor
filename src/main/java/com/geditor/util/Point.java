@@ -18,4 +18,9 @@ public class Point {
         x = 0;
         y = 0;
     }
+
+    public Point(Point point) {
+        this.x = point.getX();
+        this.y = point.getY();
+    }
 }
