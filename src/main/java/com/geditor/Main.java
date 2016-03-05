@@ -1,5 +1,7 @@
 package com.geditor;
 
+import com.geditor.util.Mode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,13 +19,13 @@ public class Main {
             if (e.getSource() == clearButton) {
                 editor.clear();
             } else if(e.getSource() == pointButton) {
-                editor.drawPoint();
+                editor.setMode(Mode.POINT);
             } else if (e.getSource() == lineButton) {
-                editor.drawLine();
+                editor.setMode(Mode.LINE);
             } else if (e.getSource() == rectangleButton) {
-                editor.drawRectangle();
+                editor.setMode(Mode.RECTANGLE);
             } else if (e.getSource() == ovalButton) {
-                editor.drawOval();
+                editor.setMode(Mode.OVAL);
             }
         }
     };
