@@ -4,6 +4,8 @@ package com.geditor;
  * Created by marcin on 23.02.16.
  */
 
+import org.apache.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,6 +14,7 @@ import java.awt.event.MouseMotionAdapter;
 
 public class DrawArea extends JComponent {
 
+    private static final Logger logger = Logger.getLogger(DrawArea.class.getName());
     private Image image;
 
     private Graphics2D graphics;
@@ -19,9 +22,11 @@ public class DrawArea extends JComponent {
     private int currentX, currentY, oldX, oldY;
 
     public DrawArea() {
+
         setDoubleBuffered(false);
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                logger.trace("Mouse pressed.");
                 // save coord x,y when mouse is pressed
                 oldX = e.getX();
                 oldY = e.getY();
@@ -30,6 +35,7 @@ public class DrawArea extends JComponent {
 
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                logger.trace("Mouse dragged.");
                 // coord x,y when drag mouse
                 currentX = e.getX();
                 currentY = e.getY();
