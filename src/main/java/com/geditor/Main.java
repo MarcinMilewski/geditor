@@ -10,18 +10,16 @@ import java.awt.event.ActionListener;
  */
 public class Main {
     JButton clearButton, lineButton, rectangleButton, ovalButton;
-    DrawArea drawArea;
+    Editor editor;
     ActionListener actionListener = new ActionListener() {
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearButton) {
-                drawArea.clear();
+                editor.clear();
             } else if (e.getSource() == lineButton) {
-                drawArea.black();
+
             } else if (e.getSource() == rectangleButton) {
-                drawArea.blue();
             } else if (e.getSource() == ovalButton) {
-                drawArea.green();
             }
         }
     };
@@ -34,19 +32,19 @@ public class Main {
         JFrame frame = new JFrame("Graphic editor");
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
-        drawArea = new DrawArea();
+        editor = new Editor();
 
-        content.add(drawArea, BorderLayout.CENTER);
+        content.add(editor, BorderLayout.CENTER);
 
         JPanel controls = new JPanel();
 
-        clearButton = new JButton("Line");
+        clearButton = new JButton("Clear");
         clearButton.addActionListener(actionListener);
-        lineButton = new JButton("Rectangle");
+        lineButton = new JButton("Line");
         lineButton.addActionListener(actionListener);
-        rectangleButton = new JButton("Oval");
+        rectangleButton = new JButton("Rectangle");
         rectangleButton.addActionListener(actionListener);
-        ovalButton = new JButton("Clear");
+        ovalButton = new JButton("Oval");
 
         controls.add(ovalButton);
         controls.add(rectangleButton);
