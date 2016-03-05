@@ -5,6 +5,7 @@ package com.geditor;
  */
 
 import com.geditor.container.FigureContainer;
+import com.geditor.graphics.LogGraphicsWrapper;
 import com.geditor.util.Mode;
 import com.geditor.util.Point;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ public class Editor extends JComponent {
 
     private Image image;
     private Graphics2D graphics;
+    private LogGraphicsWrapper logGraphicsWrapper;
     private Mode mode;
     private Point old;
     private Point current;
