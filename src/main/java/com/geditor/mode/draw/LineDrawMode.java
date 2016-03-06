@@ -14,13 +14,4 @@ public class LineDrawMode extends AbstractMode implements Mode{
         this.mouseAdapter = new LineDrawMouseAdapter(editor);
     }
 
-    @Override
-    public void activate() {
-        super.activate();
-    }
-
-    @Override
-    public void deactivate() {
-        super.deactivate();
-    }
 }

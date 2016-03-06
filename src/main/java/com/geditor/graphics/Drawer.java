@@ -14,7 +14,7 @@ import java.util.List;
  * Created by marcin on 05.03.16.
  */
 @RequiredArgsConstructor
-public class LogGraphicsWrapper {
+public class Drawer {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
     private final Graphics2D graphics;
     private List<Shape> figures = Lists.newArrayList();

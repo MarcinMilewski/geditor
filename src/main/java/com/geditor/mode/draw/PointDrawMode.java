@@ -15,15 +15,4 @@ public class PointDrawMode extends AbstractMode implements Mode{
         this.mouseAdapter = new PointDrawMouseAdapter(editor);
     }
 
-    @Override
-    public void activate() {
-        editor.addMouseListener(mouseAdapter);
-        editor.addMouseMotionListener(mouseAdapter);
-        editor.addMouseWheelListener(mouseAdapter);
-    }
-
-    @Override
-    public void deactivate() {
-        super.deactivate();
-    }
 }

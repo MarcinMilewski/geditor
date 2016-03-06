@@ -26,7 +26,7 @@ public class LineDrawMouseAdapter extends CustomMouseAdapter {
             editor.setCurrent(new Point(e.getX(), e.getY()));
             Point old = editor.getOld();
             Point current = editor.getCurrent();
-            editor.getLogGraphicsWrapper().drawLine(old.x, old.y,  current.x, current.y); ;
+            editor.getDrawer().drawLine(old.x, old.y,  current.x, current.y); ;
             editor.repaint();
             editor.setOld(editor.getCurrent());
             clickCount = 0;

@@ -21,7 +21,7 @@ public class PointDrawMouseAdapter extends CustomMouseAdapter {
     public void mousePressed(MouseEvent e) {
         logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
         editor.setOld(new Point(e.getX(), e.getY()));
-        editor.getLogGraphicsWrapper().drawPoint(e.getX(), e.getY());
+        editor.getDrawer().drawPoint(e.getX(), e.getY());
         editor.repaint();
     }
 
@@ -32,7 +32,7 @@ public class PointDrawMouseAdapter extends CustomMouseAdapter {
 
         Point old = editor.getOld();
         Point current = editor.getCurrent();
-        editor.getLogGraphicsWrapper().drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
+        editor.getDrawer().drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
         editor.repaint();
         editor.setOld(editor.getCurrent());
 
