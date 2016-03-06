@@ -1,0 +1,29 @@
+package com.geditor.mode.draw;
+
+import com.geditor.Editor;
+import com.geditor.mode.Mode;
+import com.geditor.mode.AbstractMode;
+import com.geditor.mode.mouse.PointMouseAdapter;
+
+/**
+ * Created by marcin on 06.03.16.
+ */
+public class PointDrawMode extends AbstractMode implements Mode{
+
+    public PointDrawMode(Editor editor) {
+        super(editor);
+        this.mouseAdapter = new PointMouseAdapter(editor);
+    }
+
+    @Override
+    public void activate() {
+        editor.addMouseListener(mouseAdapter);
+        editor.addMouseMotionListener(mouseAdapter);
+        editor.addMouseWheelListener(mouseAdapter);
+    }
+
+    @Override
+    public void deactivate() {
+
+    }
+}

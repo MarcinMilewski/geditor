@@ -1,7 +1,5 @@
 package com.geditor;
 
-import com.geditor.util.Mode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,11 +19,9 @@ public class Main {
             } else if(e.getSource() == pointButton) {
                 editor.setPointMode();
             } else if (e.getSource() == lineButton) {
-                editor.setMode(Mode.LINE);
             } else if (e.getSource() == rectangleButton) {
                 editor.setRectangleMode();
             } else if (e.getSource() == ovalButton) {
-                editor.setMode(Mode.OVAL);
             }
         }
     };

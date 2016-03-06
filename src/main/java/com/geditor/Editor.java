@@ -4,9 +4,11 @@ package com.geditor;
  * Created by marcin on 23.02.16.
  */
 
-import com.geditor.container.FigureContainer;
 import com.geditor.graphics.LogGraphicsWrapper;
-import com.geditor.util.Mode;
+import com.geditor.mode.Mode;
+import com.geditor.mode.draw.PointDrawMode;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -19,13 +21,10 @@ public class Editor extends JComponent {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
 
     private Image image;
-    private LogGraphicsWrapper graphics;
+    @Getter @Setter private LogGraphicsWrapper logGraphicsWrapper;
     private Mode mode;
-    private Point old;
-    private Point current;
-
-    private FigureContainer figureContainer;
-
+    @Getter @Setter private Point old;
+    @Getter @Setter private Point current;
     public Editor() {
         setDoubleBuffered(false);
     }
@@ -33,59 +32,33 @@ public class Editor extends JComponent {
     protected void paintComponent(Graphics g) {
         if (image == null) {
             image = createImage(getSize().width, getSize().height);
-            graphics = new LogGraphicsWrapper((Graphics2D) image.getGraphics());
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            logGraphicsWrapper = new LogGraphicsWrapper((Graphics2D) image.getGraphics());
+            logGraphicsWrapper.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             clear();
         }
         g.drawImage(image, 0, 0, null);
     }
 
     public void clear() {
-        graphics.setPaint(Color.white);
-        graphics.fillRect(0, 0, getSize().width, getSize().height);
-        graphics.setPaint(Color.black);
+        logGraphicsWrapper.setPaint(Color.white);
+        logGraphicsWrapper.fillRect(0, 0, getSize().width, getSize().height);
+        logGraphicsWrapper.setPaint(Color.black);
         repaint();
     }
 
     public void setColor(Color color) {
-        graphics.setPaint(color);
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
+        logGraphicsWrapper.setPaint(color);
     }
 
     public void setPointMode() {
-        mode = Mode.POINT;
+        mode = new PointDrawMode(this);
+        mode.activate();
         logger.info("mode: Point");
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
-                old = new Point(e.getX(), e.getY());
-
-                graphics.drawPoint(old.x, old.y);
-                repaint();
-
-            }
-        });
-
-        addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
-                current = new Point(e.getX(), e.getY());
-
-                graphics.drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
-                repaint();
-                old = new Point(current);
-
-            }
-        });
     }
 
     public void setRectangleMode() {
-        mode = Mode.RECTANGLE;
         logger.info("mode: Rectangle");
+
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -100,7 +73,7 @@ public class Editor extends JComponent {
                 logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
                 current = new Point(e.getX(), e.getY());
 
-//                graphics.drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
+//                logGraphicsWrapper.drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
                 repaint();
                 old = new Point(current);
 
