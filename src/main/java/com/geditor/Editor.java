@@ -12,6 +12,9 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class Editor extends JComponent {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
@@ -28,25 +31,26 @@ public class Editor extends JComponent {
     public Editor() {
         setDoubleBuffered(false);
 
-//        addMouseListener(new MouseAdapter() {
-//            public void mousePressed(MouseEvent e) {
-//                logger.trace("Mouse pressed.");
-//                old = new Point(e.getX(), e.getY());
-//            }
-//        });
-//
-//        addMouseMotionListener(new MouseMotionAdapter() {
-//            public void mouseDragged(MouseEvent e) {
-//                logger.trace("Mouse dragged.");
-//                current = new Point(e.getX(), e.getY());
-//
-//                if (graphics != null) {
-//                    graphics.drawLine(old.getX(), old.getY(), current.getX(), current.getY());
-//                    repaint();
-//                    old = new Point(current);
-//                }
-//            }
-//        });
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                e.getComponent()
+                logger.trace("Mouse pressed.");
+                old = new Point(e.getX(), e.getY());
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                logger.trace("Mouse dragged.");
+                current = new Point(e.getX(), e.getY());
+
+                if (graphics != null) {
+                    graphics.drawLine(old.getX(), old.getY(), current.getX(), current.getY());
+                    repaint();
+                    old = new Point(current);
+                }
+            }
+        });
 
     }
 
