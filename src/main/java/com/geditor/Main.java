@@ -23,7 +23,7 @@ public class Main {
             } else if (e.getSource() == lineButton) {
                 editor.setMode(Mode.LINE);
             } else if (e.getSource() == rectangleButton) {
-                editor.setMode(Mode.RECTANGLE);
+                editor.setRectangleMode();
             } else if (e.getSource() == ovalButton) {
                 editor.setMode(Mode.OVAL);
             }

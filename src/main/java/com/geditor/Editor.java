@@ -57,7 +57,7 @@ public class Editor extends JComponent {
 
     public void setPointMode() {
         mode = Mode.POINT;
-        logger.info("POINT mode");
+        logger.info("mode: Point");
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -81,5 +81,32 @@ public class Editor extends JComponent {
 
             }
         });
+    }
+
+    public void setRectangleMode() {
+        mode = Mode.RECTANGLE;
+        logger.info("mode: Rectangle");
+
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
+                old = new Point(e.getX(), e.getY());
+
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
+                current = new Point(e.getX(), e.getY());
+
+//                graphics.drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
+                repaint();
+                old = new Point(current);
+
+            }
+        });
+
+
     }
 }
