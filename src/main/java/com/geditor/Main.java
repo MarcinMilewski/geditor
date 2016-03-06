@@ -19,7 +19,7 @@ public class Main {
             if (e.getSource() == clearButton) {
                 editor.clear();
             } else if(e.getSource() == pointButton) {
-                editor.setMode(Mode.POINT);
+                editor.setPointMode();
             } else if (e.getSource() == lineButton) {
                 editor.setMode(Mode.LINE);
             } else if (e.getSource() == rectangleButton) {
@@ -60,7 +60,11 @@ public class Main {
         rectangleButton = new JButton("Rectangle");
         rectangleButton.addActionListener(actionListener);
         ovalButton = new JButton("Oval");
+        ovalButton.addActionListener(actionListener);
+        pointButton = new JButton("Pencil");
+        pointButton.addActionListener(actionListener);
 
+        controls.add(pointButton);
         controls.add(ovalButton);
         controls.add(rectangleButton);
         controls.add(lineButton);

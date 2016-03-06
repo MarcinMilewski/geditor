@@ -7,7 +7,6 @@ package com.geditor;
 import com.geditor.container.FigureContainer;
 import com.geditor.graphics.LogGraphicsWrapper;
 import com.geditor.util.Mode;
-import com.geditor.util.Point;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -29,27 +28,6 @@ public class Editor extends JComponent {
 
     public Editor() {
         setDoubleBuffered(false);
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
-                old = new Point(e.getX(), e.getY());
-            }
-        });
-
-        addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
-                current = new Point(e.getX(), e.getY());
-
-                if (graphics != null) {
-                    graphics.drawLine(old.getX(), old.getY(), current.getX(), current.getY());
-                    repaint();
-                    old = new Point(current);
-                }
-            }
-        });
-
     }
 
     protected void paintComponent(Graphics g) {
@@ -77,5 +55,31 @@ public class Editor extends JComponent {
         this.mode = mode;
     }
 
+    public void setPointMode() {
+        mode = Mode.POINT;
+        logger.info("POINT mode");
 
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
+                old = new Point(e.getX(), e.getY());
+
+                graphics.drawPoint(old.x, old.y);
+                repaint();
+
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
+                current = new Point(e.getX(), e.getY());
+
+                graphics.drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
+                repaint();
+                old = new Point(current);
+
+            }
+        });
+    }
 }

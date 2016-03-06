@@ -27,7 +27,7 @@ public class LogGraphicsWrapper {
     private void addLineToContainer(int x1, int y1, int x2, int y2) {
         Line2D line2D = new Line2D.Double(x1,y1,x2,y2);
         figures.add(line2D);
-        logger.info("Line added: " + "x1: " +  line2D.getX1() + "y1: " + line2D.getY1() + "x2: " + line2D.getX2() + "y2: " + line2D.getY2());
+        logger.info("Line added: " + " x1: " +  line2D.getX1() + " y1: " + line2D.getY1() + " x2: " + line2D.getX2() + " y2: " + line2D.getY2());
     }
 
     public void drawRect(int x, int y, int width, int height) {
@@ -60,5 +60,13 @@ public class LogGraphicsWrapper {
 
     public void fillRect(int i, int i1, int width, int height) {
         graphics.fillRect(i, i1, width, height);
+    }
+
+    public void drawPoint(int x, int y) {
+        graphics.drawLine(x, y, x, y);
+    }
+
+    public void drawLineWithoutLogging(int x1, int y1, int x2, int y2) {
+        graphics.drawLine(x1, y1, x2, y2);
     }
 }
