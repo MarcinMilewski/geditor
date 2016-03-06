@@ -17,4 +17,17 @@ public abstract class AbstractMode implements Mode {
         this.editor = editor;
     }
 
+    @Override
+    public void activate() {
+        editor.addMouseListener(mouseAdapter);
+        editor.addMouseMotionListener(mouseAdapter);
+        editor.addMouseWheelListener(mouseAdapter);
+    }
+
+    @Override
+    public void deactivate() {
+        editor.removeMouseListener(mouseAdapter);
+        editor.removeMouseMotionListener(mouseAdapter);
+        editor.removeMouseWheelListener(mouseAdapter);
+    }
 }

@@ -6,6 +6,7 @@ package com.geditor;
 
 import com.geditor.graphics.LogGraphicsWrapper;
 import com.geditor.mode.Mode;
+import com.geditor.mode.draw.LineDrawMode;
 import com.geditor.mode.draw.PointDrawMode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +14,6 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 
 public class Editor extends JComponent {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
@@ -51,35 +49,27 @@ public class Editor extends JComponent {
     }
 
     public void setPointMode() {
+        deactivateMode();
         mode = new PointDrawMode(this);
         mode.activate();
         logger.info("mode: Point");
     }
 
+    public void setLineMode() {
+        deactivateMode();
+        mode = new LineDrawMode(this);
+        mode.activate();
+        logger.info("mode: Line");
+    }
+
     public void setRectangleMode() {
-        logger.info("mode: Rectangle");
 
+    }
 
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
-                old = new Point(e.getX(), e.getY());
-
-            }
-        });
-
-        addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
-                current = new Point(e.getX(), e.getY());
-
-//                logGraphicsWrapper.drawLineWithoutLogging(old.x, old.y,  current.x, current.y) ;
-                repaint();
-                old = new Point(current);
-
-            }
-        });
-
-
+    private void deactivateMode() {
+        if (mode != null) {
+            logger.info("current mode: deactivated.");
+            mode.deactivate();
+        }
     }
 }

@@ -19,6 +19,7 @@ public class Main {
             } else if(e.getSource() == pointButton) {
                 editor.setPointMode();
             } else if (e.getSource() == lineButton) {
+                editor.setLineMode();
             } else if (e.getSource() == rectangleButton) {
                 editor.setRectangleMode();
             } else if (e.getSource() == ovalButton) {
