@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LogGraphicsWrapper {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
-    private final Graphics2D graphics = null;
+    private final Graphics2D graphics;
     private List<Shape> figures = Lists.newArrayList();
 
     public void drawLine(int x1, int y1, int x2, int y2) {
@@ -27,7 +27,7 @@ public class LogGraphicsWrapper {
     private void addLineToContainer(int x1, int y1, int x2, int y2) {
         Line2D line2D = new Line2D.Double(x1,y1,x2,y2);
         figures.add(line2D);
-        logger.info("Line added: " + line2D);
+        logger.info("Line added: " + "x1: " +  line2D.getX1() + "y1: " + line2D.getY1() + "x2: " + line2D.getX2() + "y2: " + line2D.getY2());
     }
 
     public void drawRect(int x, int y, int width, int height) {
@@ -48,5 +48,17 @@ public class LogGraphicsWrapper {
     public  void drawPolygon(int xPoints[], int yPoints[],
                                      int nPoints) {
         graphics.drawPolygon(xPoints, yPoints, nPoints);
+    }
+
+    public void setRenderingHint(RenderingHints.Key keyAntialiasing, Object valueAntialiasOn) {
+        graphics.setRenderingHint(keyAntialiasing, valueAntialiasOn);
+    }
+
+    public void setPaint(Color paint) {
+        graphics.setPaint(paint);
+    }
+
+    public void fillRect(int i, int i1, int width, int height) {
+        graphics.fillRect(i, i1, width, height);
     }
 }

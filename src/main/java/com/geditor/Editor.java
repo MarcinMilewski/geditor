@@ -20,8 +20,7 @@ public class Editor extends JComponent {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
 
     private Image image;
-    private Graphics2D graphics;
-    private LogGraphicsWrapper logGraphicsWrapper;
+    private LogGraphicsWrapper graphics;
     private Mode mode;
     private Point old;
     private Point current;
@@ -33,15 +32,14 @@ public class Editor extends JComponent {
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                e.getComponent()
-                logger.trace("Mouse pressed.");
+                logger.trace("Mouse pressed: " + "x: " +  e.getX() + " y " + e.getY());
                 old = new Point(e.getX(), e.getY());
             }
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                logger.trace("Mouse dragged.");
+                logger.trace("Mouse dragged: " + "x: " +  e.getX() + " y " + e.getY());
                 current = new Point(e.getX(), e.getY());
 
                 if (graphics != null) {
@@ -57,7 +55,7 @@ public class Editor extends JComponent {
     protected void paintComponent(Graphics g) {
         if (image == null) {
             image = createImage(getSize().width, getSize().height);
-            graphics = (Graphics2D) image.getGraphics();
+            graphics = new LogGraphicsWrapper((Graphics2D) image.getGraphics());
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             clear();
         }
