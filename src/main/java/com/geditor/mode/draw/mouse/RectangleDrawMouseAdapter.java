@@ -26,7 +26,18 @@ public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
             editor.setCurrent(new Point(e.getX(), e.getY()));
             Point old = editor.getOld();
             Point current = editor.getCurrent();
-            editor.getDrawer().drawRect(old.x, old.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y)); ;
+            if (current.x > old.x && current.y > old.y) {
+                editor.getDrawer().drawRect(old.x, old.y, current.x - old.x, current.y - old.y);
+            }
+            else if (current.x < old.x && current.y < old.y) {
+                editor.getDrawer().drawRect(current.x, current.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
+            }
+            else if (current.x > old.x && current.y < old.y) {
+                editor.getDrawer().drawRect(old.x, current.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
+            }
+            else  { // (current.x < old.x && current.y > old.y)
+                editor.getDrawer().drawRect(current.x, old.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
+            }
             editor.repaint();
             editor.setOld(editor.getCurrent());
             clickCount = 0;
