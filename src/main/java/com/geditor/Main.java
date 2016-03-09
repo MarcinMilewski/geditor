@@ -23,6 +23,7 @@ public class Main {
             } else if (e.getSource() == rectangleButton) {
                 editor.setRectangleMode();
             } else if (e.getSource() == ovalButton) {
+                editor.setOvalMode();
             }
         }
     };

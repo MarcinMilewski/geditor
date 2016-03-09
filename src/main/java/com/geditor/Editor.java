@@ -6,6 +6,7 @@ package com.geditor;
 
 import com.geditor.graphics.Drawer;
 import com.geditor.mode.Mode;
+import com.geditor.mode.draw.OvalDrawMode;
 import com.geditor.mode.draw.LineDrawMode;
 import com.geditor.mode.draw.PointDrawMode;
 import com.geditor.mode.draw.RectangleDrawMode;
@@ -39,14 +40,14 @@ public class Editor extends JComponent {
     }
 
     public void clear() {
-        drawer.setPaint(Color.white);
+        drawer.setColor(Color.white);
         drawer.fillRect(0, 0, getSize().width, getSize().height);
-        drawer.setPaint(Color.black);
+        drawer.setColor(Color.black);
         repaint();
     }
 
     public void setColor(Color color) {
-        drawer.setPaint(color);
+        drawer.setColor(color);
     }
 
     public void setPointMode() {
@@ -68,6 +69,13 @@ public class Editor extends JComponent {
         mode = new RectangleDrawMode(this);
         mode.activate();
         logger.info("mode: Rectangle");
+    }
+
+    public void setOvalMode() {
+        deactivateMode();
+        mode= new OvalDrawMode(this);
+        mode.activate();
+        logger.info("mode: Elipse");
     }
 
     private void deactivateMode() {

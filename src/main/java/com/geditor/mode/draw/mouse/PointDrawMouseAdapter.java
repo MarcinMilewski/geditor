@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * Created by marcin on 06.03.16.
  */
 public class PointDrawMouseAdapter extends CustomMouseAdapter {
-    private static final Logger logger = Logger.getLogger(CustomMouseAdapter.class.getName());
+    private static final Logger logger = Logger.getLogger(PointDrawMouseAdapter.class.getName());
 
     public PointDrawMouseAdapter(Editor editor) {
         super(editor);

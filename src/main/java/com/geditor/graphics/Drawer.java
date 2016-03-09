@@ -1,6 +1,5 @@
 package com.geditor.graphics;
 
-import com.geditor.Editor;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 public class Drawer {
-    private static final Logger logger = Logger.getLogger(Editor.class.getName());
+    private static final Logger logger = Logger.getLogger(Drawer.class.getName());
     private final Graphics2D graphics;
     private List<Shape> figures = Lists.newArrayList();
 
@@ -54,7 +53,7 @@ public class Drawer {
         graphics.setRenderingHint(keyAntialiasing, valueAntialiasOn);
     }
 
-    public void setPaint(Color paint) {
+    public void setColor(Color paint) {
         graphics.setPaint(paint);
     }
 
