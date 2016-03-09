@@ -8,12 +8,12 @@ import java.awt.event.MouseAdapter;
 /**
  * Created by marcin on 06.03.16.
  */
-public abstract class AbstractMode implements Mode {
+public abstract class AbstractEditorStrategy implements EditorStrategy {
     protected final Editor editor;
     protected MouseAdapter mouseAdapter;
     protected KeyAdapter keyAdapter;
 
-    public AbstractMode(Editor editor) {
+    public AbstractEditorStrategy(Editor editor) {
         this.editor = editor;
     }
 
@@ -22,6 +22,7 @@ public abstract class AbstractMode implements Mode {
         editor.addMouseListener(mouseAdapter);
         editor.addMouseMotionListener(mouseAdapter);
         editor.addMouseWheelListener(mouseAdapter);
+        editor.addKeyListener(keyAdapter);
     }
 
     @Override
@@ -29,5 +30,6 @@ public abstract class AbstractMode implements Mode {
         editor.removeMouseListener(mouseAdapter);
         editor.removeMouseMotionListener(mouseAdapter);
         editor.removeMouseWheelListener(mouseAdapter);
+        editor.removeKeyListener(keyAdapter);
     }
 }

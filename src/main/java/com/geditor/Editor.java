@@ -5,11 +5,8 @@ package com.geditor;
  */
 
 import com.geditor.graphics.Drawer;
-import com.geditor.mode.Mode;
-import com.geditor.mode.draw.OvalDrawMode;
-import com.geditor.mode.draw.LineDrawMode;
-import com.geditor.mode.draw.PointDrawMode;
-import com.geditor.mode.draw.RectangleDrawMode;
+import com.geditor.mode.EditorStrategy;
+import com.geditor.mode.draw.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.log4j.Logger;
@@ -22,7 +19,7 @@ public class Editor extends JComponent {
 
     private Image image;
     @Getter @Setter private Drawer drawer;
-    private Mode mode;
+    private EditorStrategy mode;
     @Getter @Setter private Point old;
     @Getter @Setter private Point current;
     public Editor() {
@@ -52,30 +49,37 @@ public class Editor extends JComponent {
 
     public void setPointMode() {
         deactivateMode();
-        mode = new PointDrawMode(this);
+        mode = new PointDrawEditorStrategy(this);
         mode.activate();
         logger.info("mode: Point");
     }
 
     public void setLineMode() {
         deactivateMode();
-        mode = new LineDrawMode(this);
+        mode = new LineDrawEditorStrategy(this);
         mode.activate();
         logger.info("mode: Line");
     }
 
     public void setRectangleMode() {
         deactivateMode();
-        mode = new RectangleDrawMode(this);
+        mode = new RectangleDrawEditorStrategy(this);
         mode.activate();
         logger.info("mode: Rectangle");
     }
 
     public void setOvalMode() {
         deactivateMode();
-        mode= new OvalDrawMode(this);
+        mode= new OvalDrawEditorStrategy(this);
         mode.activate();
-        logger.info("mode: Elipse");
+        logger.info("mode: Oval");
+    }
+
+    public void setPolygonMode() {
+        deactivateMode();
+        mode= new PolygonDrawEditorStrategy(this);
+        mode.activate();
+        logger.info("mode: Polygon");
     }
 
     private void deactivateMode() {
@@ -84,4 +88,5 @@ public class Editor extends JComponent {
             mode.deactivate();
         }
     }
+
 }

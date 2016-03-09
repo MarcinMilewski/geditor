@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
  * Created by marcin on 23.02.16.
  */
 public class Main {
-    JButton clearButton, lineButton, rectangleButton, ovalButton, pointButton;
+    JButton clearButton, lineButton, rectangleButton, ovalButton, pointButton, polygonButton;
     Editor editor;
 
     ActionListener actionListener = new ActionListener() {
@@ -24,6 +24,8 @@ public class Main {
                 editor.setRectangleMode();
             } else if (e.getSource() == ovalButton) {
                 editor.setOvalMode();
+            } else if (e.getSource() == polygonButton) {
+                editor.setPolygonMode();
             }
         }
     };
@@ -34,6 +36,7 @@ public class Main {
 
     public void show() {
         JFrame frame = new JFrame("Graphic editor");
+        frame.setFocusable(true);
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
         editor = new Editor();
@@ -61,12 +64,15 @@ public class Main {
         ovalButton.addActionListener(actionListener);
         pointButton = new JButton("Pencil");
         pointButton.addActionListener(actionListener);
+        polygonButton = new JButton("Polygon");
+        polygonButton.addActionListener(actionListener);
 
         controls.add(pointButton);
         controls.add(ovalButton);
         controls.add(rectangleButton);
         controls.add(lineButton);
         controls.add(clearButton);
+        controls.add(polygonButton);
 
         content.add(controls, BorderLayout.NORTH);
     }
