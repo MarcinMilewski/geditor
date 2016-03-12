@@ -4,7 +4,6 @@ package com.geditor;
  * Created by marcin on 23.02.16.
  */
 
-import com.geditor.global.Global;
 import com.geditor.graphics.Drawer;
 import com.geditor.mode.EditorStrategy;
 import com.geditor.mode.draw.*;
@@ -24,6 +23,7 @@ public class Editor extends JPanel {
 
     @Getter @Setter private Drawer drawer;
     private EditorStrategy mode;
+    private Shape shape;
 
     public Editor() {
         setDoubleBuffered(false);
@@ -42,7 +42,6 @@ public class Editor extends JPanel {
 
         g.drawImage(image, 0, 0, null);
 
-            Shape shape = Global.getShape();
             if (shape != null)
             {
                 logger.info("shape drawing.");
@@ -114,6 +113,11 @@ public class Editor extends JPanel {
         }
     }
 
+    public synchronized Shape getShape() {
+        return shape;
+    }
 
-
+    public synchronized void setShape(Shape shape) {
+        this.shape = shape;
+    }
 }

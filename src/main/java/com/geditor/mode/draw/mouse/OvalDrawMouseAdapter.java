@@ -1,7 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
 import com.geditor.Editor;
-import com.geditor.global.Global;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
@@ -32,7 +31,7 @@ public class OvalDrawMouseAdapter extends CustomMouseAdapter {
         int height = Math.abs(e.getY() - startPoint.y);
 
         ellipse2D = new Ellipse2D.Double(x, y, width, height);
-        Global.setShape(ellipse2D);
+        editor.setShape(ellipse2D);
         editor.repaint();
     }
 
@@ -42,6 +41,6 @@ public class OvalDrawMouseAdapter extends CustomMouseAdapter {
         drawer.draw(ellipse2D);
         editor.repaint();
 
-        Global.setShape(null);
+        editor.setShape(null);
     }
 }

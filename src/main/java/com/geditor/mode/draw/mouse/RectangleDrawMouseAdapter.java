@@ -1,7 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
 import com.geditor.Editor;
-import com.geditor.global.Global;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
@@ -20,7 +19,7 @@ public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         startPoint = new Point(e.getX(), e.getY());
-        Global.setShape(new Rectangle());
+        editor.setShape(new Rectangle());
     }
 
     @Override
@@ -30,14 +29,14 @@ public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
         int width = Math.abs(e.getX() - startPoint.x);
         int height = Math.abs(e.getY() - startPoint.y);
 
-        ((Rectangle)Global.getShape()).setBounds(x, y, width, height);
+        ((Rectangle)editor.getShape()).setBounds(x, y, width, height);
         editor.repaint();
     }
 
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Rectangle rectangle = ((Rectangle)Global.getShape());
+        Rectangle rectangle = ((Rectangle)editor.getShape());
         if (rectangle.width != 0 || rectangle.height != 0) {
             drawer.add(rectangle);
             drawer.draw(rectangle);

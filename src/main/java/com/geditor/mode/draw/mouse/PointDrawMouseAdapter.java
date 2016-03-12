@@ -30,4 +30,6 @@ public class PointDrawMouseAdapter extends CustomMouseAdapter {
         editor.repaint();
         old = new Point(e.getX(), e.getY());
     }
+
+
 }
