@@ -5,8 +5,6 @@ import com.geditor.mode.CustomerKeyEvents;
 import com.geditor.mode.draw.PolygonDrawEditorStrategy;
 import org.apache.log4j.Logger;
 
-import java.awt.event.KeyEvent;
-
 /**
  * Created by marcin on 09.03.16.
  */
@@ -20,16 +18,4 @@ public class PolygonDrawKeyEvents extends CustomerKeyEvents {
         context = polygonDrawEditorStrategy;
     }
 
-    public void keyPressed(KeyEvent e) {
-        logger.info("Key pressed");
-        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-            context.draw();
-        }
-    }
-
-
-    public void keyTyped(KeyEvent e) {
-        logger.info("Key typed");
-        super.keyTyped(e);
-    }
 }

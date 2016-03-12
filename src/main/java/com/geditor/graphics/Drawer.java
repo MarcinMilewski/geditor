@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Drawer {
     private void addLineToContainer(int x1, int y1, int x2, int y2) {
         Line2D line2D = new Line2D.Double(x1,y1,x2,y2);
         figures.add(line2D);
-        logger.info("Line added: " + " x1: " +  line2D.getX1() + " y1: " + line2D.getY1() + " x2: " + line2D.getX2() + " y2: " + line2D.getY2());
+        logger.info("Line added: " + line2D);
     }
 
     public void drawRect(int x, int y, int width, int height) {
@@ -42,6 +43,13 @@ public class Drawer {
 
     public  void drawOval(int x, int y, int width, int height) {
         graphics.drawOval(x, y, width, height);
+        addOvalToContainer(x, y, width, height);
+    }
+
+    private void addOvalToContainer(int x, int y, int width, int height) {
+        Ellipse2D ellipse2D = new Ellipse2D.Double(x, y, width, height);
+        figures.add(ellipse2D);
+        logger.info("Elipse added: " + ellipse2D);
     }
 
     public  void drawPolygon(int xPoints[], int yPoints[],

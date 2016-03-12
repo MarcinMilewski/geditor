@@ -3,7 +3,6 @@ package com.geditor.mode.draw;
 import com.geditor.Editor;
 import com.geditor.mode.AbstractEditorStrategy;
 import com.geditor.mode.EditorStrategy;
-import com.geditor.mode.draw.key.PolygonDrawKeyEvents;
 import com.geditor.mode.draw.mouse.PolygonDrawMouseAdapter;
 import com.google.common.collect.Lists;
 
@@ -23,7 +22,6 @@ public class PolygonDrawEditorStrategy extends AbstractEditorStrategy implements
         super(editor);
         this.editor = editor;
         this.mouseAdapter = new PolygonDrawMouseAdapter(editor, this);
-        this.keyAdapter = new PolygonDrawKeyEvents(editor, this);
     }
 
     public void incrementClickCounter() {

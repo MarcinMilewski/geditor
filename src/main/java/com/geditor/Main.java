@@ -24,8 +24,6 @@ public class Main {
                 editor.setRectangleMode();
             } else if (e.getSource() == ovalButton) {
                 editor.setOvalMode();
-            } else if (e.getSource() == polygonButton) {
-                editor.setPolygonMode();
             }
         }
     };
@@ -64,15 +62,12 @@ public class Main {
         ovalButton.addActionListener(actionListener);
         pointButton = new JButton("Pencil");
         pointButton.addActionListener(actionListener);
-        polygonButton = new JButton("Polygon");
-        polygonButton.addActionListener(actionListener);
 
         controls.add(pointButton);
         controls.add(ovalButton);
         controls.add(rectangleButton);
         controls.add(lineButton);
         controls.add(clearButton);
-        controls.add(polygonButton);
 
         content.add(controls, BorderLayout.NORTH);
     }

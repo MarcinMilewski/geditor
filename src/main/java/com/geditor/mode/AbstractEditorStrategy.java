@@ -22,7 +22,6 @@ public abstract class AbstractEditorStrategy implements EditorStrategy {
         editor.addMouseListener(mouseAdapter);
         editor.addMouseMotionListener(mouseAdapter);
         editor.addMouseWheelListener(mouseAdapter);
-        editor.addKeyListener(keyAdapter);
     }
 
     @Override
@@ -30,6 +29,5 @@ public abstract class AbstractEditorStrategy implements EditorStrategy {
         editor.removeMouseListener(mouseAdapter);
         editor.removeMouseMotionListener(mouseAdapter);
         editor.removeMouseWheelListener(mouseAdapter);
-        editor.removeKeyListener(keyAdapter);
     }
 }
