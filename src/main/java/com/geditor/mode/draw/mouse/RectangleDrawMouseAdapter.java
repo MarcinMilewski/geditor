@@ -1,6 +1,7 @@
 package com.geditor.mode.draw.mouse;
 
 import com.geditor.Editor;
+import com.geditor.global.Global;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.event.MouseEvent;
  * Created by marcin on 06.03.16.
  */
 public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
-    private int clickCount = 0;
+    private Point startPoint;
 
     public RectangleDrawMouseAdapter(Editor editor) {
         super(editor);
@@ -18,30 +19,29 @@ public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        clickCount++;
-        if (clickCount == 1) {
-            editor.setOld(new Point(e.getX(), e.getY()));
-        }
-        else {
-            editor.setCurrent(new Point(e.getX(), e.getY()));
-            Point old = editor.getOld();
-            Point current = editor.getCurrent();
-            if (current.x > old.x && current.y > old.y) {
-                editor.getDrawer().drawRect(old.x, old.y, current.x - old.x, current.y - old.y);
-            }
-            else if (current.x < old.x && current.y < old.y) {
-                editor.getDrawer().drawRect(current.x, current.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
-            }
-            else if (current.x > old.x && current.y < old.y) {
-                editor.getDrawer().drawRect(old.x, current.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
-            }
-            else  { // (current.x < old.x && current.y > old.y)
-                editor.getDrawer().drawRect(current.x, old.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
-            }
-            editor.repaint();
-            editor.setOld(editor.getCurrent());
-            clickCount = 0;
-        }
+        startPoint = new Point(e.getX(), e.getY());
+        Global.setShape(new Rectangle());
+    }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        int x = Math.min(startPoint.x, e.getX());
+        int y = Math.min(startPoint.y, e.getY());
+        int width = Math.abs(e.getX() - startPoint.x);
+        int height = Math.abs(e.getY() - startPoint.y);
+
+        ((Rectangle)Global.getShape()).setBounds(x, y, width, height);
+        editor.repaint();
+    }
+
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Rectangle rectangle = ((Rectangle)Global.getShape());
+        if (rectangle.width != 0 || rectangle.height != 0) {
+            drawer.add(rectangle);
+            drawer.draw(rectangle);
+            editor.repaint();
+        }
     }
 }

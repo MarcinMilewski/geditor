@@ -1,16 +1,18 @@
 package com.geditor.mode.draw.mouse;
 
 import com.geditor.Editor;
+import com.geditor.global.Global;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 
 /**
  * Created by marcin on 06.03.16.
  */
 public class LineDrawMouseAdapter extends CustomMouseAdapter {
-    private int clickCount = 0;
+    private Point startPoint;
 
     public LineDrawMouseAdapter(Editor editor) {
         super(editor);
@@ -18,19 +20,21 @@ public class LineDrawMouseAdapter extends CustomMouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        clickCount++;
-        if (clickCount == 1) {
-            editor.setOld(new Point(e.getX(), e.getY()));
-        }
-        else {
-            editor.setCurrent(new Point(e.getX(), e.getY()));
-            Point old = editor.getOld();
-            Point current = editor.getCurrent();
-            editor.getDrawer().drawLine(old.x, old.y,  current.x, current.y); ;
-            editor.repaint();
-            editor.setOld(editor.getCurrent());
-            clickCount = 0;
-        }
+            startPoint = new Point(e.getX(), e.getY());
+            Global.setShape(new Line2D.Double());
+    }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        ((Line2D)Global.getShape()).setLine(startPoint, new Point(e.getX(), e.getY()));
+        editor.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        drawer.add(Global.getShape());
+        drawer.draw(Global.getShape());
+        editor.repaint();
+        Global.setShape(null);
     }
 }

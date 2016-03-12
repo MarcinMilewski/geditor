@@ -36,6 +36,6 @@ public class PolygonDrawEditorStrategy extends AbstractEditorStrategy implements
     public void draw() {
         int[] x = xPoints.stream().mapToInt(i -> i).toArray();
         int[] y = yPoints.stream().mapToInt(i -> i).toArray();
-        editor.getDrawer().drawPolygon(x, y, xPoints.size());
+//        editor.getDrawer().drawPolygon(x, y, xPoints.size());
     }
 }

@@ -1,16 +1,19 @@
 package com.geditor.mode.draw.mouse;
 
 import com.geditor.Editor;
+import com.geditor.global.Global;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 
 /**
  * Created by marcin on 06.03.16.
  */
 public class OvalDrawMouseAdapter extends CustomMouseAdapter {
-    private int clickCount = 0;
+    private Point startPoint;
+    private Ellipse2D ellipse2D;
 
     public OvalDrawMouseAdapter(Editor editor) {
         super(editor);
@@ -18,34 +21,27 @@ public class OvalDrawMouseAdapter extends CustomMouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        clickCount++;
-        if (clickCount == 1) {
-            editor.setOld(new Point(e.getX(), e.getY()));
-        }
-        else {
-            editor.setCurrent(new Point(e.getX(), e.getY()));
-            Point old = editor.getOld();
-            Point current = editor.getCurrent();
-            if (current.x > old.x && current.y > old.y) {
-                editor.getDrawer().drawOval(old.x, old.y, current.x - old.x, current.y - old.y);
-            }
-            else if (current.x < old.x && current.y < old.y) {
-                editor.getDrawer().drawOval(current.x, current.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
-            }
-            else if (current.x > old.x && current.y < old.y) {
-                editor.getDrawer().drawOval(old.x, current.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
-            }
-            else  { // (current.x < old.x && current.y > old.y)
-                editor.getDrawer().drawOval(current.x, old.y, Math.abs(current.x - old.x), Math.abs(current.y - old.y));
-            }
-            editor.repaint();
-            editor.setOld(editor.getCurrent());
-            clickCount = 0;
-        }
+        startPoint = new Point(e.getX(), e.getY());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        super.mouseDragged(e);
+        int x = Math.min(startPoint.x, e.getX());
+        int y = Math.min(startPoint.y, e.getY());
+        int width = Math.abs(e.getX() - startPoint.x);
+        int height = Math.abs(e.getY() - startPoint.y);
+
+        ellipse2D = new Ellipse2D.Double(x, y, width, height);
+        Global.setShape(ellipse2D);
+        editor.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        drawer.add(ellipse2D);
+        drawer.draw(ellipse2D);
+        editor.repaint();
+
+        Global.setShape(null);
     }
 }
