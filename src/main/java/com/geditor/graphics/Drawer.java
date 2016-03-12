@@ -2,6 +2,7 @@ package com.geditor.graphics;
 
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by marcin on 05.03.16.
@@ -75,5 +77,15 @@ public class Drawer {
 
     public void drawLineWithoutLogging(int x1, int y1, int x2, int y2) {
         graphics.drawLine(x1, y1, x2, y2);
+    }
+
+    public Shape findShape(Point point) {
+        List<Shape> shapes = figures.stream().filter(shape -> shape.intersects(point.getX(), point.getY(), 5.0d, 5.0d)).collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(shapes)) {
+            return shapes.get(0);
+        }
+        else {
+            return null;
+        }
     }
 }

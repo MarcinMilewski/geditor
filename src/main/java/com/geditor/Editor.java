@@ -7,6 +7,7 @@ package com.geditor;
 import com.geditor.graphics.Drawer;
 import com.geditor.mode.EditorStrategy;
 import com.geditor.mode.draw.*;
+import com.geditor.mode.edit.FigureEditStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.log4j.Logger;
@@ -82,11 +83,24 @@ public class Editor extends JComponent {
         logger.info("mode: Polygon");
     }
 
+    public void setEditMode() {
+        deactivateMode();
+        mode = new FigureEditStrategy(this);
+        mode.activate();
+        logger.info("mode: Edit");
+    }
+
+    public Shape findShape(Point point) {
+        return drawer.findShape(point);
+    }
+
     private void deactivateMode() {
         if (mode != null) {
             logger.info("current mode: deactivated.");
             mode.deactivate();
         }
     }
+
+
 
 }
