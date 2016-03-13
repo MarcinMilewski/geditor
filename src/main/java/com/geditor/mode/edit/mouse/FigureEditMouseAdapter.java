@@ -41,14 +41,14 @@ public class FigureEditMouseAdapter extends CustomMouseAdapter {
         Rectangle rectangle = ((Rectangle)editor.getShape());
         Shape foundedShape = drawer.findShape(rectangle);
         if (foundedShape != null) {
+            editor.setShape(foundedShape);
             if (foundedShape instanceof Line2D) {
                 logger.info("Line2D founded " + foundedShape);
-                editor.setShape(foundedShape);
-                editor.repaint();
                 editor.setLineEditMode();
             }
             else if (foundedShape instanceof Rectangle) {
                 logger.info("Rectangle founded " + foundedShape);
+                editor.setRectangleEditMode();
             }
             else if (foundedShape instanceof Ellipse2D) {
                 logger.info("Ellipse founded " + foundedShape);
@@ -56,6 +56,7 @@ public class FigureEditMouseAdapter extends CustomMouseAdapter {
             else {
                 logger.info("Invalid shape " + foundedShape);
             }
+            editor.repaint();
         }
         else {
             editor.setShape(null);

@@ -41,8 +41,7 @@ public class LineEditMouseAdapter extends CustomMouseAdapter {
         logger.info("Edit finished");
         drawer.addEditable(editShape);
         editor.setShape(null);
-        editor.repaint();
-        drawer.redrawAll();
+        editor.redrawAll();
         editor.setEditMode();
     }
 }

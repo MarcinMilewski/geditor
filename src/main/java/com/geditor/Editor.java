@@ -9,6 +9,7 @@ import com.geditor.mode.EditorStrategy;
 import com.geditor.mode.draw.strategy.*;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import com.geditor.mode.edit.strategy.LineEditStrategy;
+import com.geditor.mode.edit.strategy.RectangleEditStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.log4j.Logger;
@@ -121,6 +122,13 @@ public class Editor extends JPanel {
         logger.info("mode: Line edit");
     }
 
+    public void setRectangleEditMode() {
+        deactivateMode();
+        mode = new RectangleEditStrategy(this);
+        mode.activate();
+        logger.info("mode: Rectangle edit");
+    }
+
     public Shape findShape(Rectangle rectangle) {
         return drawer.findShape(rectangle);
     }
@@ -160,4 +168,5 @@ public class Editor extends JPanel {
         drawer.redrawAll();
         repaint();
     }
+
 }
