@@ -2,6 +2,9 @@ package com.geditor.mode.edit.mouse;
 
 import com.geditor.Editor;
 import com.geditor.mode.CustomMouseAdapter;
+import com.geditor.mode.edit.strategy.LineEditStrategy;
+import com.geditor.mode.edit.strategy.OvalEditStrategy;
+import com.geditor.mode.edit.strategy.RectangleEditStrategy;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -44,15 +47,15 @@ public class FigureEditMouseAdapter extends CustomMouseAdapter {
             editor.setShape(foundedShape);
             if (foundedShape instanceof Line2D) {
                 logger.info("Line2D founded " + foundedShape);
-                editor.setLineEditMode();
+                editor.setStrategy(new LineEditStrategy(editor));
             }
             else if (foundedShape instanceof Rectangle) {
                 logger.info("Rectangle founded " + foundedShape);
-                editor.setRectangleEditMode();
+                editor.setStrategy(new RectangleEditStrategy(editor));
             }
             else if (foundedShape instanceof Ellipse2D) {
                 logger.info("Ellipse founded " + foundedShape);
-                editor.setOvalEditMode();
+                editor.setStrategy(new OvalEditStrategy(editor));
             }
             else {
                 logger.info("Invalid shape " + foundedShape);
