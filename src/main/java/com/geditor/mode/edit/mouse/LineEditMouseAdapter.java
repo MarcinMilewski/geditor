@@ -2,6 +2,7 @@ package com.geditor.mode.edit.mouse;
 
 import com.geditor.Editor;
 import com.geditor.mode.CustomMouseAdapter;
+import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -42,6 +43,6 @@ public class LineEditMouseAdapter extends CustomMouseAdapter {
         drawer.addEditable(editShape);
         editor.setShape(null);
         editor.redrawAll();
-        editor.setEditMode();
+        editor.setStrategy(new FigureEditStrategy(editor));
     }
 }

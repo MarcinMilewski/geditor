@@ -1,5 +1,11 @@
 package com.geditor;
 
+import com.geditor.mode.draw.strategy.LineDrawStrategy;
+import com.geditor.mode.draw.strategy.OvalDrawStrategy;
+import com.geditor.mode.draw.strategy.PointDrawStrategy;
+import com.geditor.mode.draw.strategy.RectangleDrawStrategy;
+import com.geditor.mode.edit.strategy.FigureEditStrategy;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,15 +28,15 @@ public class Main {
                 editor.clearBuffer();
                 editor.clearAll();
             } else if(e.getSource() == pointButton) {
-                editor.setPointMode();
+                editor.setStrategy(new PointDrawStrategy(editor));
             } else if (e.getSource() == lineButton) {
-                editor.setLineMode();
+                editor.setStrategy(new LineDrawStrategy(editor));
             } else if (e.getSource() == rectangleButton) {
-                editor.setRectangleMode();
+                editor.setStrategy(new RectangleDrawStrategy(editor));
             } else if (e.getSource() == ovalButton) {
-                editor.setOvalMode();
+                editor.setStrategy(new OvalDrawStrategy(editor));
             } else if (e.getSource() == editButton) {
-                editor.setEditMode();
+                editor.setStrategy(new FigureEditStrategy(editor));
             }
         }
     };

@@ -14,4 +14,15 @@ public class FigureEditStrategy extends AbstractEditorStrategy implements Editor
         this.mouseAdapter = new FigureEditMouseAdapter(editor);
     }
 
+    @Override
+    public void activate() {
+        super.activate();
+        editor.setDottedStroke();
+    }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        editor.setSolidStroke();
+    }
 }
