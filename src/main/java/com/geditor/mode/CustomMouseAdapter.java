@@ -1,7 +1,7 @@
 package com.geditor.mode;
 
 import com.geditor.Editor;
-import com.geditor.graphics.Drawer;
+import com.geditor.graphic.Drawer;
 
 import java.awt.event.MouseAdapter;
 

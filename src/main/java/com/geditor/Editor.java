@@ -4,7 +4,7 @@ package com.geditor;
  * Created by marcin on 23.02.16.
  */
 
-import com.geditor.graphics.Drawer;
+import com.geditor.graphic.Drawer;
 import com.geditor.mode.EditorStrategy;
 import lombok.Getter;
 import lombok.Setter;

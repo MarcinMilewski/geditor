@@ -15,7 +15,9 @@ import java.awt.event.ActionListener;
  * Created by marcin on 23.02.16.
  */
 public class Main {
-    private JButton clearButton, lineButton, rectangleButton, ovalButton, pointButton, polygonButton, editButton;
+    private JButton clearButton, lineButton, rectangleButton,
+            ovalButton, pointButton, polygonButton, editButton
+            ,exportButton, importButton;
     private Editor editor;
     private Container content;
     private JPanel root;
@@ -74,7 +76,6 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-
     }
 
     private void createButtons() {
@@ -90,6 +91,10 @@ public class Main {
         pointButton.addActionListener(actionListener);
         editButton = new JButton("Edit");
         editButton.addActionListener(actionListener);
+        exportButton = new JButton("Export");
+        exportButton.addActionListener(actionListener);
+        importButton = new JButton("Import");
+        importButton.addActionListener(actionListener);
 
         root.add(pointButton);
         root.add(ovalButton);
@@ -97,6 +102,8 @@ public class Main {
         root.add(lineButton);
         root.add(clearButton);
         root.add(editButton);
+        root.add(exportButton);
+        root.add(importButton);
 
         content.add(root, BorderLayout.NORTH);
     }

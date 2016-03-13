@@ -1,4 +1,4 @@
-package com.geditor.graphics;
+package com.geditor.graphic;
 
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
