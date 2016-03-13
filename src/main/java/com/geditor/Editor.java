@@ -9,6 +9,7 @@ import com.geditor.mode.EditorStrategy;
 import com.geditor.mode.draw.strategy.*;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import com.geditor.mode.edit.strategy.LineEditStrategy;
+import com.geditor.mode.edit.strategy.OvalEditStrategy;
 import com.geditor.mode.edit.strategy.RectangleEditStrategy;
 import lombok.Getter;
 import lombok.Setter;
@@ -129,6 +130,13 @@ public class Editor extends JPanel {
         logger.info("mode: Rectangle edit");
     }
 
+    public void setOvalEditMode() {
+        deactivateMode();
+        mode = new OvalEditStrategy(this);
+        mode.activate();
+        logger.info("mode: Oval edit");
+    }
+
     public Shape findShape(Rectangle rectangle) {
         return drawer.findShape(rectangle);
     }
@@ -168,5 +176,6 @@ public class Editor extends JPanel {
         drawer.redrawAll();
         repaint();
     }
+
 
 }

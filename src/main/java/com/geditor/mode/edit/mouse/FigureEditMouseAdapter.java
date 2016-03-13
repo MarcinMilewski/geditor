@@ -52,6 +52,7 @@ public class FigureEditMouseAdapter extends CustomMouseAdapter {
             }
             else if (foundedShape instanceof Ellipse2D) {
                 logger.info("Ellipse founded " + foundedShape);
+                editor.setOvalEditMode();
             }
             else {
                 logger.info("Invalid shape " + foundedShape);

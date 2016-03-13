@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * Created by marcin on 13.03.16.
  */
 public class RectangleEditMouseAdapter extends CustomMouseAdapter {
-    private static final Logger logger = Logger.getLogger(LineEditMouseAdapter.class.getName());
+    private static final Logger logger = Logger.getLogger(RectangleEditMouseAdapter.class.getName());
     private Point startPoint;
     private Rectangle editShape;
 
