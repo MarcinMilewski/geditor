@@ -37,7 +37,7 @@ public class OvalDrawMouseAdapter extends CustomMouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        drawer.add(ellipse2D);
+        drawer.addEditable(ellipse2D);
         drawer.draw(ellipse2D);
         editor.repaint();
 

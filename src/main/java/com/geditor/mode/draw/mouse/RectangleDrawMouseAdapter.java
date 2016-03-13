@@ -38,7 +38,7 @@ public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
     public void mouseReleased(MouseEvent e) {
         Rectangle rectangle = ((Rectangle)editor.getShape());
         if (rectangle.width != 0 || rectangle.height != 0) {
-            drawer.add(rectangle);
+            drawer.addEditable(rectangle);
             drawer.draw(rectangle);
             editor.repaint();
         }

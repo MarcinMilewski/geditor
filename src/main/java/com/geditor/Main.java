@@ -19,7 +19,8 @@ public class Main {
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearButton) {
-                editor.clear();
+                editor.clearBuffer();
+                editor.clearAll();
             } else if(e.getSource() == pointButton) {
                 editor.setPointMode();
             } else if (e.getSource() == lineButton) {
@@ -29,7 +30,6 @@ public class Main {
             } else if (e.getSource() == ovalButton) {
                 editor.setOvalMode();
             } else if (e.getSource() == editButton) {
-                createEditButtons();
                 editor.setEditMode();
             }
         }

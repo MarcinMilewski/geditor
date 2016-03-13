@@ -31,7 +31,7 @@ public class LineDrawMouseAdapter extends CustomMouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        drawer.add(editor.getShape());
+        drawer.addEditable(editor.getShape());
         drawer.draw(editor.getShape());
         editor.repaint();
         editor.setShape(null);

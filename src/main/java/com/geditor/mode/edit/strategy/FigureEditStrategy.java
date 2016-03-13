@@ -1,4 +1,4 @@
-package com.geditor.mode.edit;
+package com.geditor.mode.edit.strategy;
 
 import com.geditor.Editor;
 import com.geditor.mode.AbstractEditorStrategy;

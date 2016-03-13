@@ -20,13 +20,17 @@ public class PointDrawMouseAdapter extends CustomMouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         old = new Point(e.getX(), e.getY());
-        drawer.draw(new Line2D.Double(old.x, old.y, old.x, old.y));
+        Shape shape = new Line2D.Double(old.x, old.y, old.x, old.y);
+        drawer.addNonEditable(shape);
+        drawer.draw(shape);
         editor.repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        drawer.draw(new Line2D.Double(old.x, old.y, e.getX(), e.getY()));
+        Shape shape = new Line2D.Double(old.x, old.y, e.getX(), e.getY());
+        drawer.addNonEditable(shape);
+        drawer.draw(shape);
         editor.repaint();
         old = new Point(e.getX(), e.getY());
     }

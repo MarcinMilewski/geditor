@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 public class Drawer {
     private static final Logger logger = Logger.getLogger(Drawer.class.getName());
     private final Graphics2D graphics;
-    private List<Shape> figures = Lists.newArrayList();
+    private List<Shape> editableFigures = Lists.newArrayList();
+    private List<Shape> nonEditableFigures = Lists.newArrayList();
 
     public void setRenderingHint(RenderingHints.Key keyAntialiasing, Object valueAntialiasOn) {
         graphics.setRenderingHint(keyAntialiasing, valueAntialiasOn);
@@ -30,8 +31,8 @@ public class Drawer {
         graphics.fillRect(i, i1, width, height);
     }
 
-    public Shape findShape(Point point) {
-        List<Shape> shapes = figures.stream().filter(shape -> shape.intersects(point.getX(), point.getY(), 5.0d, 5.0d)).collect(Collectors.toList());
+    public Shape findShape(Rectangle rectangle) {
+        List<Shape> shapes = editableFigures.stream().filter(shape -> shape.intersects(rectangle)).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(shapes)) {
             return shapes.get(0);
         }
@@ -46,12 +47,33 @@ public class Drawer {
         }
     }
 
-    public void add(Shape shape) {
-        figures.add(shape);
+    public void addEditable(Shape shape) {
+        editableFigures.add(shape);
     }
 
-    public void remove(Shape shape) {
-        figures.remove(shape);
+    public void addNonEditable(Shape shape) {
+        nonEditableFigures.add(shape);
     }
 
+    public void removeNonEditable(Shape shape) {
+        nonEditableFigures.remove(shape);
+    }
+
+    public void removeEditable(Shape shape) {
+        editableFigures.remove(shape);
+    }
+
+    public void redrawAll() {
+        for (Shape editableFigure : editableFigures) {
+            graphics.draw(editableFigure);
+        }
+        for (Shape nonEditableFigure : nonEditableFigures) {
+            graphics.draw(nonEditableFigure);
+        }
+    }
+
+    public void clear() {
+        editableFigures.clear();
+        nonEditableFigures.clear();
+    }
 }
