@@ -28,8 +28,8 @@ public class Editor extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        currentGraphics = (Graphics2D) g;
         super.paintComponent(g);
+        currentGraphics = (Graphics2D) g;
         if (image == null) {
             image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
             drawer = new Drawer((Graphics2D) image.getGraphics());
@@ -71,10 +71,6 @@ public class Editor extends JPanel {
         this.strategy = strategy;
         strategy.activate();
         logger.info("strategy: " + strategy);
-    }
-
-    public Shape findShape(Rectangle rectangle) {
-        return drawer.findShape(rectangle);
     }
 
     private void deactivateStrategy() {

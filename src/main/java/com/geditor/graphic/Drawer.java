@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * Created by marcin on 05.03.16.
+ * PS6-MarcinMilewski-Zadanie1-Java
  */
 @RequiredArgsConstructor
 public class Drawer {
