@@ -23,7 +23,7 @@ public class FileExportPanel extends JPanel
     JButton openButton;
     JTextArea actionHistory;
     JFileChooser fileChooser;
-    Editor editor;
+    private Editor editor;
 
     public FileExportPanel(Editor editor) {
         super(new BorderLayout());
@@ -40,9 +40,8 @@ public class FileExportPanel extends JPanel
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", ".ppmp3"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", ".ppmp6"));
 
-        openButton = new JButton("Open a File...");
+        openButton = new JButton("Save a File...");
         openButton.addActionListener(this);
-
 
         JPanel buttonPanel = new JPanel(); //use FlowLayout
         buttonPanel.add(openButton);
@@ -53,11 +52,8 @@ public class FileExportPanel extends JPanel
     }
 
     public void actionPerformed(ActionEvent e) {
-
-        //Handle open button action.
         if (e.getSource() == openButton) {
-            int returnVal = fileChooser.showOpenDialog(FileExportPanel.this);
-
+            int returnVal = fileChooser.showSaveDialog(FileExportPanel.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 FileExtension fileExtension = FileExtension.valueOfIgnoreCase(file.getName().substring(file.getName().lastIndexOf('.') + 1));
@@ -72,7 +68,7 @@ public class FileExportPanel extends JPanel
                     actionHistory.append("Error, file incorrect");
                 }
             } else {
-                actionHistory.append("Open command cancelled by user." + newline);
+                actionHistory.append("Save command cancelled by user." + newline);
             }
             actionHistory.setCaretPosition(actionHistory.getDocument().getLength());
         }

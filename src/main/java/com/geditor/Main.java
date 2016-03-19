@@ -49,7 +49,7 @@ public class Main {
     private void createSaveFileChooserFrame() {
         JFrame frame = new JFrame("Save");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(new FileImportPanel(editor));
+        frame.add(new FileExportPanel(editor));
 
         frame.pack();
         frame.setVisible(true);
@@ -58,7 +58,7 @@ public class Main {
     private void createOpenFileChooserFrame() {
         JFrame frame = new JFrame("Open");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(new FileExportPanel(editor));
+        frame.add(new FileImportPanel(editor));
 
         frame.pack();
         frame.setVisible(true);
@@ -82,7 +82,7 @@ public class Main {
 
         createButtons();
 
-        frame.setSize(600, 600);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 //        frame.pack();
@@ -112,8 +112,9 @@ public class Main {
         root.add(lineButton);
         root.add(clearButton);
         root.add(editButton);
-        root.add(exportButton);
         root.add(importButton);
+        root.add(exportButton);
+
 
         content.add(root, BorderLayout.NORTH);
     }

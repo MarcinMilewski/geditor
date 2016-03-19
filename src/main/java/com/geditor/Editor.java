@@ -92,10 +92,12 @@ public class Editor extends JPanel {
     }
 
     public void setImage(BufferedImage image) {
+        clearDrawArea();
         this.image = image;
         drawer = new Drawer((Graphics2D) image.getGraphics());
         drawer.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        clearDrawArea();
+        drawer.setColor(Color.black);
+        repaint();
     }
 
     public void setSolidStroke() {
