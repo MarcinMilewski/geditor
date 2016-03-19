@@ -22,7 +22,6 @@ public class Main {
     private Container content;
     private JPanel root;
     private JPanel editPanel;
-    private TextField scale;
 
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -39,19 +38,30 @@ public class Main {
                 editor.setStrategy(new OvalDrawStrategy(editor));
             } else if (e.getSource() == editButton) {
                 editor.setStrategy(new FigureEditStrategy(editor));
+            } else if (e.getSource() == exportButton) {
+                createSaveFileChooserFrame();
+            } else if (e.getSource() == importButton) {
+                createOpenFileChooserFrame();
             }
         }
     };
 
-    private void createEditButtons() {
-        scale = new TextField("scale");
-        editPanel = new JPanel();
-        editPanel.setSize(200, 200);
-        editPanel.add(scale);
-        editPanel.setVisible(true);
-        editPanel.add(new JButton("Submit"));
-        content.add(editPanel, BorderLayout.EAST);
-        content.revalidate();
+    private void createSaveFileChooserFrame() {
+        JFrame frame = new JFrame("Save");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.add(new FileImportPanel(editor));
+
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void createOpenFileChooserFrame() {
+        JFrame frame = new JFrame("Open");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.add(new FileExportPanel(editor));
+
+        frame.pack();
+        frame.setVisible(true);
     }
 
 
@@ -75,7 +85,7 @@ public class Main {
         frame.setSize(600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+//        frame.pack();
     }
 
     private void createButtons() {

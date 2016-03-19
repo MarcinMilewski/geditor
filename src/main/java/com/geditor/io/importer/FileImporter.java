@@ -8,5 +8,5 @@ import java.awt.image.BufferedImage;
  * Created by marcin on 13.03.16.
  */
 public interface FileImporter {
-    BufferedImage importFile() throws ImportFileException;
+    BufferedImage importImage() throws ImportFileException;
 }

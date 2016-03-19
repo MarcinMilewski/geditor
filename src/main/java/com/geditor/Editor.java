@@ -91,6 +91,13 @@ public class Editor extends JPanel {
                 0f);
     }
 
+    public void setImage(BufferedImage image) {
+        this.image = image;
+        drawer = new Drawer((Graphics2D) image.getGraphics());
+        drawer.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        clearDrawArea();
+    }
+
     public void setSolidStroke() {
         stroke = new BasicStroke();
     }
