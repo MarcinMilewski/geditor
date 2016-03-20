@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BinaryParser {
     private final byte[] bytes;
-    private int index;
+    protected int index = 0;
 
     public boolean isComment(String line, char commentMarker) {
         if (line.startsWith(String.valueOf(commentMarker))) {

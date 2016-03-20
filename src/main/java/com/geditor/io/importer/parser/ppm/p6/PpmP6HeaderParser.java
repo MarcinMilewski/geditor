@@ -11,7 +11,7 @@ public class PpmP6HeaderParser extends BinaryParser {
         super(bytes);
     }
 
-    public PpmP6Header parseHeader(byte[] file) throws ParserException {
+    public PpmP6Header parseHeader() throws ParserException {
         ppmP6Header = new PpmP6Header();
         String currentLine = getLine();
         checkP6Marker(currentLine);
@@ -23,6 +23,9 @@ public class PpmP6HeaderParser extends BinaryParser {
         ppmP6Header.setCommentLines(comments);
         getWidthAndHeight(currentLine);
         ppmP6Header.setMaxColor(getMaxColorValue(currentLine = getLine()));
+        ppmP6Header.setDataSize(ppmP6Header.getWidth() * ppmP6Header.getHeight() * 3);
+        ppmP6Header.setLastIndex(index);
+
         return ppmP6Header;
     }
 

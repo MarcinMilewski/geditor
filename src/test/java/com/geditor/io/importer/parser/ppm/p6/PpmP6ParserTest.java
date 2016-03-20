@@ -2,7 +2,6 @@ package com.geditor.io.importer.parser.ppm.p6;
 
 import com.google.common.io.Files;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.awt.image.BufferedImage;
@@ -32,7 +31,6 @@ public class PpmP6ParserTest {
         assertTrue(file.exists());
     }
 
-    @Ignore
     @Test
     public void parse() throws Exception {
         BufferedImage bufferedImage = ppmP6Parser.parse(file);
@@ -41,28 +39,39 @@ public class PpmP6ParserTest {
 
     @Test
     public void whenP6HeaderShouldBeValid() throws Exception {
-        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader(fileContent);
+        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader();
         assertThat(ppmP6Header, is(notNullValue()));
     }
 
     @Test
     public void shouldBeOneComment() throws Exception {
-        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader(fileContent);
+        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader();
         assertThat(ppmP6Header.getCommentLines(), is(1));
     }
 
     @Test
     public void widthShouldBe800AndHeight600() throws Exception {
-        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader(fileContent);
+        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader();
         assertThat(ppmP6Header.getWidth(), is(800));
         assertThat(ppmP6Header.getHeight(), is(600));
     }
 
     @Test
     public void maxColorShouldBe255() throws Exception {
-        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader(fileContent);
+        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader();
         assertThat(ppmP6Header.getMaxColor(), is(255));
     }
 
+    @Test
+    public void dataSizeShoudlBe3xWidthxHeight() throws Exception {
+        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader();
+        assertThat(ppmP6Header.getDataSize(), is(800 * 600 * 3));
+    }
+
+    @Test
+    public void indexShouldBeGraterThanZero() throws Exception {
+        PpmP6Header ppmP6Header = ppmP6HeaderParser.parseHeader();
+        assertTrue(ppmP6Header.getLastIndex() > 0);
+    }
 
 }
