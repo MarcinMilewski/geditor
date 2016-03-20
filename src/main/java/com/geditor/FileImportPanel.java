@@ -38,7 +38,7 @@ public class FileImportPanel extends JPanel
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", "ppmp3"));
-//        fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", ".ppmp6"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", "ppmp6"));
         openButton = new JButton("Open a File...");
         openButton.addActionListener(this);
 
