@@ -24,7 +24,7 @@ public class Ppm3Importer extends AbstractPpmImporter {
 
     @Override
     protected FileParser getParser() {
-        return new PpmP3Parser();
+        return new PpmP3Parser(file);
     }
 
 }

@@ -22,7 +22,7 @@ public abstract class AbstractFileImporter implements FileImporter{
     public BufferedImage importImage() throws ImportFileException {
         BufferedImage bufferedImage;
         try {
-            bufferedImage = parser.parse(file);
+            bufferedImage = parser.parse();
         } catch (ParserException e) {
             throw new ImportFileException(e);
         }

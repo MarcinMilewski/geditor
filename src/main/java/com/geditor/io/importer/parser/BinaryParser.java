@@ -15,14 +15,6 @@ public class BinaryParser {
         else return false;
     }
 
-    public char nextChar() {
-        return (char) (bytes[index++] & 0xFF);
-    }
-
-    public int convertByteToInt8(byte b) {
-        return b & 0x000000ff;
-    }
-
     public String getLine() {
         StringBuffer sb = new StringBuffer();
         while (getCurrentChar() != '\n') {
@@ -31,15 +23,6 @@ public class BinaryParser {
         }
         moveToNextLine();
         return sb.toString();
-    }
-
-    public char nextCharAfterNewLine() {
-        char c;
-        while ((c = getCurrentChar()) != '\n') {
-            moveToNextByte();
-        }
-        moveToNextByte();
-        return getCurrentChar();
     }
 
     public void moveToNextLine() {
@@ -56,10 +39,6 @@ public class BinaryParser {
 
     public void moveToNextByte() {
         ++index;
-    }
-
-    public byte getCurrentByte() {
-        return bytes[index];
     }
 
     public char getCurrentChar() {

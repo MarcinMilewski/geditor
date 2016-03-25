@@ -23,7 +23,7 @@ public class Ppm6Importer extends AbstractPpmImporter {
 
     @Override
     protected FileParser getParser() {
-        return new PpmP6Parser();
+        return new PpmP6Parser(file);
     }
 
 

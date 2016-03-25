@@ -20,7 +20,7 @@ public class PpmP6ParserTest {
     @Before
     public void setUp() throws Exception {
         file = new File(getClass().getResource("/mojAsciiRaw.ppmp6").toURI());
-        ppmP6Parser = new PpmP6Parser();
+        ppmP6Parser = new PpmP6Parser(file);
         fileContent = Files.toByteArray(file);
         ppmP6HeaderParser = new PpmP6HeaderParser(fileContent);
 
@@ -33,7 +33,7 @@ public class PpmP6ParserTest {
 
     @Test
     public void parse() throws Exception {
-        BufferedImage bufferedImage = ppmP6Parser.parse(file);
+        BufferedImage bufferedImage = ppmP6Parser.parse();
         assertNotNull(bufferedImage);
     }
 
