@@ -36,8 +36,8 @@ public class FileExportPanel extends JPanel
         fileChooser = new JFileChooser();
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", ".ppmp3"));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", ".ppmp6"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", "ppmp3"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", "ppmp6"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
 
         openButton = new JButton("Save a File...");
@@ -56,7 +56,6 @@ public class FileExportPanel extends JPanel
             int returnVal = fileChooser.showSaveDialog(FileExportPanel.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                file.getAbsolutePath();
 
                 FileExtension fileExtension = FileExtension.valueOfIgnoreCase(fileChooser.getFileFilter());
                 actionHistory.append("Opening: " + file.getName() + "." + newline);
