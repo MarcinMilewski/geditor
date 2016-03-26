@@ -38,7 +38,7 @@ public class FileExportPanel extends JPanel
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", ".ppmp3"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", ".ppmp6"));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", ".jpg"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
 
         openButton = new JButton("Save a File...");
         openButton.addActionListener(this);

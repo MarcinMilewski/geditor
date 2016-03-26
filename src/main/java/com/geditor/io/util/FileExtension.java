@@ -8,7 +8,7 @@ import java.util.Arrays;
 public enum FileExtension {
     PPMP3,
     PPMP6,
-    JPG;
+    JPG, JPEG;
 
     public static FileExtension valueOfIgnoreCase(String value) {
         return Arrays.stream(values()).filter(fileExtension -> fileExtension.name().equalsIgnoreCase(value)).findAny().orElse(null);

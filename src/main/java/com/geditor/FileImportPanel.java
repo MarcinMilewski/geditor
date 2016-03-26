@@ -39,6 +39,7 @@ public class FileImportPanel extends JPanel
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", "ppmp3"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", "ppmp6"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
         openButton = new JButton("Open a File...");
         openButton.addActionListener(this);
 
@@ -62,12 +63,13 @@ public class FileImportPanel extends JPanel
                 FileExtension fileExtension = FileExtension.valueOfIgnoreCase(file.getName().substring(file.getName().lastIndexOf('.') + 1));
                 actionHistory.append("Opening: " + file.getName() + "." + newline);
                 try {
-                    FileImporter fileImporter = FileImporterFactory.getFileImporter(fileExtension, file);
-                    BufferedImage importedImage = fileImporter.importImage();
+                    FileImporter fileImporter = FileImporterFactory.getFileImporter(fileExtension);
+                    BufferedImage importedImage = fileImporter.importImage(file);
                     editor.setImage(importedImage);
                 } catch (InvalidExtensionException e1) {
                     actionHistory.append("File extension incorrect");
                 } catch (ImportFileException e1) {
+                    e1.printStackTrace();
                     e1.printStackTrace();
                     actionHistory.append("Error, file incorrect");
                 }

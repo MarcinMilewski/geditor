@@ -25,13 +25,8 @@ public class PpmP6Parser extends AbstractPpmParser implements FileParser{
     private int bodyIndex = 0;
     private PpmP6Header ppmP6Header;
 
-    public PpmP6Parser(File file) {
-        super(file);
-    }
-
-
     @Override
-    public BufferedImage parse() throws ParserException {
+    public BufferedImage parse(File file) throws ParserException {
 
         BufferedImage bufferedImage = null;
         try {

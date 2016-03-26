@@ -13,18 +13,14 @@ import java.io.File;
  */
 public class Ppm3Importer extends AbstractPpmImporter {
 
-    public Ppm3Importer(File file)  {
-        super(file);
-    }
-
     @Override
-    public BufferedImage importImage() throws ImportFileException {
-        return super.importImage();
+    public BufferedImage importImage(File file) throws ImportFileException {
+        return super.importImage(file);
     }
 
     @Override
     protected FileParser getParser() {
-        return new PpmP3Parser(file);
+        return new PpmP3Parser();
     }
 
 }

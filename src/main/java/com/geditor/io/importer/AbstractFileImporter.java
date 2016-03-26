@@ -11,18 +11,16 @@ import java.io.File;
  * Created by marcin on 13.03.16.
  */
 public abstract class AbstractFileImporter implements FileImporter{
-    protected final File file;
     protected final FileParser parser;
-    public AbstractFileImporter(File file) {
-        this.file = file;
+    public AbstractFileImporter() {
         parser = getParser();
     }
 
     @Override
-    public BufferedImage importImage() throws ImportFileException {
+    public BufferedImage importImage(File file) throws ImportFileException {
         BufferedImage bufferedImage;
         try {
-            bufferedImage = parser.parse();
+            bufferedImage = parser.parse(file);
         } catch (ParserException e) {
             throw new ImportFileException(e);
         }

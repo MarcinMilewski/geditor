@@ -25,12 +25,8 @@ public class PpmP3Parser extends AbstractPpmParser implements FileParser {
     private int dataIndex = 0;
     private int dataSize = 0;
 
-    public PpmP3Parser(File file) {
-        super(file);
-    }
-
     @Override
-    public BufferedImage parse() throws ParserException {
+    public BufferedImage parse(File file) throws ParserException {
         BufferedImage bufferedImage = null;
         try {
             List<String> content = Files.readLines(file, Charsets.US_ASCII);

@@ -12,18 +12,14 @@ import java.io.File;
  * Created by marcin on 13.03.16.
  */
 public class Ppm6Importer extends AbstractPpmImporter {
-    public Ppm6Importer(File file) {
-        super(file);
-    }
-
     @Override
-    public BufferedImage importImage() throws ImportFileException {
-        return super.importImage();
+    public BufferedImage importImage(File file) throws ImportFileException {
+        return super.importImage(file);
     }
 
     @Override
     protected FileParser getParser() {
-        return new PpmP6Parser(file);
+        return new PpmP6Parser();
     }
 
 
