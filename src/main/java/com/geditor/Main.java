@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  */
 public class Main {
     private JButton clearButton, lineButton, rectangleButton,
-            ovalButton, pointButton, polygonButton, editButton
+            ovalButton, pointButton, editButton
             ,exportButton, importButton;
     private Editor editor;
     private Container content;
