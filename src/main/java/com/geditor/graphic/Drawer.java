@@ -27,6 +27,9 @@ public class Drawer {
     public void setColor(Color paint) {
         graphics.setPaint(paint);
     }
+    public void setBackgroundColor(Color color) {
+        graphics.setBackground(color);
+    }
 
     public void fillRect(int i, int i1, int width, int height) {
         graphics.fillRect(i, i1, width, height);

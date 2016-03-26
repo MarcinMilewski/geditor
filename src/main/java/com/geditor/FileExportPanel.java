@@ -1,9 +1,9 @@
 package com.geditor;
 
-import com.geditor.io.importer.FileImporter;
-import com.geditor.io.importer.exception.ImportFileException;
+import com.geditor.io.exporter.FileExporter;
+import com.geditor.io.exporter.exception.FileExportException;
+import com.geditor.io.exporter.factory.FileExporterFactory;
 import com.geditor.io.importer.exception.InvalidExtensionException;
-import com.geditor.io.importer.factory.FileImporterFactory;
 import com.geditor.io.util.FileExtension;
 
 import javax.swing.*;
@@ -11,7 +11,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
@@ -39,6 +38,7 @@ public class FileExportPanel extends JPanel
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp3", ".ppmp3"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("ppmp6", ".ppmp6"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", ".jpg"));
 
         openButton = new JButton("Save a File...");
         openButton.addActionListener(this);
@@ -56,19 +56,22 @@ public class FileExportPanel extends JPanel
             int returnVal = fileChooser.showSaveDialog(FileExportPanel.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                FileExtension fileExtension = FileExtension.valueOfIgnoreCase(file.getName().substring(file.getName().lastIndexOf('.') + 1));
+                file.getAbsolutePath();
+
+                FileExtension fileExtension = FileExtension.valueOfIgnoreCase(fileChooser.getFileFilter());
                 actionHistory.append("Opening: " + file.getName() + "." + newline);
                 try {
-                    FileImporter fileImporter = FileImporterFactory.getFileImporter(fileExtension, file);
-                    BufferedImage importedImage = fileImporter.importImage();
-                    editor.setImage(importedImage);
+                    FileExporter fileExporter = FileExporterFactory.getFileExporter(fileExtension);
+                    fileExporter.export(editor.getImage(), file);
                 } catch (InvalidExtensionException e1) {
                     actionHistory.append("File extension incorrect");
-                } catch (ImportFileException e1) {
-                    actionHistory.append("Error, file incorrect");
+                    e1.printStackTrace();
+                }  catch (FileExportException e1) {
+                    actionHistory.append("Export error.");
+                    e1.printStackTrace();
                 }
             } else {
-                actionHistory.append("Save command cancelled by user." + newline);
+                actionHistory.append("Export command cancelled by user." + newline);
             }
             actionHistory.setCaretPosition(actionHistory.getDocument().getLength());
         }

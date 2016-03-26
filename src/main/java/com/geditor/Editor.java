@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 
 public class Editor extends JPanel {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
-    private BufferedImage image;
+    @Getter private BufferedImage image;
     @Getter @Setter private Drawer drawer;
     private EditorStrategy strategy;
     private Shape shape;
@@ -31,9 +31,10 @@ public class Editor extends JPanel {
         super.paintComponent(g);
         currentGraphics = (Graphics2D) g;
         if (image == null) {
-            image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+            image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
             drawer = new Drawer((Graphics2D) image.getGraphics());
             drawer.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            drawer.setBackgroundColor(Color.WHITE);
             clearDrawArea();
         }
 
