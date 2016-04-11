@@ -1,4 +1,4 @@
-package com.geditor;
+package com.geditor.ui;
 
 /**
  * Created by marcin on 23.02.16.

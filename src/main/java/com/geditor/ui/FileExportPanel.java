@@ -1,4 +1,4 @@
-package com.geditor;
+package com.geditor.ui;
 
 import com.geditor.io.exporter.FileExporter;
 import com.geditor.io.exporter.exception.FileExportException;

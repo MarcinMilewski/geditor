@@ -1,4 +1,4 @@
-package com.geditor;
+package com.geditor.ui;
 
 import com.geditor.io.importer.FileImporter;
 import com.geditor.io.importer.exception.ImportFileException;

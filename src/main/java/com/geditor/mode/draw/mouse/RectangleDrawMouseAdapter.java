@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
-import com.geditor.Editor;
+import com.geditor.ui.Editor;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;

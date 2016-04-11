@@ -1,6 +1,6 @@
 package com.geditor.mode.edit.mouse;
 
-import com.geditor.Editor;
+import com.geditor.ui.Editor;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.mode.edit.strategy.LineEditStrategy;
 import com.geditor.mode.edit.strategy.OvalEditStrategy;
