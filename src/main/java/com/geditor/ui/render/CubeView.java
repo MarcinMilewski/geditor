@@ -1,11 +1,14 @@
 package com.geditor.ui.render;
 
 import com.geditor.ui.render.model.Cube;
+import com.sun.j3d.utils.geometry.GeometryInfo;
+import com.sun.j3d.utils.geometry.NormalGenerator;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import javax.media.j3d.*;
 import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
+import javax.vecmath.Color4f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
 import java.awt.*;
@@ -65,10 +68,32 @@ public class CubeView extends Frame implements ActionListener {
         rotateCube.set(new AxisAngle4d(1.0, 1.0, 0.0, Math.PI / 4.0));
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
-        Appearance appearance = new Appearance();
-//        rotationGroup.addChild(new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, appearance));
         Cube cube = new Cube(1, new Color3f(0,1,0));
-        rotationGroup.addChild(cube);
+
+        GeometryInfo geometryInfo = new GeometryInfo(cube.getGeometryArray());
+        NormalGenerator ng = new NormalGenerator();
+        ng.generateNormals(geometryInfo);
+
+        GeometryArray result = geometryInfo.getGeometryArray();
+
+        // yellow appearance
+        Appearance appearance = new Appearance();
+        Color3f color = new Color3f(Color.yellow);
+        Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
+        Color3f white = new Color3f(1.0f, 1.0f, 1.0f);
+        Texture texture = new Texture2D();
+        TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        texture.setBoundaryModeS(Texture.WRAP);
+        texture.setBoundaryModeT(Texture.WRAP);
+        texture.setBoundaryColor(new Color4f(0.0f, 1.0f, 0.0f, 0.0f));
+        Material mat = new Material(color, black, color, white, 70f);
+        appearance.setTextureAttributes(texAttr);
+        appearance.setMaterial(mat);
+        appearance.setTexture(texture);
+        Shape3D shape = new Shape3D(result, appearance);
+        rotationGroup.addChild(shape);
+
         return contentBranch;
     }
 

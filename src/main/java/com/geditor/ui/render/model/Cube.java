@@ -115,6 +115,7 @@ public class Cube extends Shape3D {
     };
 
     double scale;
+    private QuadArray cube;
 
     /**
      * Constructs a color cube with unit scale.  The corners of the
@@ -139,8 +140,8 @@ public class Cube extends Shape3D {
      * @param scale the scale of the cube
      */
     public Cube(double scale, Color3f color3f) {
-        QuadArray cube = new QuadArray(24, QuadArray.COORDINATES |
-                QuadArray.COLOR_3);
+        cube = new QuadArray(24, QuadArray.COORDINATES |
+                QuadArray.COLOR_3 | QuadArray.NORMALS);
 
         float scaledVerts[] = new float[verts.length];
         for (int i = 0; i < verts.length; i++)
@@ -173,4 +174,7 @@ public class Cube extends Shape3D {
         return scale;
     }
 
+    public QuadArray getGeometryArray() {
+        return cube;
+    }
 }
