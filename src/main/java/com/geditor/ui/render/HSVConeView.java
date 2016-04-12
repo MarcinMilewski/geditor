@@ -89,8 +89,12 @@ public class HSVConeView extends Frame implements ActionListener {
         appearance.setTexture(texture);
         RenderingAttributes renderingAttributes = new RenderingAttributes();
 //        renderingAttributes.setAlphaTestFunction(RenderingAttributes.ALWAYS);
-//        renderingAttributes.setDepthTestFunction(RenderingAttributes.LESS);
-//        appearance.setRenderingAttributes(renderingAttributes);
+//        renderingAttributes.setDepthTestFunction(RenderingAttributes.GREATER_OR_EQUAL);
+        PolygonAttributes polygonAttributes = new PolygonAttributes();
+//        polygonAttributes.setPolygonMode(PolygonAttributes.POLYGON_LINE);
+        polygonAttributes.setCullFace(PolygonAttributes.CULL_NONE);
+        appearance.setPolygonAttributes(polygonAttributes);
+        appearance.setRenderingAttributes(renderingAttributes);
         Shape3D shape = new Shape3D(result, appearance);
         rotationGroup.addChild(shape);
 
