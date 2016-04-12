@@ -65,7 +65,7 @@ public class HSVConeView extends Frame implements ActionListener {
     protected BranchGroup buildContentBranch() {
         BranchGroup contentBranch = new BranchGroup();
         Transform3D rotateCube = new Transform3D();
-//        rotateCube.set(new AxisAngle4d(1.0, 0.0, 0.2, Math.PI/3));
+//        rotateCube.set(new AxisAngle4d(1.0, 1.0, 1.0, Math.PI/4));
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
         HSVCone hsvCone = new HSVCone();

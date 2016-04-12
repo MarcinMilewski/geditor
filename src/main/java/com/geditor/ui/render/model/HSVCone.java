@@ -64,7 +64,7 @@ public class HSVCone extends Shape3D {
 
     };
     public HSVCone() {
-        Point3f center = new Point3f(1.0f, 1.0f, 0); // white
+        Point3f center = new Point3f(0.0f, 1.0f, 0.0f); // white
         Point3f d0 = new Point3f(1.0f, 1.0f, 0.0f); // red
         Point3f d60 = new Point3f(0.5f, 1.0f, 0.86f); // yellow
         Point3f d120 = new Point3f(-0.5f, 1.0f, 0.86f); // green
@@ -141,7 +141,7 @@ public class HSVCone extends Shape3D {
         cone.setColor(10, Color3fConstants.blue);
         cone.setColor(11, Color3fConstants.white);
 
-        cone.setColor(12, Color3fConstants.cyan);
+        cone.setColor(12, Color3fConstants.blue);
         cone.setColor(13, Color3fConstants.magenta);
         cone.setColor(14, Color3fConstants.white);
 
@@ -149,7 +149,7 @@ public class HSVCone extends Shape3D {
         cone.setColor(16, Color3fConstants.red);
         cone.setColor(17, Color3fConstants.white);
 
-
+        // walls
         cone.setColor(18, Color3fConstants.red);
         cone.setColor(19, Color3fConstants.yellow);
         cone.setColor(20, Color3fConstants.black);
