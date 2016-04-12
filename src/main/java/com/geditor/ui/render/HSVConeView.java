@@ -6,6 +6,7 @@ import com.sun.j3d.utils.geometry.NormalGenerator;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import javax.media.j3d.*;
+import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
 import javax.vecmath.Color4f;
 import javax.vecmath.Point3d;
@@ -65,7 +66,8 @@ public class HSVConeView extends Frame implements ActionListener {
     protected BranchGroup buildContentBranch() {
         BranchGroup contentBranch = new BranchGroup();
         Transform3D rotateCube = new Transform3D();
-//        rotateCube.set(new AxisAngle4d(1.0, 1.0, 1.0, Math.PI/4));
+        rotateCube.setTranslation(new Vector3f(0.0f, 0.0f, 3.0f));
+        rotateCube.set(new AxisAngle4d(1.0, 0.0, 0.0, -Math.PI/5));
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
         HSVCone hsvCone = new HSVCone();
@@ -86,7 +88,9 @@ public class HSVConeView extends Frame implements ActionListener {
         appearance.setTextureAttributes(texAttr);
         appearance.setTexture(texture);
         RenderingAttributes renderingAttributes = new RenderingAttributes();
-        appearance.setRenderingAttributes(renderingAttributes);
+//        renderingAttributes.setAlphaTestFunction(RenderingAttributes.ALWAYS);
+//        renderingAttributes.setDepthTestFunction(RenderingAttributes.LESS);
+//        appearance.setRenderingAttributes(renderingAttributes);
         Shape3D shape = new Shape3D(result, appearance);
         rotationGroup.addChild(shape);
 
