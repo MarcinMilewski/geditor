@@ -49,7 +49,7 @@ import javax.vecmath.Color3f;
 /**
  * Simple color-per-vertex cube with a different color for each face
  */
-public class Cube extends Shape3D {
+public class RGBCube extends Shape3D {
     private static final float[] verts = {
             // front face
             1.0f, -1.0f,  1.0f,   // 0. yellow
@@ -151,7 +151,7 @@ public class Cube extends Shape3D {
      * Constructs a color cube with unit scale.  The corners of the
      * color cube are [-1,-1,-1] and [1,1,1].
      */
-    public Cube() {
+    public RGBCube() {
         QuadArray cube = new QuadArray(24, QuadArray.COORDINATES |
                 QuadArray.COLOR_3);
 
@@ -169,7 +169,7 @@ public class Cube extends Shape3D {
      * color cube are [-scale,-scale,-scale] and [scale,scale,scale].
      * @param scale the scale of the cube
      */
-    public Cube(double scale, Color3f color3f) {
+    public RGBCube(double scale, Color3f color3f) {
         cube = new QuadArray(24, QuadArray.COORDINATES |
                 QuadArray.COLOR_3 | QuadArray.NORMALS);
 
@@ -187,7 +187,7 @@ public class Cube extends Shape3D {
         this.scale = scale;
     }
 
-    public Cube(double scale) {
+    public RGBCube(double scale) {
         cube = new QuadArray(24, QuadArray.COORDINATES |
                 QuadArray.COLOR_3 | QuadArray.NORMALS);
 

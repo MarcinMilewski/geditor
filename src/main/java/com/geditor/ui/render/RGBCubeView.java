@@ -1,6 +1,6 @@
 package com.geditor.ui.render;
 
-import com.geditor.ui.render.model.Cube;
+import com.geditor.ui.render.model.RGBCube;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -65,10 +65,9 @@ public class RGBCubeView extends Frame implements ActionListener {
         BranchGroup contentBranch = new BranchGroup();
         Transform3D rotateCube = new Transform3D();
         rotateCube.set(new AxisAngle4d(-0.8, 1.0, 0.0, (7 *Math.PI)/4));
-//        rotateCube.setTranslation(new Vector3f(0, (float) 0.3, 0));
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
-        Cube cube = new Cube(1);
+        RGBCube cube = new RGBCube(1);
 
         GeometryInfo geometryInfo = new GeometryInfo(cube.getGeometryArray());
         NormalGenerator ng = new NormalGenerator();
