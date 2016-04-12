@@ -19,6 +19,28 @@ public class CubeView extends Frame implements ActionListener {
 
     protected BranchGroup buildViewBranch(Canvas3D c) {
         BranchGroup viewBranch = new BranchGroup();
+
+        // Create a bounds for the background and behaviors
+        BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0),
+                100.0);
+
+        // Set up the background
+        Color3f bgColor = new Color3f(0.05f, 0.05f, 0.2f);
+        Background bg = new Background(bgColor);
+        bg.setApplicationBounds(bounds);
+        viewBranch.addChild(bg);
+
+        // Set up the global lights
+        Color3f lColor1 = new Color3f(1.0f, 1.0f, 1.0f);
+        Vector3f lDir1 = new Vector3f(-1.0f, -1.0f, -1.0f);
+        Color3f alColor = new Color3f(0.2f, 0.2f, 0.2f);
+
+        AmbientLight aLgt = new AmbientLight(alColor);
+        aLgt.setInfluencingBounds(bounds);
+        DirectionalLight lgt1 = new DirectionalLight(lColor1, lDir1);
+        lgt1.setInfluencingBounds(bounds);
+        viewBranch.addChild(aLgt);
+        viewBranch.addChild(lgt1);
         Transform3D viewXfm = new Transform3D();
         viewXfm.set(new Vector3f(0.0f, 0.0f, 5.0f));
         TransformGroup viewXfmGroup = new TransformGroup(viewXfm);
@@ -32,6 +54,7 @@ public class CubeView extends Frame implements ActionListener {
         myView.attachViewPlatform(myViewPlatform);
         myView.setPhysicalBody(myBody);
         myView.setPhysicalEnvironment(myEnvironment);
+
         return viewBranch;
     }
 
@@ -46,19 +69,6 @@ public class CubeView extends Frame implements ActionListener {
 //        rotationGroup.addChild(new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, appearance));
         Cube cube = new Cube(1, new Color3f(0,1,0));
         rotationGroup.addChild(cube);
-
-        // lights
-        BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 10.0),
-                1000.0);
-        Color3f light1Color = new Color3f(.7f, .7f, .7f);
-        Vector3f light1Direction = new Vector3f(4.0f, -7.0f, -12.0f);
-        DirectionalLight light1 = new DirectionalLight(light1Color, light1Direction);
-        light1.setInfluencingBounds(bounds);
-        rotationGroup.addChild(light1);
-        Color3f ambientColor = new Color3f(.4f, .4f, .4f);
-        AmbientLight ambientLightNode = new AmbientLight(ambientColor);
-        ambientLightNode.setInfluencingBounds(bounds);
-        rotationGroup.addChild(ambientLightNode);
         return contentBranch;
     }
 
