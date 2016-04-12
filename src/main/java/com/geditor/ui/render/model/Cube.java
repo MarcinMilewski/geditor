@@ -40,6 +40,8 @@ package com.geditor.ui.render.model;
  *
  */
 
+import com.geditor.ui.render.color.Color3fConstants;
+
 import javax.media.j3d.QuadArray;
 import javax.media.j3d.Shape3D;
 import javax.vecmath.Color3f;
@@ -50,69 +52,97 @@ import javax.vecmath.Color3f;
 public class Cube extends Shape3D {
     private static final float[] verts = {
             // front face
-            1.0f, -1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
+            1.0f, -1.0f,  1.0f,   // 0. yellow
+            1.0f,  1.0f,  1.0f,   // 1. white
+            -1.0f,  1.0f,  1.0f,  // 2. magenta
+            -1.0f, -1.0f,  1.0f,  // 3. red
             // back face
-            -1.0f, -1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            1.0f,  1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f, // 4. black
+            -1.0f,  1.0f, -1.0f, // 5. blue
+            1.0f,  1.0f, -1.0f, // 6. cyan
+            1.0f, -1.0f, -1.0f, // 7. green
             // right face
-            1.0f, -1.0f, -1.0f,
-            1.0f,  1.0f, -1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f, -1.0f,  1.0f,
+            1.0f, -1.0f, -1.0f, // 8. green
+            1.0f,  1.0f, -1.0f, // 9. cyan
+            1.0f,  1.0f,  1.0f, // 10. white
+            1.0f, -1.0f,  1.0f, // 11. yellow
             // left face
-            -1.0f, -1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f, // 12. red
+            -1.0f,  1.0f,  1.0f, // 13. magenta
+            -1.0f,  1.0f, -1.0f, // 14. blue
+            -1.0f, -1.0f, -1.0f, // 15. black
             // top face
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f, //16. white
+            1.0f,  1.0f, -1.0f, //17. cyan
+            -1.0f,  1.0f, -1.0f,//18. blue
+            -1.0f,  1.0f,  1.0f, //19. magenta
             // bottom face
-            -1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f, // 20. red
+            -1.0f, -1.0f, -1.0f, // 21. black
+            1.0f, -1.0f, -1.0f, // 22. green
+            1.0f, -1.0f,  1.0f, // 23. yellow
     };
 
-    private static final float[] colors = {
-            // front face (red)
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-            // back face (green)
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            // right face (blue)
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            // left face (yellow)
-            1.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 0.0f,
-            // top face (magenta)
-            1.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f,
-            // bottom face (cyan)
-            0.0f, 1.0f, 1.0f,
-            0.0f, 1.0f, 1.0f,
-            0.0f, 1.0f, 1.0f,
-            0.0f, 1.0f, 1.0f,
+    private static final Color3f[] rgbColors = {
+            Color3fConstants.yellow,
+            Color3fConstants.white,
+            Color3fConstants.magenta,
+            Color3fConstants.red,
+            Color3fConstants.black,
+            Color3fConstants.blue,
+            Color3fConstants.cyan,
+            Color3fConstants.green,
+            Color3fConstants.green,
+            Color3fConstants.cyan,
+            Color3fConstants.white,
+            Color3fConstants.yellow,
+            Color3fConstants.red,
+            Color3fConstants.magenta,
+            Color3fConstants.blue,
+            Color3fConstants.black,
+            Color3fConstants.white,
+            Color3fConstants.cyan,
+            Color3fConstants.blue,
+            Color3fConstants.magenta,
+            Color3fConstants.red,
+            Color3fConstants.black,
+            Color3fConstants.green,
+            Color3fConstants.yellow,
+
     };
+
+//    private static final float[] rgbColors = {
+//            // front face (red)
+//            1.0f, 0.0f, 0.0f,
+//            1.0f, 0.0f, 0.0f,
+//            1.0f, 0.0f, 0.0f,
+//            1.0f, 0.0f, 0.0f,
+//            // back face (green)
+//            0.0f, 1.0f, 0.0f,
+//            0.0f, 1.0f, 0.0f,
+//            0.0f, 1.0f, 0.0f,
+//            0.0f, 1.0f, 0.0f,
+//            // right face (blue)
+//            0.0f, 0.0f, 1.0f,
+//            0.0f, 0.0f, 1.0f,
+//            0.0f, 0.0f, 1.0f,
+//            0.0f, 0.0f, 1.0f,
+//            // left face (yellow)
+//            1.0f, 1.0f, 0.0f,
+//            1.0f, 1.0f, 0.0f,
+//            1.0f, 1.0f, 0.0f,
+//            1.0f, 1.0f, 0.0f,
+//            // top face (magenta)
+//            1.0f, 0.0f, 1.0f,
+//            1.0f, 0.0f, 1.0f,
+//            1.0f, 0.0f, 1.0f,
+//            1.0f, 0.0f, 1.0f,
+//            // bottom face (cyan)
+//            0.0f, 1.0f, 1.0f,
+//            0.0f, 1.0f, 1.0f,
+//            0.0f, 1.0f, 1.0f,
+//            0.0f, 1.0f, 1.0f,
+//    };
 
     double scale;
     private QuadArray cube;
@@ -126,7 +156,7 @@ public class Cube extends Shape3D {
                 QuadArray.COLOR_3);
 
         cube.setCoordinates(0, verts);
-        cube.setColors(0, colors);
+        cube.setColors(0, rgbColors);
 
         this.setGeometry(cube);
 
@@ -149,7 +179,7 @@ public class Cube extends Shape3D {
 
         cube.setCoordinates(0, scaledVerts);
         for (int i = 0; i < 24; i++) {
-            cube.setColor(i, color3f);
+            cube.setColor(i,color3f);
         }
 
         this.setGeometry(cube);
@@ -157,6 +187,21 @@ public class Cube extends Shape3D {
         this.scale = scale;
     }
 
+    public Cube(double scale) {
+        cube = new QuadArray(24, QuadArray.COORDINATES |
+                QuadArray.COLOR_3 | QuadArray.NORMALS);
+
+        float scaledVerts[] = new float[verts.length];
+        for (int i = 0; i < verts.length; i++)
+            scaledVerts[i] = verts[i] * (float)scale;
+
+        cube.setCoordinates(0, scaledVerts);
+            cube.setColors(0, rgbColors);
+
+        this.setGeometry(cube);
+
+        this.scale = scale;
+    }
     /**
      * @deprecated ColorCube now extends shape so it is no longer necessary
      * to call this method.

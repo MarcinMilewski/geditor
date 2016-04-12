@@ -15,13 +15,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CubeView extends Frame implements ActionListener {
+public class RGBCubeView extends Frame implements ActionListener {
 
     protected Canvas3D myCanvas3D;
     protected Button myButton = new Button("Exit");
 
     protected BranchGroup buildViewBranch(Canvas3D c) {
-        BranchGroup viewBranch = new BranchGroup();
+        BranchGroup root = new BranchGroup();
 
         // Create a bounds for the background and behaviors
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0),
@@ -31,7 +31,7 @@ public class CubeView extends Frame implements ActionListener {
         Color3f bgColor = new Color3f(0.05f, 0.05f, 0.2f);
         Background bg = new Background(bgColor);
         bg.setApplicationBounds(bounds);
-        viewBranch.addChild(bg);
+        root.addChild(bg);
 
         // Set up the global lights
         Color3f lColor1 = new Color3f(1.0f, 1.0f, 1.0f);
@@ -42,8 +42,8 @@ public class CubeView extends Frame implements ActionListener {
         aLgt.setInfluencingBounds(bounds);
         DirectionalLight lgt1 = new DirectionalLight(lColor1, lDir1);
         lgt1.setInfluencingBounds(bounds);
-        viewBranch.addChild(aLgt);
-        viewBranch.addChild(lgt1);
+        root.addChild(aLgt);
+        root.addChild(lgt1);
         Transform3D viewXfm = new Transform3D();
         viewXfm.set(new Vector3f(0.0f, 0.0f, 5.0f));
         TransformGroup viewXfmGroup = new TransformGroup(viewXfm);
@@ -51,24 +51,24 @@ public class CubeView extends Frame implements ActionListener {
         PhysicalBody myBody = new PhysicalBody();
         PhysicalEnvironment myEnvironment = new PhysicalEnvironment();
         viewXfmGroup.addChild(myViewPlatform);
-        viewBranch.addChild(viewXfmGroup);
+        root.addChild(viewXfmGroup);
         View myView = new View();
         myView.addCanvas3D(c);
         myView.attachViewPlatform(myViewPlatform);
         myView.setPhysicalBody(myBody);
         myView.setPhysicalEnvironment(myEnvironment);
-
-        return viewBranch;
+        return root;
     }
 
 
     protected BranchGroup buildContentBranch() {
         BranchGroup contentBranch = new BranchGroup();
         Transform3D rotateCube = new Transform3D();
-        rotateCube.set(new AxisAngle4d(1.0, 1.0, 0.0, Math.PI / 4.0));
+        rotateCube.set(new AxisAngle4d(-0.8, 1.0, 0.0, (7 *Math.PI)/4));
+//        rotateCube.setTranslation(new Vector3f(0, (float) 0.3, 0));
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
-        Cube cube = new Cube(1, new Color3f(0,1,0));
+        Cube cube = new Cube(1);
 
         GeometryInfo geometryInfo = new GeometryInfo(cube.getGeometryArray());
         NormalGenerator ng = new NormalGenerator();
@@ -76,20 +76,14 @@ public class CubeView extends Frame implements ActionListener {
 
         GeometryArray result = geometryInfo.getGeometryArray();
 
-        // yellow appearance
         Appearance appearance = new Appearance();
-        Color3f color = new Color3f(Color.yellow);
-        Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
-        Color3f white = new Color3f(1.0f, 1.0f, 1.0f);
         Texture texture = new Texture2D();
         TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         texture.setBoundaryModeS(Texture.WRAP);
         texture.setBoundaryModeT(Texture.WRAP);
         texture.setBoundaryColor(new Color4f(0.0f, 1.0f, 0.0f, 0.0f));
-        Material mat = new Material(color, black, color, white, 70f);
         appearance.setTextureAttributes(texAttr);
-        appearance.setMaterial(mat);
         appearance.setTexture(texture);
         Shape3D shape = new Shape3D(result, appearance);
         rotationGroup.addChild(shape);
@@ -97,7 +91,7 @@ public class CubeView extends Frame implements ActionListener {
         return contentBranch;
     }
 
-    public CubeView() {
+    public RGBCubeView() {
         myCanvas3D = createCanvas();
         VirtualUniverse myUniverse = new VirtualUniverse();
         Locale myLocale = new Locale(myUniverse);

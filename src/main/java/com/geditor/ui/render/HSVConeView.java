@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SimpleConeView extends Frame implements ActionListener {
+public class HSVConeView extends Frame implements ActionListener {
     protected Canvas3D myCanvas3D;
     protected Button myButton = new Button("Exit");
 
@@ -77,7 +77,7 @@ public class SimpleConeView extends Frame implements ActionListener {
         return contentBranch;
     }
 
-    public SimpleConeView() {
+    public HSVConeView() {
         myCanvas3D = createCanvas();
         VirtualUniverse myUniverse = new VirtualUniverse();
         Locale myLocale = new Locale(myUniverse);

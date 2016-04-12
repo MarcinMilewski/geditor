@@ -1,12 +1,14 @@
 package com.geditor.ui.render;
 
-public class RenderController {
-    public void renderCone() {
-        SimpleConeView simpleConeView= new SimpleConeView();
-    }
+import com.geditor.ui.render.enums.Figure;
 
-    public void renderCube() {
-        CubeView cubeView = new CubeView();
+public class RenderController {
+    public void render(Figure figure) {
+        switch (figure) {
+            case CONE: new HSVConeView(); break;
+            case CUBE: new RGBCubeView(); break;
+            default: throw new IllegalArgumentException();
+        }
     }
 
 }

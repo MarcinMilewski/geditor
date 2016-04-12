@@ -1,6 +1,7 @@
 package com.geditor.ui.menu;
 
 import com.geditor.ui.render.RenderController;
+import com.geditor.ui.render.enums.Figure;
 
 import javax.swing.*;
 
@@ -22,9 +23,9 @@ public class MenuModel extends JMenuBar {
 
         renderMenu = new JMenu("Render");
         cubeMenuItem = new JMenuItem("Cube");
-        cubeMenuItem.addActionListener(e -> renderController.renderCube());
+        cubeMenuItem.addActionListener(e -> renderController.render(Figure.CUBE));
         coneMenuItem = new JMenuItem("Cone");
-        coneMenuItem.addActionListener(e -> renderController.renderCone());
+        coneMenuItem.addActionListener(e -> renderController.render(Figure.CONE));
         renderMenu.add(cubeMenuItem);
         renderMenu.add(coneMenuItem);
         add(renderMenu);
