@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
-import com.geditor.ui.Editor;
+import com.geditor.ui.editor.EditorView;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
@@ -12,14 +12,14 @@ import java.awt.event.MouseEvent;
 public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
     private Point startPoint;
 
-    public RectangleDrawMouseAdapter(Editor editor) {
-        super(editor);
+    public RectangleDrawMouseAdapter(EditorView editorView) {
+        super(editorView);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         startPoint = new Point(e.getX(), e.getY());
-        editor.setShape(new Rectangle());
+        editorView.setShape(new Rectangle());
     }
 
     @Override
@@ -29,18 +29,18 @@ public class RectangleDrawMouseAdapter extends CustomMouseAdapter {
         int width = Math.abs(e.getX() - startPoint.x);
         int height = Math.abs(e.getY() - startPoint.y);
 
-        ((Rectangle)editor.getShape()).setBounds(x, y, width, height);
-        editor.repaint();
+        ((Rectangle) editorView.getShape()).setBounds(x, y, width, height);
+        editorView.repaint();
     }
 
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Rectangle rectangle = ((Rectangle)editor.getShape());
+        Rectangle rectangle = ((Rectangle) editorView.getShape());
         if (rectangle.width != 0 || rectangle.height != 0) {
             drawer.addEditable(rectangle);
             drawer.draw(rectangle);
-            editor.repaint();
+            editorView.repaint();
         }
     }
 }

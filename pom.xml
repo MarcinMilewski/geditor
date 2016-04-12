@@ -86,7 +86,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <mainClass>com.geditor.ui.Main</mainClass>
+                    <mainClass>com.geditor.ui.main.MainView</mainClass>
                 </configuration>
             </plugin>
 
@@ -110,7 +110,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.geditor.ui.Main</mainClass>
+                            <mainClass>com.geditor.ui.main.MainView</mainClass>
                             <classpathPrefix>dependency-jars/</classpathPrefix>
                         </manifest>
                     </archive>

@@ -1,10 +1,13 @@
-package com.geditor.ui;
+package com.geditor.ui.main;
 
 import com.geditor.mode.draw.strategy.LineDrawStrategy;
 import com.geditor.mode.draw.strategy.OvalDrawStrategy;
 import com.geditor.mode.draw.strategy.PointDrawStrategy;
 import com.geditor.mode.draw.strategy.RectangleDrawStrategy;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
+import com.geditor.ui.editor.EditorView;
+import com.geditor.ui.menu.io.FileExportView;
+import com.geditor.ui.menu.io.importing.FileImportView;
 import com.geditor.ui.menu.MenuModel;
 
 import javax.swing.*;
@@ -15,11 +18,11 @@ import java.awt.event.ActionListener;
 /**
  * Created by marcin on 23.02.16.
  */
-public class Main {
+public class MainView {
     private JButton clearButton, lineButton, rectangleButton,
             ovalButton, pointButton, editButton
             ,exportButton, importButton;
-    private Editor editor;
+    private EditorView editorView;
     private Container content;
     private JPanel root;
     private JPanel editPanel;
@@ -28,18 +31,18 @@ public class Main {
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearButton) {
-                editor.clearBuffer();
-                editor.clearAll();
+                editorView.clearBuffer();
+                editorView.clearAll();
             } else if(e.getSource() == pointButton) {
-                editor.setStrategy(new PointDrawStrategy(editor));
+                editorView.setStrategy(new PointDrawStrategy(editorView));
             } else if (e.getSource() == lineButton) {
-                editor.setStrategy(new LineDrawStrategy(editor));
+                editorView.setStrategy(new LineDrawStrategy(editorView));
             } else if (e.getSource() == rectangleButton) {
-                editor.setStrategy(new RectangleDrawStrategy(editor));
+                editorView.setStrategy(new RectangleDrawStrategy(editorView));
             } else if (e.getSource() == ovalButton) {
-                editor.setStrategy(new OvalDrawStrategy(editor));
+                editorView.setStrategy(new OvalDrawStrategy(editorView));
             } else if (e.getSource() == editButton) {
-                editor.setStrategy(new FigureEditStrategy(editor));
+                editorView.setStrategy(new FigureEditStrategy(editorView));
             } else if (e.getSource() == exportButton) {
                 createSaveFileChooserFrame();
             } else if (e.getSource() == importButton) {
@@ -51,7 +54,7 @@ public class Main {
     private void createSaveFileChooserFrame() {
         JFrame frame = new JFrame("Save");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(new FileExportPanel(editor));
+        frame.add(new FileExportView(editorView));
 
         frame.pack();
         frame.setVisible(true);
@@ -60,7 +63,7 @@ public class Main {
     private void createOpenFileChooserFrame() {
         JFrame frame = new JFrame("Open");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(new FileImportPanel(editor));
+        frame.add(new FileImportView(editorView));
 
         frame.pack();
         frame.setVisible(true);
@@ -68,7 +71,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        new Main().show();
+        new MainView().show();
     }
 
     public void show() {
@@ -76,9 +79,9 @@ public class Main {
         frame.setFocusable(true);
         content = frame.getContentPane();
         content.setLayout(new BorderLayout());
-        editor = new Editor();
+        editorView = new EditorView();
 
-        content.add(editor, BorderLayout.CENTER);
+        content.add(editorView, BorderLayout.CENTER);
 
         root = new JPanel();
 

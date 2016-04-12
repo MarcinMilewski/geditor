@@ -5,4 +5,8 @@ public class RenderController {
         SimpleConeView simpleConeView= new SimpleConeView();
     }
 
+    public void renderCube() {
+        CubeView cubeView = new CubeView();
+    }
+
 }

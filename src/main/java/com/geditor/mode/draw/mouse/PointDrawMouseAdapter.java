@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
-import com.geditor.ui.Editor;
+import com.geditor.ui.editor.EditorView;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
@@ -13,8 +13,8 @@ import java.awt.geom.Line2D;
 public class PointDrawMouseAdapter extends CustomMouseAdapter {
     Point old;
 
-    public PointDrawMouseAdapter(Editor editor) {
-        super(editor);
+    public PointDrawMouseAdapter(EditorView editorView) {
+        super(editorView);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class PointDrawMouseAdapter extends CustomMouseAdapter {
         Shape shape = new Line2D.Double(old.x, old.y, old.x, old.y);
         drawer.addNonEditable(shape);
         drawer.draw(shape);
-        editor.repaint();
+        editorView.repaint();
     }
 
     @Override
@@ -31,7 +31,7 @@ public class PointDrawMouseAdapter extends CustomMouseAdapter {
         Shape shape = new Line2D.Double(old.x, old.y, e.getX(), e.getY());
         drawer.addNonEditable(shape);
         drawer.draw(shape);
-        editor.repaint();
+        editorView.repaint();
         old = new Point(e.getX(), e.getY());
     }
 

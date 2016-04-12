@@ -22,6 +22,7 @@ public class MenuModel extends JMenuBar {
 
         renderMenu = new JMenu("Render");
         cubeMenuItem = new JMenuItem("Cube");
+        cubeMenuItem.addActionListener(e -> renderController.renderCube());
         coneMenuItem = new JMenuItem("Cone");
         coneMenuItem.addActionListener(e -> renderController.renderCone());
         renderMenu.add(cubeMenuItem);

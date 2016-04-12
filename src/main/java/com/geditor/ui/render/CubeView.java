@@ -1,17 +1,19 @@
 package com.geditor.ui.render;
 
-import com.sun.j3d.utils.geometry.Cone;
+import com.geditor.ui.render.model.Cube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import javax.media.j3d.*;
 import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
+import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SimpleConeView extends Frame implements ActionListener {
+public class CubeView extends Frame implements ActionListener {
+
     protected Canvas3D myCanvas3D;
     protected Button myButton = new Button("Exit");
 
@@ -41,12 +43,26 @@ public class SimpleConeView extends Frame implements ActionListener {
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
         Appearance appearance = new Appearance();
-        appearance.setColoringAttributes(new ColoringAttributes(new Color3f(255,0,0), ColoringAttributes.SHADE_GOURAUD));
-        rotationGroup.addChild(new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, appearance));
+//        rotationGroup.addChild(new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, appearance));
+        Cube cube = new Cube(1, new Color3f(0,1,0));
+        rotationGroup.addChild(cube);
+
+        // lights
+        BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 10.0),
+                1000.0);
+        Color3f light1Color = new Color3f(.7f, .7f, .7f);
+        Vector3f light1Direction = new Vector3f(4.0f, -7.0f, -12.0f);
+        DirectionalLight light1 = new DirectionalLight(light1Color, light1Direction);
+        light1.setInfluencingBounds(bounds);
+        rotationGroup.addChild(light1);
+        Color3f ambientColor = new Color3f(.4f, .4f, .4f);
+        AmbientLight ambientLightNode = new AmbientLight(ambientColor);
+        ambientLightNode.setInfluencingBounds(bounds);
+        rotationGroup.addChild(ambientLightNode);
         return contentBranch;
     }
 
-    public SimpleConeView() {
+    public CubeView() {
         myCanvas3D = createCanvas();
         VirtualUniverse myUniverse = new VirtualUniverse();
         Locale myLocale = new Locale(myUniverse);

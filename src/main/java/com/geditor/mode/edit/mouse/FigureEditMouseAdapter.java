@@ -1,6 +1,6 @@
 package com.geditor.mode.edit.mouse;
 
-import com.geditor.ui.Editor;
+import com.geditor.ui.editor.EditorView;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.mode.edit.strategy.LineEditStrategy;
 import com.geditor.mode.edit.strategy.OvalEditStrategy;
@@ -18,14 +18,14 @@ import java.awt.geom.Line2D;
 public class FigureEditMouseAdapter extends CustomMouseAdapter {
     private static final Logger logger = Logger.getLogger(FigureEditMouseAdapter.class.getName());
     private Point startPoint;
-    public FigureEditMouseAdapter(Editor editor) {
-        super(editor);
+    public FigureEditMouseAdapter(EditorView editorView) {
+        super(editorView);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         startPoint = new Point(e.getX(), e.getY());
-        editor.setShape(new Rectangle());
+        editorView.setShape(new Rectangle());
     }
 
     @Override
@@ -35,36 +35,36 @@ public class FigureEditMouseAdapter extends CustomMouseAdapter {
         int width = Math.abs(e.getX() - startPoint.x);
         int height = Math.abs(e.getY() - startPoint.y);
 
-        ((Rectangle)editor.getShape()).setBounds(x, y, width, height);
-        editor.repaint();
+        ((Rectangle) editorView.getShape()).setBounds(x, y, width, height);
+        editorView.repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Rectangle rectangle = ((Rectangle)editor.getShape());
+        Rectangle rectangle = ((Rectangle) editorView.getShape());
         Shape foundedShape = drawer.findShape(rectangle);
         if (foundedShape != null) {
-            editor.setShape(foundedShape);
+            editorView.setShape(foundedShape);
             if (foundedShape instanceof Line2D) {
                 logger.info("Line2D founded " + foundedShape);
-                editor.setStrategy(new LineEditStrategy(editor));
+                editorView.setStrategy(new LineEditStrategy(editorView));
             }
             else if (foundedShape instanceof Rectangle) {
                 logger.info("Rectangle founded " + foundedShape);
-                editor.setStrategy(new RectangleEditStrategy(editor));
+                editorView.setStrategy(new RectangleEditStrategy(editorView));
             }
             else if (foundedShape instanceof Ellipse2D) {
                 logger.info("Ellipse founded " + foundedShape);
-                editor.setStrategy(new OvalEditStrategy(editor));
+                editorView.setStrategy(new OvalEditStrategy(editorView));
             }
             else {
                 logger.info("Invalid shape " + foundedShape);
             }
-            editor.repaint();
+            editorView.repaint();
         }
         else {
-            editor.setShape(null);
-            editor.repaint();
+            editorView.setShape(null);
+            editorView.repaint();
         }
     }
 }

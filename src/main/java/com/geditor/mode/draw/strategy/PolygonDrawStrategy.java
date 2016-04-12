@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.strategy;
 
-import com.geditor.ui.Editor;
+import com.geditor.ui.editor.EditorView;
 import com.geditor.mode.AbstractEditorStrategy;
 import com.geditor.mode.EditorStrategy;
 import com.geditor.mode.draw.mouse.PolygonDrawMouseAdapter;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
  * Created by marcin on 09.03.16.
  */
 public class PolygonDrawStrategy extends AbstractEditorStrategy implements EditorStrategy {
-    private Editor editor;
+    private EditorView editorView;
     private int clickCounter = 0;
     private ArrayList<Integer> xPoints = Lists.newArrayList();
     private ArrayList<Integer> yPoints = Lists.newArrayList();
 
-    public PolygonDrawStrategy(Editor editor) {
-        super(editor);
-        this.editor = editor;
-        this.mouseAdapter = new PolygonDrawMouseAdapter(editor, this);
+    public PolygonDrawStrategy(EditorView editorView) {
+        super(editorView);
+        this.editorView = editorView;
+        this.mouseAdapter = new PolygonDrawMouseAdapter(editorView, this);
     }
 
     public void addPoint(Point point) {

@@ -1,10 +1,11 @@
-package com.geditor.ui;
+package com.geditor.ui.menu.io;
 
 import com.geditor.io.exporter.FileExporter;
 import com.geditor.io.exporter.exception.FileExportException;
 import com.geditor.io.exporter.factory.FileExporterFactory;
 import com.geditor.io.importer.exception.InvalidExtensionException;
 import com.geditor.io.util.FileExtension;
+import com.geditor.ui.editor.EditorView;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,18 +17,18 @@ import java.io.File;
 /**
  * Created by marcin on 19.03.16.
  */
-public class FileExportPanel extends JPanel
+public class FileExportView extends JPanel
         implements ActionListener {
     static private final String newline = "\n";
     JButton openButton;
     JTextArea actionHistory;
     JFileChooser fileChooser;
-    private Editor editor;
+    private EditorView editorView;
 
-    public FileExportPanel(Editor editor) {
+    public FileExportView(EditorView editorView) {
         super(new BorderLayout());
 
-        this.editor = editor;
+        this.editorView = editorView;
         actionHistory = new JTextArea(5, 20);
         actionHistory.setMargin(new Insets(5, 5, 5, 5));
         actionHistory.setEditable(false);
@@ -53,7 +54,7 @@ public class FileExportPanel extends JPanel
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == openButton) {
-            int returnVal = fileChooser.showSaveDialog(FileExportPanel.this);
+            int returnVal = fileChooser.showSaveDialog(FileExportView.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
 
@@ -61,7 +62,7 @@ public class FileExportPanel extends JPanel
                 actionHistory.append("Opening: " + file.getName() + "." + newline);
                 try {
                     FileExporter fileExporter = FileExporterFactory.getFileExporter(fileExtension);
-                    fileExporter.export(editor.getImage(), file);
+                    fileExporter.export(editorView.getImage(), file);
                 } catch (InvalidExtensionException e1) {
                     actionHistory.append("File extension incorrect");
                     e1.printStackTrace();
@@ -80,7 +81,7 @@ public class FileExportPanel extends JPanel
      * Returns an ImageIcon, or null if the path was invalid.
      */
     protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = FileExportPanel.class.getResource(path);
+        java.net.URL imgURL = FileExportView.class.getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL);
         } else {

@@ -1,10 +1,11 @@
-package com.geditor.ui;
+package com.geditor.ui.menu.io.importing;
 
 import com.geditor.io.importer.FileImporter;
 import com.geditor.io.importer.exception.ImportFileException;
 import com.geditor.io.importer.exception.InvalidExtensionException;
 import com.geditor.io.importer.factory.FileImporterFactory;
 import com.geditor.io.util.FileExtension;
+import com.geditor.ui.editor.EditorView;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,18 +18,18 @@ import java.io.File;
 /**
  * Created by marcin on 19.03.16.
  */
-public class FileImportPanel extends JPanel
+public class FileImportView extends JPanel
         implements ActionListener {
     static private final String newline = "\n";
     JButton openButton;
     JTextArea actionHistory;
     JFileChooser fileChooser;
-    Editor editor;
+    EditorView editorView;
 
-    public FileImportPanel(Editor editor) {
+    public FileImportView(EditorView editorView) {
         super(new BorderLayout());
 
-        this.editor = editor;
+        this.editorView = editorView;
         actionHistory = new JTextArea(5, 20);
         actionHistory.setMargin(new Insets(5, 5, 5, 5));
         actionHistory.setEditable(false);
@@ -56,7 +57,7 @@ public class FileImportPanel extends JPanel
 
         //Handle open button action.
         if (e.getSource() == openButton) {
-            int returnVal = fileChooser.showOpenDialog(FileImportPanel.this);
+            int returnVal = fileChooser.showOpenDialog(FileImportView.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -65,7 +66,7 @@ public class FileImportPanel extends JPanel
                 try {
                     FileImporter fileImporter = FileImporterFactory.getFileImporter(fileExtension);
                     BufferedImage importedImage = fileImporter.importImage(file);
-                    editor.setImage(importedImage);
+                    editorView.setImage(importedImage);
                 } catch (InvalidExtensionException e1) {
                     actionHistory.append("File extension incorrect");
                 } catch (ImportFileException e1) {
@@ -84,7 +85,7 @@ public class FileImportPanel extends JPanel
      * Returns an ImageIcon, or null if the path was invalid.
      */
     protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = FileImportPanel.class.getResource(path);
+        java.net.URL imgURL = FileImportView.class.getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL);
         } else {

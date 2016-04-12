@@ -1,4 +1,4 @@
-package com.geditor.ui;
+package com.geditor.ui.editor;
 
 /**
  * Created by marcin on 23.02.16.
@@ -14,15 +14,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Editor extends JPanel {
-    private static final Logger logger = Logger.getLogger(Editor.class.getName());
+public class EditorView extends JPanel {
+    private static final Logger logger = Logger.getLogger(EditorView.class.getName());
     @Getter private BufferedImage image;
     @Getter @Setter private Drawer drawer;
     private EditorStrategy strategy;
     private Shape shape;
     private Graphics2D currentGraphics;
     private Stroke stroke = new BasicStroke();
-    public Editor() {
+    public EditorView() {
         setDoubleBuffered(false);
     }
 

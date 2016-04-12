@@ -1,6 +1,6 @@
 package com.geditor.mode.edit.mouse;
 
-import com.geditor.ui.Editor;
+import com.geditor.ui.editor.EditorView;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import org.apache.log4j.Logger;
@@ -17,9 +17,9 @@ public class OvalEditMouseAdapter extends CustomMouseAdapter{
     private Point startPoint;
     private Ellipse2D editShape;
 
-    public OvalEditMouseAdapter(Editor editor) {
-        super(editor);
-        editShape = (Ellipse2D) editor.getShape();
+    public OvalEditMouseAdapter(EditorView editorView) {
+        super(editorView);
+        editShape = (Ellipse2D) editorView.getShape();
         startPoint = new Point((int) editShape.getX(), (int) editShape.getY());
     }
 
@@ -27,7 +27,7 @@ public class OvalEditMouseAdapter extends CustomMouseAdapter{
     public void mousePressed(MouseEvent e) {
         logger.info("Edit started");
         drawer.removeEditable(editShape);
-        editor.redrawAll();
+        editorView.redrawAll();
     }
 
     @Override
@@ -38,17 +38,17 @@ public class OvalEditMouseAdapter extends CustomMouseAdapter{
         int height = Math.abs(e.getY() - startPoint.y);
 
         editShape = new Ellipse2D.Double(x, y, width, height);
-        editor.setShape(editShape);
-        editor.repaint();
+        editorView.setShape(editShape);
+        editorView.repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         logger.info("Edit finished");
         drawer.addEditable(editShape);
-        editor.setShape(null);
-        editor.redrawAll();
-        editor.setStrategy(new FigureEditStrategy(editor));
+        editorView.setShape(null);
+        editorView.redrawAll();
+        editorView.setStrategy(new FigureEditStrategy(editorView));
     }
 
 }
