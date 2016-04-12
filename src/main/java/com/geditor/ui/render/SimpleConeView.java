@@ -10,7 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SimpleCone extends Frame implements ActionListener {
+public class SimpleConeView extends Frame implements ActionListener {
+    private RenderController renderController = new RenderController();
     protected Canvas3D myCanvas3D;
     protected Button myButton = new Button("Exit");
 
@@ -47,7 +48,7 @@ public class SimpleCone extends Frame implements ActionListener {
         return new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, new Appearance());
     }
 
-    public SimpleCone() {
+    public SimpleConeView() {
         myCanvas3D = createCanvas();
         VirtualUniverse myUniverse = new VirtualUniverse();
         Locale myLocale = new Locale(myUniverse);

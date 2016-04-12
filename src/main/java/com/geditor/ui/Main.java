@@ -5,7 +5,7 @@ import com.geditor.mode.draw.strategy.OvalDrawStrategy;
 import com.geditor.mode.draw.strategy.PointDrawStrategy;
 import com.geditor.mode.draw.strategy.RectangleDrawStrategy;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
-import com.geditor.ui.render.SimpleCone;
+import com.geditor.ui.menu.MenuModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,36 +82,13 @@ public class Main {
 
         root = new JPanel();
 
-        createMenu();
-        frame.setJMenuBar(menuBar);
+        frame.setJMenuBar(new MenuModel());
         createButtons();
 
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 //        frame.pack();
-    }
-
-    void createMenu() {
-        menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem exit = new JMenuItem("Exit");
-        exit.addActionListener(e -> System.exit(0));
-        fileMenu.add(exit);
-        menuBar.add(fileMenu);
-
-        JMenu renderMenu = new JMenu("Render");
-        JMenuItem cube = new JMenuItem("Cube");
-        JMenuItem cone = new JMenuItem("Cone");
-        cone.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SimpleCone simpleCone = new SimpleCone();
-            }
-        });
-        renderMenu.add(cube);
-        renderMenu.add(cone);
-        menuBar.add(renderMenu);
     }
 
     private void createButtons() {
