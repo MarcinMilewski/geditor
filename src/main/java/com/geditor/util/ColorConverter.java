@@ -22,10 +22,13 @@ public class ColorConverter {
         return new float[]{cyan, magenta, yellow, black};
     }
 
-    public static int[] cmykToRgb(int cyan, int magenta, int yellow, int black) {
-        int red = CMYK_MAX_VALUE - Math.min(CMYK_MAX_VALUE, cyan *(1-black) + black);
-        int green = CMYK_MAX_VALUE - Math.min(CMYK_MAX_VALUE, magenta *(1-black) + black);
-        int blue = CMYK_MAX_VALUE - Math.min(CMYK_MAX_VALUE, yellow *(1-black) + black);
+    public static int[] cmykToRgb(float cyan, float magenta, float yellow, float black) {
+        int red = (int) (RGB_MAX_VALUE * (1 - cyan) * (1 -black));
+        int green = (int) (RGB_MAX_VALUE * (1 - magenta) * (1 - black));
+        int blue = (int) (RGB_MAX_VALUE * (1 - yellow) * (1 - black));
+//        int red = (int) (RGB_MAX_VALUE - Math.min(CMYK_MAX_VALUE, cyan *(CMYK_MAX_VALUE-black) + black));
+//        int green = (int) (RGB_MAX_VALUE - Math.min(CMYK_MAX_VALUE, magenta *(CMYK_MAX_VALUE-black) + black));
+//        int blue = (int) (RGB_MAX_VALUE - Math.min(CMYK_MAX_VALUE, yellow *(CMYK_MAX_VALUE-black) + black));
 
         return new int[] {red, green, blue};
     }
