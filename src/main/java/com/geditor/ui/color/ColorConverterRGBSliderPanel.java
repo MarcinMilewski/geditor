@@ -58,13 +58,13 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
 
     public ColorConverterRGBSliderPanel() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        add(new Label("RGB"));
-        addSlider(redSlider, new Label("Red"), redJTextField);
-        addSlider(greenSlider, new Label("Green"), greenJTextField);
-        addSlider(blueSlider, new Label("Blue"), blueJTextField);
+        add(new JLabel("RGB"));
+        addSlider(redSlider, new JLabel("Red"), redJTextField);
+        addSlider(greenSlider, new JLabel("Green"), greenJTextField);
+        addSlider(blueSlider, new JLabel("Blue"), blueJTextField);
     }
 
-    private void addSlider(JSlider slider, Label label, JTextField JTextField) {
+    private void addSlider(JSlider slider, JLabel label, JTextField JTextField) {
         slider.setValue(0);
         slider.setMinimum(0);
         slider.setMaximum(255);

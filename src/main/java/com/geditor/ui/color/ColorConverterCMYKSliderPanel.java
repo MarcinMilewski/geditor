@@ -7,6 +7,8 @@ import com.google.common.collect.Lists;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.List;
 
@@ -16,10 +18,10 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
     private JSlider magentaSlider = new JSlider();
     private JSlider yellowSlider = new JSlider();
     private JSlider blackSlider = new JSlider();
-    private TextField cyanTextField = new TextField();
-    private TextField magentaTextField = new TextField();
-    private TextField yellowTextField = new TextField();
-    private TextField blackTextField = new TextField();
+    private JTextField cyanJTextField = new JTextField();
+    private JTextField magentaJTextField = new JTextField();
+    private JTextField yellowJTextField = new JTextField();
+    private JTextField blackJTextField = new JTextField();
 
     private ChangeListener changeListener = new ChangeListener() {
         @Override
@@ -28,24 +30,57 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
         }
     };
 
+    private DocumentListener documentListener = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            assistDateText();
+            notifyObservers();
+        }
+
+        private void assistDateText() {
+            Runnable doAssist = new Runnable() {
+                @Override
+                public void run() {
+                    updateSlidersValues();
+                }
+            };
+            SwingUtilities.invokeLater(doAssist);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+    };
+
+    private void updateSlidersValues() {
+        cyanSlider.setValue((int)(Float.parseFloat(cyanJTextField.getText()) * 1000));
+        magentaSlider.setValue((int)(Float.parseFloat(magentaJTextField.getText()) * 1000));
+        yellowSlider.setValue((int)(Float.parseFloat(yellowJTextField.getText()) * 1000));
+        blackSlider.setValue((int)(Float.parseFloat(blackJTextField.getText()) * 1000));
+    }
+
     private void updateTextValues() {
-        cyanTextField.setText(String.valueOf((float)cyanSlider.getValue() / (float)1000));
-        magentaTextField.setText(String.valueOf((float)magentaSlider.getValue() / (float)1000));
-        yellowTextField.setText(String.valueOf((float)yellowSlider.getValue() / (float)1000));
-        blackTextField.setText(String.valueOf((float)blackSlider.getValue() / (float)1000));
+        cyanJTextField.setText(String.valueOf((float)cyanSlider.getValue() / (float)1000));
+        magentaJTextField.setText(String.valueOf((float)magentaSlider.getValue() / (float)1000));
+        yellowJTextField.setText(String.valueOf((float)yellowSlider.getValue() / (float)1000));
+        blackJTextField.setText(String.valueOf((float)blackSlider.getValue() / (float)1000));
     }
 
     public ColorConverterCMYKSliderPanel() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        add(new Label("CMYK"));
-        addSlider(cyanSlider, new Label("Cyan"), cyanTextField);
-        addSlider(magentaSlider, new Label("Magenta"), magentaTextField);
-        addSlider(yellowSlider, new Label("Yellow"), yellowTextField);
-        addSlider(blackSlider, new Label("Black"), blackTextField);
+        add(new JLabel("CMYK"));
+        addSlider(cyanSlider, new JLabel("Cyan"), cyanJTextField);
+        addSlider(magentaSlider, new JLabel("Magenta"), magentaJTextField);
+        addSlider(yellowSlider, new JLabel("Yellow"), yellowJTextField);
+        addSlider(blackSlider, new JLabel("Black"), blackJTextField);
 
     }
 
-    private void addSlider(JSlider slider, Label label, TextField textField) {
+    private void addSlider(JSlider slider, JLabel label, JTextField jTextField) {
         slider.setValue(0);
         slider.setMinimum(0);
         slider.setMaximum(1000);
@@ -53,10 +88,11 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.add(label);
         panel.add(slider);
-        textField.setText("0");
-        textField.setMinimumSize(new Dimension(50,30));
-        textField.setPreferredSize(new Dimension(50,30));
-        panel.add(textField);
+        jTextField.setText("0");
+        jTextField.setMinimumSize(new Dimension(50,30));
+        jTextField.setPreferredSize(new Dimension(50,30));
+        jTextField.getDocument().addDocumentListener(documentListener);
+        panel.add(jTextField);
         add(panel);
     }
 

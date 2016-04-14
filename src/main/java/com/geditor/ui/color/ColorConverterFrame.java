@@ -17,7 +17,7 @@ public class ColorConverterFrame extends JFrame implements Observer {
         content.add(new ColorConverterRGBSliderPanel(), BorderLayout.EAST);
         content.add(new ColorConverterCMYKSliderPanel(), BorderLayout.WEST);
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         pack();
     }
