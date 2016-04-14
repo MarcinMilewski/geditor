@@ -10,6 +10,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
 
 public class ColorConverterCMYKSliderPanel extends JPanel implements Observable {
@@ -41,6 +43,27 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
         }
     };
 
+
+    private FocusListener textFieldFocusListener = new FocusListener() {
+        private void focusLostAssist() {
+            Runnable doAssist = new Runnable() {
+                @Override
+                public void run() {
+                    updateSlidersValues();
+                }
+            };
+            SwingUtilities.invokeLater(doAssist);
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            focusLostAssist();
+        }
+    };
 
     private DocumentListener documentListener = new DocumentListener() {
         @Override
@@ -100,11 +123,31 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
     }
 
     public void setValues(CMYKStructure cmykStructure) {
+        removeSlidersChangeEventListeners();
+        updateSliderValues(cmykStructure);
+        updateTextValues();
+        addSlidersChangeEventListeners();
+    }
+
+    private void addSlidersChangeEventListeners() {
+        cyanSlider.addChangeListener(changeListener);
+        magentaSlider.addChangeListener(changeListener);
+        yellowSlider.addChangeListener(changeListener);
+        blackSlider.addChangeListener(changeListener);
+    }
+
+    private void removeSlidersChangeEventListeners() {
+        cyanSlider.removeChangeListener(changeListener);
+        magentaSlider.removeChangeListener(changeListener);
+        yellowSlider.removeChangeListener(changeListener);
+        blackSlider.removeChangeListener(changeListener);
+    }
+
+    private void updateSliderValues(CMYKStructure cmykStructure) {
         cyanSlider.setValue((int)(cmykStructure.c * 1000));
         magentaSlider.setValue((int)(cmykStructure.m * 1000));
         yellowSlider.setValue((int)(cmykStructure.y * 1000));
         blackSlider.setValue((int)(cmykStructure.k * 1000));
-        updateTextValues();
     }
 
     private void addSlider(JSlider slider, JLabel label, JTextField jTextField) {
@@ -119,6 +162,7 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
         jTextField.setMinimumSize(new Dimension(50,30));
         jTextField.setPreferredSize(new Dimension(50,30));
         jTextField.getDocument().addDocumentListener(documentListener);
+        jTextField.addFocusListener(textFieldFocusListener);
         panel.add(jTextField);
         add(panel);
     }

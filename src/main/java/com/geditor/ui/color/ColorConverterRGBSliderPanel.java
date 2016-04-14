@@ -10,6 +10,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
 
 public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
@@ -37,6 +39,27 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
         @Override
         public void stateChanged(ChangeEvent e) {
            assistStateChanged();
+        }
+    };
+
+    private FocusListener textFieldFocusListener = new FocusListener() {
+        private void focusLostAssist() {
+            Runnable doAssist = new Runnable() {
+                @Override
+                public void run() {
+                    updateSlidersValues();
+                }
+            };
+            SwingUtilities.invokeLater(doAssist);
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            focusLostAssist();
         }
     };
 
@@ -73,7 +96,7 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
         addSlider(blueSlider, new JLabel("Blue"), blueJTextField);
     }
 
-    private void addSlider(JSlider slider, JLabel label, JTextField JTextField) {
+    private void addSlider(JSlider slider, JLabel label, JTextField jTextField) {
         slider.setValue(0);
         slider.setMinimum(0);
         slider.setMaximum(255);
@@ -81,11 +104,12 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.add(label);
         panel.add(slider);
-        JTextField.setText("0");
-        JTextField.setMinimumSize(new Dimension(30, 30));
-        JTextField.setPreferredSize(new Dimension(30, 30));
-        JTextField.getDocument().addDocumentListener(documentListener);
-        panel.add(JTextField);
+        jTextField.setText("0");
+        jTextField.setMinimumSize(new Dimension(30, 30));
+        jTextField.setPreferredSize(new Dimension(30, 30));
+        jTextField.getDocument().addDocumentListener(documentListener);
+        jTextField.addFocusListener(textFieldFocusListener);
+        panel.add(jTextField);
         add(panel);
     }
 
@@ -102,8 +126,22 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
     }
 
     public void setValues(RGBStructure rgbStructure) {
+        removeSlidersChangeEventListeners();
         setSliderValues(rgbStructure);
         setJTextFieldValues(rgbStructure);
+        addSlidersChangeEventListeners();
+    }
+
+    private void addSlidersChangeEventListeners() {
+        redSlider.addChangeListener(changeListener);
+        greenSlider.addChangeListener(changeListener);
+        blueSlider.addChangeListener(changeListener);
+    }
+
+    private void removeSlidersChangeEventListeners() {
+        redSlider.removeChangeListener(changeListener);
+        greenSlider.removeChangeListener(changeListener);
+        blueSlider.removeChangeListener(changeListener);
     }
 
     private void setSliderValues(RGBStructure rgbStructure) {
