@@ -1,5 +1,6 @@
 package com.geditor.ui.menu;
 
+import com.geditor.ui.color.ColorConverterFrame;
 import com.geditor.ui.render.RenderController;
 import com.geditor.ui.render.enums.Figure;
 
@@ -11,6 +12,8 @@ public class MenuModel extends JMenuBar {
     private JMenuItem coneMenuItem;
     private JMenu fileMenu;
     private JMenuItem exitMenuItem;
+    private JMenu convertMenu;
+    private JMenuItem rgbCmykMenuItem;
 
     private RenderController renderController = new RenderController();
 
@@ -20,6 +23,12 @@ public class MenuModel extends JMenuBar {
         exitMenuItem.addActionListener(e -> System.exit(0));
         fileMenu.add(exitMenuItem);
         add(fileMenu);
+
+        convertMenu = new JMenu("Convert");
+        rgbCmykMenuItem = new JMenuItem("RGB-CMYK");
+        rgbCmykMenuItem.addActionListener(e -> new ColorConverterFrame());
+        convertMenu.add(rgbCmykMenuItem);
+        add(convertMenu);
 
         renderMenu = new JMenu("Render");
         cubeMenuItem = new JMenuItem("Cube");
