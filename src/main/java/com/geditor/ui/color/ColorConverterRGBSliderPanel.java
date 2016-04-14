@@ -34,7 +34,6 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
         @Override
         public void insertUpdate(DocumentEvent e) {
             assistDateText();
-            notifyObservers();
         }
 
         private void assistDateText() {
@@ -125,8 +124,6 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update(this, getValues());
-        }
+        observers.forEach(e-> e.update(this, getValues()));
     }
 }

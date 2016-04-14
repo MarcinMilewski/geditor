@@ -34,7 +34,6 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
         @Override
         public void insertUpdate(DocumentEvent e) {
             assistDateText();
-            notifyObservers();
         }
 
         private void assistDateText() {
@@ -80,6 +79,22 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
 
     }
 
+    public CMYKStructure getValues() {
+        return new CMYKStructure(
+                (float)cyanSlider.getValue() /(float) 1000,
+                (float)magentaSlider.getValue() / (float) 1000,
+                (float)yellowSlider.getValue() /(float) 1000,
+                (float)blackSlider.getValue()/ (float) 1000);
+    }
+
+    public void setValues(CMYKStructure cmykStructure) {
+        cyanSlider.setValue((int)(cmykStructure.c * 1000));
+        magentaSlider.setValue((int)(cmykStructure.m * 1000));
+        yellowSlider.setValue((int)(cmykStructure.y * 1000));
+        blackSlider.setValue((int)(cmykStructure.k * 1000));
+        updateTextValues();
+    }
+
     private void addSlider(JSlider slider, JLabel label, JTextField jTextField) {
         slider.setValue(0);
         slider.setMinimum(0);
@@ -108,7 +123,7 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
 
     @Override
     public void notifyObservers() {
-
+        observers.forEach(e-> e.update(this, getValues()));
     }
 
 }
