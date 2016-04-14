@@ -13,7 +13,8 @@ public class ColorImagePanel extends JPanel {
 
     public ColorImagePanel(RGBStructure rgbStructure) {
         setDoubleBuffered(false);
-        setSize(WIDTH, HEIGHT);
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout(FlowLayout.LEFT));
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         graphics2D = (Graphics2D) image.getGraphics();
@@ -33,7 +34,7 @@ public class ColorImagePanel extends JPanel {
 
     public void draw(RGBStructure rgbStructure) {
         graphics2D.setColor(new Color(rgbStructure.r, rgbStructure.g, rgbStructure.b));
-        graphics2D.fillRect(0, 0, getWidth(), getHeight());
+        graphics2D.fillRect(0, 0, HEIGHT, WIDTH);
         repaint();
     }
 }

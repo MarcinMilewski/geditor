@@ -24,11 +24,23 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
     private JTextField blackJTextField = new JTextField();
 
     private ChangeListener changeListener = new ChangeListener() {
+        private void assistStateChanged() {
+            Runnable doAssist = new Runnable() {
+                @Override
+                public void run() {
+                    updateTextValues();
+                    notifyObservers();
+                }
+            };
+            SwingUtilities.invokeLater(doAssist);
+        }
+
         @Override
         public void stateChanged(ChangeEvent e) {
-            updateTextValues();
+            assistStateChanged();
         }
     };
+
 
     private DocumentListener documentListener = new DocumentListener() {
         @Override
@@ -40,7 +52,7 @@ public class ColorConverterCMYKSliderPanel extends JPanel implements Observable 
             Runnable doAssist = new Runnable() {
                 @Override
                 public void run() {
-                    updateSlidersValues();
+//                    updateSlidersValues();
                 }
             };
             SwingUtilities.invokeLater(doAssist);

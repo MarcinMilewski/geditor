@@ -11,10 +11,11 @@ public class ColorConverterFrame extends JFrame implements Observer {
     private ColorConverterRGBSliderPanel colorConverterRGBSliderPanel = new ColorConverterRGBSliderPanel();
     private ColorConverterCMYKSliderPanel colorConverterCMYKSliderPanel = new ColorConverterCMYKSliderPanel();
     private ColorImagePanel colorImagePanel = new ColorImagePanel(new RGBStructure(0,0,0));
-    private final ColorConverterController colorConverterController = new ColorConverterController();
+    private final ColorConverterController colorConverterController;
 
 
     public ColorConverterFrame() throws HeadlessException {
+        colorConverterController = new ColorConverterController(colorConverterCMYKSliderPanel, colorConverterRGBSliderPanel);
         addAsObserver();
         Container content = getContentPane();
         content.setLayout(new BorderLayout());
@@ -24,7 +25,7 @@ public class ColorConverterFrame extends JFrame implements Observer {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
-//        pack();
+        pack();
     }
 
     private void addAsObserver() {
@@ -35,13 +36,14 @@ public class ColorConverterFrame extends JFrame implements Observer {
     @Override
     public void update(Observable observable, Object object) {
         if (object instanceof RGBStructure) {
-            System.out.print("RGB");
-            colorImagePanel.draw((RGBStructure) object);
+            RGBStructure rgbStructure = (RGBStructure) object;
+            CMYKStructure cmykStructure = colorConverterController.convertRGBtoCMYK(rgbStructure);
+            colorImagePanel.draw(rgbStructure);
         }
         else if (object instanceof CMYKStructure) {
-            System.out.print("CMYK");
-            colorImagePanel.repaint();
-            repaint();
+            CMYKStructure cmykStructure = (CMYKStructure) object;
+            RGBStructure rgbStructure = colorConverterController.convertCMYKtoRGB(cmykStructure);
+            colorImagePanel.draw(rgbStructure);
         }
         else {
             throw new IllegalArgumentException();

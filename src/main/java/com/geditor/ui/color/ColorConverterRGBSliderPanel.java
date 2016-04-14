@@ -23,10 +23,20 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
     private JTextField blueJTextField = new JTextField();
 
     private ChangeListener changeListener = new ChangeListener() {
+        private void assistStateChanged() {
+            Runnable doAssist = new Runnable() {
+                @Override
+                public void run() {
+                    updateTextValues();
+                    notifyObservers();
+                }
+            };
+            SwingUtilities.invokeLater(doAssist);
+        }
+
         @Override
         public void stateChanged(ChangeEvent e) {
-            updateTextValues();
-            notifyObservers();
+           assistStateChanged();
         }
     };
 
@@ -40,7 +50,7 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
             Runnable doAssist = new Runnable() {
                 @Override
                 public void run() {
-                    updateSlidersValues();
+//                    updateSlidersValues();
                 }
             };
             SwingUtilities.invokeLater(doAssist);
@@ -91,7 +101,7 @@ public class ColorConverterRGBSliderPanel extends JPanel implements Observable {
         blueJTextField.setText(String.valueOf(blueSlider.getValue()));
     }
 
-    public void set(RGBStructure rgbStructure) {
+    public void setValues(RGBStructure rgbStructure) {
         setSliderValues(rgbStructure);
         setJTextFieldValues(rgbStructure);
     }
