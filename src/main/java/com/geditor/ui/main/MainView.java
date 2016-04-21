@@ -6,9 +6,9 @@ import com.geditor.mode.draw.strategy.PointDrawStrategy;
 import com.geditor.mode.draw.strategy.RectangleDrawStrategy;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import com.geditor.ui.editor.Editor;
+import com.geditor.ui.menu.MenuComponent;
 import com.geditor.ui.menu.io.FileExportView;
 import com.geditor.ui.menu.io.importing.FileImportView;
-import com.geditor.ui.menu.MenuComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +71,9 @@ public class MainView {
 
 
     public static void main(String[] args) {
-        new MainView().show();
+        SwingUtilities.invokeLater(() -> {
+            new MainView().show();
+        });
     }
 
     public void show() {
