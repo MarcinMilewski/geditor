@@ -8,7 +8,7 @@ import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import com.geditor.ui.editor.EditorView;
 import com.geditor.ui.menu.io.FileExportView;
 import com.geditor.ui.menu.io.importing.FileImportView;
-import com.geditor.ui.menu.MenuModel;
+import com.geditor.ui.menu.MenuComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,7 +85,7 @@ public class MainView {
 
         root = new JPanel();
 
-        frame.setJMenuBar(new MenuModel());
+        frame.setJMenuBar(new MenuComponent());
         createButtons();
 
         frame.setSize(800, 600);

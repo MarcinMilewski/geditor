@@ -65,6 +65,7 @@ public class RGBCubeView extends Frame implements ActionListener {
         BranchGroup contentBranch = new BranchGroup();
         Transform3D rotateCube = new Transform3D();
         rotateCube.set(new AxisAngle4d(-0.8, 1.0, 0.0, (7 *Math.PI)/4));
+//        rotateCube.set(new AxisAngle4d(-0.8, 1.0, 0.0, Math.PI + Math.PI/4));
         TransformGroup rotationGroup = new TransformGroup(rotateCube);
         contentBranch.addChild(rotationGroup);
         RGBCube cube = new RGBCube(1);

@@ -59,7 +59,7 @@ public class RGBCube extends Shape3D {
             // back face
             -1.0f, -1.0f, -1.0f, // 4. black
             -1.0f,  1.0f, -1.0f, // 5. blue
-            1.0f,  1.0f, -1.0f, // 6. cyan
+            1.0f,  1.0f, 255-1.0f, // 6. cyan
             1.0f, -1.0f, -1.0f, // 7. green
             // right face
             1.0f, -1.0f, -1.0f, // 8. green

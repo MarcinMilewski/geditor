@@ -6,18 +6,19 @@ import com.geditor.ui.render.enums.Figure;
 
 import javax.swing.*;
 
-public class MenuModel extends JMenuBar {
-    private JMenuItem cubeMenuItem;
-    private JMenu renderMenu;
-    private JMenuItem coneMenuItem;
-    private JMenu fileMenu;
-    private JMenuItem exitMenuItem;
-    private JMenu convertMenu;
-    private JMenuItem rgbCmykMenuItem;
-
+public class MenuComponent extends JMenuBar {
+    private final JMenuItem cubeMenuItem;
+    private final JMenu renderMenu;
+    private final JMenuItem coneMenuItem;
+    private final JMenu fileMenu;
+    private final JMenuItem exitMenuItem;
+    private final JMenu convertMenu;
+    private final JMenuItem rgbCmykMenuItem;
+    private final JMenu transformationMenu;
+    private final JMenuItem brightening;
     private RenderController renderController = new RenderController();
 
-    public MenuModel() {
+    public MenuComponent() {
         fileMenu = new JMenu("File");
         exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.addActionListener(e -> System.exit(0));
@@ -38,6 +39,13 @@ public class MenuModel extends JMenuBar {
         renderMenu.add(cubeMenuItem);
         renderMenu.add(coneMenuItem);
         add(renderMenu);
+
+        transformationMenu = new JMenu("Transformation");
+        brightening = new JMenuItem("Brightening");
+//        brightening.addActionListener(e -> EditorController.());
+
+        transformationMenu.add(brightening);
+        add(transformationMenu);
     }
 
 }
