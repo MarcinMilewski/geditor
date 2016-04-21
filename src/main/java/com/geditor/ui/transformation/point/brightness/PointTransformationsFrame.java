@@ -30,6 +30,8 @@ public class PointTransformationsFrame extends JFrame implements Observer {
 
     private final JTextField multiplyTextField = new JTextField();
     private final JButton multiplyButton = new JButton("Multiply");
+    private final JButton toGrayButton = new JButton("To gray");
+    private final JButton toGrayYUNButton = new JButton("To gray YUN");
 
     private ChangeListener brightnessChangeSliderListener = new ChangeListener() {
         private void assistStateChanged() {
@@ -154,6 +156,8 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "span");
 
         multiplyTextField.setText("1.0");
+        multiplyTextField.setMinimumSize(new Dimension(60, 30));
+        multiplyTextField.setPreferredSize(new Dimension(60, 40));
         contentPane.add(multiplyLabel);
         contentPane.add(multiplyTextField);
         multiplyButton.addActionListener(e -> {
@@ -162,7 +166,10 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         contentPane.add(multiplyButton, "wrap");
         contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "span");
 
-
+        toGrayButton.addActionListener(e -> editorController.toGray());
+        toGrayYUNButton.addActionListener(e -> editorController.toGrayYUV());
+        contentPane.add(toGrayButton);
+        contentPane.add(toGrayYUNButton, "wrap");
 
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

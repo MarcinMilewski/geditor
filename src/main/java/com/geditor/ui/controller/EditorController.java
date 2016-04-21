@@ -47,4 +47,13 @@ public class EditorController {
         editor.repaint();
     }
 
+    public void toGray() {
+        editor.setImage(PointTransformations.toGray(editor.getImage()));
+        editor.repaint();
+    }
+
+    public void toGrayYUV() {
+        editor.setImage(PointTransformations.toGrayYUV(editor.getImage()));
+        editor.repaint();
+    }
 }

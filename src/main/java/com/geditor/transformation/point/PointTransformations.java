@@ -137,6 +137,7 @@ public class PointTransformations {
         }
     }
 
+
     private static void prepareColorMultipliedLookupTable(float value, int[] lookupTable) {
         if (value > 0) {
             for (int i = 0; i < COLOR_SPAN; i++) {
@@ -170,6 +171,58 @@ public class PointTransformations {
                     Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
                     result.setRGB(finalJ, finalI, new Color(lookupTable[color.getRed()],
                             lookupTable[color.getGreen()], lookupTable[color.getBlue()]).getRGB());
+                }
+            });
+        }
+        executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            logger.error(e);
+        }
+        return result;
+    }
+
+    public static BufferedImage toGray(BufferedImage bufferedImage) {
+        BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
+
+        ExecutorService executor = Executors.newWorkStealingPool();
+        for (int i = 0; i < bufferedImage.getHeight(); ++i) {
+            int finalI = i;
+            executor.execute(() -> {
+                for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+                    int finalJ = j;
+                    Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
+                    int gray = (color.getRed() + color.getGreen() + color.getBlue()) / 3;
+
+                    result.setRGB(finalJ, finalI, new Color(gray,
+                            gray, gray).getRGB());
+                }
+            });
+        }
+        executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            logger.error(e);
+        }
+        return result;
+    }
+
+    public static BufferedImage toGrayYUV(BufferedImage bufferedImage) {
+        BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
+
+        ExecutorService executor = Executors.newWorkStealingPool();
+        for (int i = 0; i < bufferedImage.getHeight(); ++i) {
+            int finalI = i;
+            executor.execute(() -> {
+                for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+                    int finalJ = j;
+                    Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
+                    int gray = (int) (0.299 * color.getRed() +  0.587 * color.getGreen() + 0.114 * color.getBlue());
+
+                    result.setRGB(finalJ, finalI, new Color(gray,
+                            gray, gray).getRGB());
                 }
             });
         }
