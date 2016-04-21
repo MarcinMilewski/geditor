@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
-import com.geditor.ui.editor.EditorView;
+import com.geditor.ui.editor.Editor;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.mode.draw.strategy.PolygonDrawStrategy;
 import com.google.common.collect.Lists;
@@ -19,8 +19,8 @@ public class PolygonDrawMouseAdapter extends CustomMouseAdapter {
     private ArrayList<Integer> yPoints = Lists.newArrayList();
 
 
-    public PolygonDrawMouseAdapter(EditorView editorView, PolygonDrawStrategy polygonDrawStrategy) {
-        super(editorView);
+    public PolygonDrawMouseAdapter(Editor editor, PolygonDrawStrategy polygonDrawStrategy) {
+        super(editor);
         context = polygonDrawStrategy;
     }
 

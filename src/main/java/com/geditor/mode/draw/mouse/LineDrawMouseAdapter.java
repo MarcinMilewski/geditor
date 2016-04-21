@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
-import com.geditor.ui.editor.EditorView;
+import com.geditor.ui.editor.Editor;
 import com.geditor.mode.CustomMouseAdapter;
 
 import java.awt.*;
@@ -13,27 +13,27 @@ import java.awt.geom.Line2D;
 public class LineDrawMouseAdapter extends CustomMouseAdapter {
     private Point startPoint;
 
-    public LineDrawMouseAdapter(EditorView editorView) {
-        super(editorView);
+    public LineDrawMouseAdapter(Editor editor) {
+        super(editor);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
             startPoint = new Point(e.getX(), e.getY());
-            editorView.setShape(new Line2D.Double());
+            editor.setShape(new Line2D.Double());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        ((Line2D) editorView.getShape()).setLine(startPoint, new Point(e.getX(), e.getY()));
-        editorView.repaint();
+        ((Line2D) editor.getShape()).setLine(startPoint, new Point(e.getX(), e.getY()));
+        editor.repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        drawer.addEditable(editorView.getShape());
-        drawer.draw(editorView.getShape());
-        editorView.repaint();
-        editorView.setShape(null);
+        drawer.addEditable(editor.getShape());
+        drawer.draw(editor.getShape());
+        editor.repaint();
+        editor.setShape(null);
     }
 }

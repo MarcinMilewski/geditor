@@ -5,7 +5,7 @@ import com.geditor.io.importer.exception.ImportFileException;
 import com.geditor.io.importer.exception.InvalidExtensionException;
 import com.geditor.io.importer.factory.FileImporterFactory;
 import com.geditor.io.util.FileExtension;
-import com.geditor.ui.editor.EditorView;
+import com.geditor.ui.editor.Editor;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -24,12 +24,12 @@ public class FileImportView extends JPanel
     JButton openButton;
     JTextArea actionHistory;
     JFileChooser fileChooser;
-    EditorView editorView;
+    Editor editor;
 
-    public FileImportView(EditorView editorView) {
+    public FileImportView(Editor editor) {
         super(new BorderLayout());
 
-        this.editorView = editorView;
+        this.editor = editor;
         actionHistory = new JTextArea(5, 20);
         actionHistory.setMargin(new Insets(5, 5, 5, 5));
         actionHistory.setEditable(false);
@@ -66,7 +66,7 @@ public class FileImportView extends JPanel
                 try {
                     FileImporter fileImporter = FileImporterFactory.getFileImporter(fileExtension);
                     BufferedImage importedImage = fileImporter.importImage(file);
-                    editorView.setImage(importedImage);
+                    editor.setImage(importedImage);
                 } catch (InvalidExtensionException e1) {
                     actionHistory.append("File extension incorrect");
                 } catch (ImportFileException e1) {

@@ -4,6 +4,8 @@ package com.geditor.ui.editor;
  * Created by marcin on 23.02.16.
  */
 
+import com.geditor.commons.Observable;
+import com.geditor.commons.Observer;
 import com.geditor.graphic.Drawer;
 import com.geditor.mode.EditorStrategy;
 import lombok.Getter;
@@ -14,16 +16,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class EditorView extends JPanel {
-    private static final Logger logger = Logger.getLogger(EditorView.class.getName());
+public class Editor extends JPanel{
+    private static final Logger logger = Logger.getLogger(Editor.class.getName());
+    private static final Editor instance = new Editor();
     @Getter private BufferedImage image;
     @Getter @Setter private Drawer drawer;
     private EditorStrategy strategy;
     private Shape shape;
     private Graphics2D currentGraphics;
     private Stroke stroke = new BasicStroke();
-    public EditorView() {
+    @Getter @Setter private int brightness = 0;
+    private Editor() {
         setDoubleBuffered(false);
+    }
+
+    public static Editor getInstance() {
+        return instance;
     }
 
     @Override
@@ -118,7 +126,6 @@ public class EditorView extends JPanel {
         drawer.redrawAll();
         repaint();
     }
-
 
 
 }

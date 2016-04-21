@@ -1,6 +1,6 @@
 package com.geditor.mode.draw.strategy;
 
-import com.geditor.ui.editor.EditorView;
+import com.geditor.ui.editor.Editor;
 import com.geditor.mode.EditorStrategy;
 import com.geditor.mode.AbstractEditorStrategy;
 import com.geditor.mode.draw.mouse.PointDrawMouseAdapter;
@@ -10,9 +10,9 @@ import com.geditor.mode.draw.mouse.PointDrawMouseAdapter;
  */
 public class PointDrawStrategy extends AbstractEditorStrategy implements EditorStrategy {
 
-    public PointDrawStrategy(EditorView editorView) {
-        super(editorView);
-        this.mouseAdapter = new PointDrawMouseAdapter(editorView);
+    public PointDrawStrategy(Editor editor) {
+        super(editor);
+        this.mouseAdapter = new PointDrawMouseAdapter(editor);
     }
 
 }

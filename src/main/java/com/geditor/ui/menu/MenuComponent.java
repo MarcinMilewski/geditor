@@ -1,8 +1,10 @@
 package com.geditor.ui.menu;
 
 import com.geditor.ui.color.ColorConverterFrame;
+import com.geditor.ui.controller.EditorController;
 import com.geditor.ui.render.RenderController;
 import com.geditor.ui.render.enums.Figure;
+import com.geditor.ui.transformation.point.brightness.ChangeBrightnessFrame;
 
 import javax.swing.*;
 
@@ -15,8 +17,9 @@ public class MenuComponent extends JMenuBar {
     private final JMenu convertMenu;
     private final JMenuItem rgbCmykMenuItem;
     private final JMenu transformationMenu;
-    private final JMenuItem brightening;
+    private final JMenuItem brightness;
     private RenderController renderController = new RenderController();
+    private EditorController editorController = EditorController.getInstance();
 
     public MenuComponent() {
         fileMenu = new JMenu("File");
@@ -41,10 +44,10 @@ public class MenuComponent extends JMenuBar {
         add(renderMenu);
 
         transformationMenu = new JMenu("Transformation");
-        brightening = new JMenuItem("Brightening");
-//        brightening.addActionListener(e -> EditorController.());
+        brightness = new JMenuItem("Brightness");
+        brightness.addActionListener(e -> new ChangeBrightnessFrame());
 
-        transformationMenu.add(brightening);
+        transformationMenu.add(brightness);
         add(transformationMenu);
     }
 

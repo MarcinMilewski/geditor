@@ -1,6 +1,6 @@
 package com.geditor.mode.edit.mouse;
 
-import com.geditor.ui.editor.EditorView;
+import com.geditor.ui.editor.Editor;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import org.apache.log4j.Logger;
@@ -16,9 +16,9 @@ public class RectangleEditMouseAdapter extends CustomMouseAdapter {
     private Point startPoint;
     private Rectangle editShape;
 
-    public RectangleEditMouseAdapter(EditorView editorView) {
-        super(editorView);
-        editShape = (Rectangle) editorView.getShape();
+    public RectangleEditMouseAdapter(Editor editor) {
+        super(editor);
+        editShape = (Rectangle) editor.getShape();
         startPoint = new Point((int) editShape.getX(), (int) editShape.getY());
     }
 
@@ -26,7 +26,7 @@ public class RectangleEditMouseAdapter extends CustomMouseAdapter {
     public void mousePressed(MouseEvent e) {
         logger.info("Edit started");
         drawer.removeEditable(editShape);
-        editorView.redrawAll();
+        editor.redrawAll();
     }
 
     @Override
@@ -36,16 +36,16 @@ public class RectangleEditMouseAdapter extends CustomMouseAdapter {
         int width = Math.abs(e.getX() - startPoint.x);
         int height = Math.abs(e.getY() - startPoint.y);
 
-        ((Rectangle) editorView.getShape()).setBounds(x, y, width, height);
-        editorView.repaint();
+        ((Rectangle) editor.getShape()).setBounds(x, y, width, height);
+        editor.repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         logger.info("Edit finished");
         drawer.addEditable(editShape);
-        editorView.setShape(null);
-        editorView.redrawAll();
-        editorView.setStrategy(new FigureEditStrategy(editorView));
+        editor.setShape(null);
+        editor.redrawAll();
+        editor.setStrategy(new FigureEditStrategy(editor));
     }
 }
