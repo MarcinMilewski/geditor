@@ -32,7 +32,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
             Runnable doAssist = new Runnable() {
                 @Override
                 public void run() {
-                    changeTextValue();
+                    changeBrightnessTextField();
                     if (!brightnessSlider.getValueIsAdjusting()) {
                         editorController.changeBrighteness(brightnessSlider.getValue());
                     }
@@ -53,7 +53,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
             Runnable doAssist = new Runnable() {
                 @Override
                 public void run() {
-                    changeTextValue();
+                    changeRedShiftTextField();
                     if (!redShiftSlider.getValueIsAdjusting()) {
                         editorController.addRed(redShiftSlider.getValue());
                     }
@@ -74,7 +74,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
             Runnable doAssist = new Runnable() {
                 @Override
                 public void run() {
-                    changeTextValue();
+                    changeGreenShiftTextField();
                     if (!greenShiftSlider.getValueIsAdjusting()) {
                         editorController.addGreen(greenShiftSlider.getValue());
                     }
@@ -95,9 +95,9 @@ public class PointTransformationsFrame extends JFrame implements Observer {
             Runnable doAssist = new Runnable() {
                 @Override
                 public void run() {
-                    changeTextValue();
+                    changeBlueShiftTextField();
                     if (!blueShiftSlider.getValueIsAdjusting()) {
-                        editorController.changeBrighteness(blueShiftSlider.getValue());
+                        editorController.addBlue(blueShiftSlider.getValue());
                     }
                 }
 
@@ -111,12 +111,17 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         }
     };
 
-    private void updateSliderValue() {
-        brightnessSlider.setValue(Integer.parseInt(brightnessTextfield.getText()));
-    }
-
-    private void changeTextValue() {
+    private void changeBrightnessTextField() {
         brightnessTextfield.setText(String.valueOf(brightnessSlider.getValue()));
+    }
+    private void changeRedShiftTextField() {
+        redShiftTextField.setText(String.valueOf(redShiftSlider.getValue()));
+    }
+    private void changeGreenShiftTextField() {
+        greenShiftTextField.setText(String.valueOf(greenShiftSlider.getValue()));
+    }
+    private void changeBlueShiftTextField() {
+        blueShiftTextField.setText(String.valueOf(blueShiftSlider.getValue()));
     }
 
     public PointTransformationsFrame() throws HeadlessException {
@@ -128,7 +133,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         contentPane.add(brightnessLabel);
         contentPane.add(brightnessSlider);
         contentPane.add(brightnessTextfield);
-        contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "wrap");
+        contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "span");
 
         contentPane.add(redShiftLabel);
         contentPane.add(redShiftSlider);
@@ -142,7 +147,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         contentPane.add(blueShiftSlider);
         contentPane.add(blueShiftTextField, "wrap");
 
-        contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "wrap");
+        contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "span");
 
 
         setSize(800, 600);
@@ -157,7 +162,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         redShiftSlider.setMinimum(-255);
         redShiftSlider.setMaximum(255);
         redShiftSlider.addChangeListener(redShiftChangeSliderListener);
-        redShiftTextField.setText(String.valueOf(Editor.getInstance().getBrightness()));
+        redShiftTextField.setText(String.valueOf(Editor.getInstance().getRedShift()));
         redShiftTextField.setMinimumSize(new Dimension(60, 30));
         redShiftTextField.setPreferredSize(new Dimension(60, 40));
         redShiftTextField.setEnabled(false);
@@ -166,7 +171,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         greenShiftSlider.setMinimum(-255);
         greenShiftSlider.setMaximum(255);
         greenShiftSlider.addChangeListener(greenShiftChangeSliderListener);
-        greenShiftTextField.setText(String.valueOf(Editor.getInstance().getBrightness()));
+        greenShiftTextField.setText(String.valueOf(Editor.getInstance().getGreenShift()));
         greenShiftTextField.setMinimumSize(new Dimension(60, 30));
         greenShiftTextField.setPreferredSize(new Dimension(60, 40));
         greenShiftTextField.setEnabled(false);
@@ -175,7 +180,7 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         blueShiftSlider.setMinimum(-255);
         blueShiftSlider.setMaximum(255);
         blueShiftSlider.addChangeListener(blueShiftChangeSliderListener);
-        blueShiftTextField.setText(String.valueOf(Editor.getInstance().getBrightness()));
+        blueShiftTextField.setText(String.valueOf(Editor.getInstance().getBlueShift()));
         blueShiftTextField.setMinimumSize(new Dimension(60, 30));
         blueShiftTextField.setPreferredSize(new Dimension(60, 40));
         blueShiftTextField.setEnabled(false);

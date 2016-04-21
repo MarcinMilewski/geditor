@@ -50,15 +50,15 @@ public class PointTransformations {
 
         ExecutorService executor = Executors.newWorkStealingPool();
         for (int i = 0; i < bufferedImage.getHeight(); ++i) {
+            int finalI = i;
+            executor.execute(() -> {
             for (int j = 0; j < bufferedImage.getWidth(); ++j) {
                 int finalJ = j;
-                int finalI = i;
-                executor.execute(() -> {
-                    Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
-                    result.setRGB(finalJ, finalI, new Color(lookupTable[color.getRed()],
-                            color.getGreen(), color.getBlue()).getRGB());
-                });
+                Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
+                result.setRGB(finalJ, finalI, new Color(lookupTable[color.getRed()],
+                        color.getGreen(), color.getBlue()).getRGB());
             }
+            });
         }
         executor.shutdown();
         try {
@@ -76,15 +76,15 @@ public class PointTransformations {
 
         ExecutorService executor = Executors.newWorkStealingPool();
         for (int i = 0; i < bufferedImage.getHeight(); ++i) {
-            for (int j = 0; j < bufferedImage.getWidth(); ++j) {
-                int finalJ = j;
-                int finalI = i;
-                executor.execute(() -> {
+            int finalI = i;
+            executor.execute(() -> {
+                for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+                    int finalJ = j;
                     Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
                     result.setRGB(finalJ, finalI, new Color(color.getRed(),
                             lookupTable[color.getGreen()], color.getBlue()).getRGB());
-                });
-            }
+                }
+            });
         }
         executor.shutdown();
         try {
@@ -102,15 +102,15 @@ public class PointTransformations {
 
         ExecutorService executor = Executors.newWorkStealingPool();
         for (int i = 0; i < bufferedImage.getHeight(); ++i) {
-            for (int j = 0; j < bufferedImage.getWidth(); ++j) {
-                int finalJ = j;
-                int finalI = i;
-                executor.execute(() -> {
+            int finalI = i;
+            executor.execute(() -> {
+                for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+                    int finalJ = j;
                     Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
-                    result.setRGB(finalJ, finalI, new Color(lookupTable[color.getRed()],
-                            color.getGreen(), color.getBlue()).getRGB());
-                });
-            }
+                    result.setRGB(finalJ, finalI, new Color(color.getRed(),
+                            color.getGreen(), lookupTable[color.getGreen()]).getRGB());
+                }
+            });
         }
         executor.shutdown();
         try {

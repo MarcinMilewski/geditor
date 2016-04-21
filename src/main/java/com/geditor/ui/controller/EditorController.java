@@ -29,14 +29,14 @@ public class EditorController {
     }
 
     public void addGreen(int value) {
-        int currentGreen = Editor.getInstance().getRedShift();
+        int currentGreen = Editor.getInstance().getGreenShift();
         editor.setImage(PointTransformations.addGreen(editor.getImage(), value - currentGreen));
         editor.setGreenShift(value);
         editor.repaint();
     }
 
     public void addBlue(int value) {
-        int currentBlue = Editor.getInstance().getRedShift();
+        int currentBlue = Editor.getInstance().getBlueShift();
         editor.setImage(PointTransformations.addBlue(editor.getImage(), value - currentBlue));
         editor.setBlueShift(value);
         editor.repaint();
