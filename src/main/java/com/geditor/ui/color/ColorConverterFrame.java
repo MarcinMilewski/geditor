@@ -17,6 +17,8 @@ public class ColorConverterFrame extends JFrame implements Observer {
     public ColorConverterFrame() throws HeadlessException {
         colorConverterController = new ColorConverterController(colorConverterCMYKSliderPanel, colorConverterRGBSliderPanel);
         addAsObserver();
+        System.out.println("Hello 1");
+
         Container content = getContentPane();
         content.setLayout(new BorderLayout());
         content.add(colorConverterCMYKSliderPanel, BorderLayout.EAST);

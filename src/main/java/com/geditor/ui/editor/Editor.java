@@ -4,8 +4,6 @@ package com.geditor.ui.editor;
  * Created by marcin on 23.02.16.
  */
 
-import com.geditor.commons.Observable;
-import com.geditor.commons.Observer;
 import com.geditor.graphic.Drawer;
 import com.geditor.mode.EditorStrategy;
 import lombok.Getter;
@@ -26,6 +24,9 @@ public class Editor extends JPanel{
     private Graphics2D currentGraphics;
     private Stroke stroke = new BasicStroke();
     @Getter @Setter private int brightness = 0;
+    @Getter @Setter private int redShift = 0;
+    @Getter @Setter private int greenShift = 0;
+    @Getter @Setter private int blueShift = 0;
     private Editor() {
         setDoubleBuffered(false);
     }
