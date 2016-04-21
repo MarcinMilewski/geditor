@@ -22,10 +22,14 @@ public class PointTransformationsFrame extends JFrame implements Observer {
     private final JLabel greenShiftLabel = new JLabel("Green shift");
     private final JLabel blueShiftLabel = new JLabel("Blue shift");
     private final JLabel brightnessLabel = new JLabel("Brighteness");
+    private final JLabel multiplyLabel = new JLabel("Multiply");
     private final JTextField brightnessTextfield = new JTextField();
     private final JTextField redShiftTextField = new JTextField();
     private final JTextField greenShiftTextField = new JTextField();
     private final JTextField blueShiftTextField = new JTextField();
+
+    private final JTextField multiplyTextField = new JTextField();
+    private final JButton multiplyButton = new JButton("Multiply");
 
     private ChangeListener brightnessChangeSliderListener = new ChangeListener() {
         private void assistStateChanged() {
@@ -148,6 +152,16 @@ public class PointTransformationsFrame extends JFrame implements Observer {
         contentPane.add(blueShiftTextField, "wrap");
 
         contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "span");
+
+        multiplyTextField.setText("1.0");
+        contentPane.add(multiplyLabel);
+        contentPane.add(multiplyTextField);
+        multiplyButton.addActionListener(e -> {
+            editorController.multiply(Float.parseFloat(multiplyTextField.getText()));
+        });
+        contentPane.add(multiplyButton, "wrap");
+        contentPane.add(new JSeparator(SwingConstants.HORIZONTAL), "span");
+
 
 
         setSize(800, 600);

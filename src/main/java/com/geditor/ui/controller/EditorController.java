@@ -42,4 +42,9 @@ public class EditorController {
         editor.repaint();
     }
 
+    public void multiply(float value) {
+        editor.setImage(PointTransformations.multiply(editor.getImage(), value));
+        editor.repaint();
+    }
+
 }
