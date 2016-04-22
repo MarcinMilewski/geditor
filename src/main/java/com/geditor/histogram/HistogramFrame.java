@@ -9,7 +9,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.GridPane;
-import net.miginfocom.swing.MigLayout;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,11 +35,19 @@ public class HistogramFrame extends JFrame{
     private void initSwingComponents() {
         stretchButton.addActionListener(e -> editorController.stretchHistogram());
         equalizeButton.addActionListener(e -> editorController.equalizeHistogram());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(stretchButton);
+        buttonPanel.add(equalizeButton);
+
         Container contentPane = getContentPane();
-        contentPane.setLayout(new MigLayout("wrap 3"));
-        contentPane.add(stretchButton);
-        contentPane.add(equalizeButton, "wrap");
-        contentPane.add(fxPanel, "span");
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(fxPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.PAGE_START);
+
+//        contentPane.setLayout(new MigLayout("wrap 4"));
+//        contentPane.add(stretchButton);
+//        contentPane.add(equalizeButton, "wrap");
+//        contentPane.add(fxPanel, "span");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(800, 600);
     }
@@ -46,6 +55,7 @@ public class HistogramFrame extends JFrame{
     private void initFxComponents() {
         Platform.runLater(() -> {
             GridPane gridPane = new GridPane();
+            gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
             Scene scene = new Scene(gridPane);
             BarChart<String, Number> redChannelChart = createRedChannelChart();
             BarChart<String, Number> greenChannelChart = createGreenChannelChart();
@@ -53,6 +63,9 @@ public class HistogramFrame extends JFrame{
             gridPane.add(redChannelChart, 0, 0);
             gridPane.add(greenChannelChart, 0, 1);
             gridPane.add(blueChannelChart, 0, 2);
+            GridPane.setHgrow(redChannelChart, Priority.ALWAYS);
+            GridPane.setHgrow(greenChannelChart, Priority.ALWAYS);
+            GridPane.setHgrow(blueChannelChart, Priority.ALWAYS);
             fxPanel.setScene(scene);
         });
     }
