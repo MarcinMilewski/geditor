@@ -1,4 +1,4 @@
-package com.geditor.ui.transformation.point.brightness;
+package com.geditor.ui.transformation.point;
 
 import com.geditor.commons.Observable;
 import com.geditor.commons.Observer;

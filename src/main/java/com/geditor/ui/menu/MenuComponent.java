@@ -1,10 +1,11 @@
 package com.geditor.ui.menu;
 
+import com.geditor.histogram.HistogramFrame;
 import com.geditor.ui.color.ColorConverterFrame;
 import com.geditor.ui.controller.EditorController;
 import com.geditor.ui.render.RenderController;
 import com.geditor.ui.render.enums.Figure;
-import com.geditor.ui.transformation.point.brightness.PointTransformationsFrame;
+import com.geditor.ui.transformation.point.PointTransformationsFrame;
 
 import javax.swing.*;
 
@@ -18,6 +19,7 @@ public class MenuComponent extends JMenuBar {
     private final JMenuItem rgbCmykMenuItem;
     private final JMenu transformationMenu;
     private final JMenuItem brightness;
+    private final JMenuItem histogram;
     private RenderController renderController = new RenderController();
     private EditorController editorController = EditorController.getInstance();
 
@@ -48,9 +50,14 @@ public class MenuComponent extends JMenuBar {
         brightness.addActionListener(e -> {
             new PointTransformationsFrame();
         });
-
         transformationMenu.add(brightness);
+
+        histogram = new JMenuItem("Histogram");
+        histogram.addActionListener(e -> new HistogramFrame());
+        transformationMenu.add(histogram);
+
         add(transformationMenu);
+
     }
 
 }

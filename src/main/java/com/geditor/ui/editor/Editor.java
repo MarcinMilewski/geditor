@@ -5,6 +5,7 @@ package com.geditor.ui.editor;
  */
 
 import com.geditor.graphic.Drawer;
+import com.geditor.histogram.HistogramModel;
 import com.geditor.mode.EditorStrategy;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,8 @@ public class Editor extends JPanel{
     @Getter @Setter private int redShift = 0;
     @Getter @Setter private int greenShift = 0;
     @Getter @Setter private int blueShift = 0;
+    @Getter @Setter private HistogramModel histogramModel;
+
     private Editor() {
         setDoubleBuffered(false);
     }

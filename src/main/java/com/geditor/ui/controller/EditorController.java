@@ -1,5 +1,7 @@
 package com.geditor.ui.controller;
 
+import com.geditor.histogram.HistogramModel;
+import com.geditor.histogram.HistogramUtils;
 import com.geditor.transformation.point.PointTransformations;
 import com.geditor.ui.editor.Editor;
 
@@ -56,4 +58,26 @@ public class EditorController {
         editor.setImage(PointTransformations.toGrayYUV(editor.getImage()));
         editor.repaint();
     }
+
+    public HistogramModel createHistogram() {
+        HistogramModel histogramModel = HistogramUtils.createHistogram(editor.getImage());
+        editor.setHistogramModel(histogramModel);
+        editor.repaint();
+        return histogramModel;
+    }
+
+    public HistogramModel stretchHistogram() {
+        HistogramModel histogramModel = HistogramUtils.stretchHistogram(editor.getImage());
+        editor.setHistogramModel(histogramModel);
+        editor.repaint();
+        return histogramModel;
+    }
+    public HistogramModel equalizeHistogram() {
+        HistogramModel histogramModel = HistogramUtils.equalizeHistogram(editor.getImage());
+        editor.setHistogramModel(histogramModel);
+        editor.repaint();
+        return histogramModel;
+    }
+
+
 }
