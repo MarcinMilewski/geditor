@@ -26,10 +26,9 @@ public class HistogramFrame extends JFrame{
     private JFXPanel fxPanel = new JFXPanel();
 
     public HistogramFrame() throws HeadlessException {
-
         initSwingComponents();
         initFxComponents();
-
+        setVisible(true);
     }
 
     private void initSwingComponents() {
@@ -39,6 +38,7 @@ public class HistogramFrame extends JFrame{
         contentPane.setLayout(new MigLayout("wrap 3"));
         contentPane.add(stretchButton);
         contentPane.add(equalizeButton, "wrap");
+        contentPane.add(fxPanel, "span");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(800, 600);
     }
@@ -46,18 +46,18 @@ public class HistogramFrame extends JFrame{
     private void initFxComponents() {
         Platform.runLater(() -> {
             GridPane gridPane = new GridPane();
-            Scene scene = new Scene(gridPane, 800, 600);
-            BarChart<Number,Number> redChannelChart = createRedChannelChart();
-            BarChart<Number,Number> greenChannelChart = createGreenChannelChart();
-            BarChart<Number,Number> blueChannelChart = createBlueChannelChart();
+            Scene scene = new Scene(gridPane);
+            BarChart<String, Number> redChannelChart = createRedChannelChart();
+            BarChart<String, Number> greenChannelChart = createGreenChannelChart();
+            BarChart<String, Number> blueChannelChart = createBlueChannelChart();
             gridPane.add(redChannelChart, 0, 0);
-            gridPane.add(greenChannelChart, 1, 0);
-            gridPane.add(blueChannelChart, 2, 0);
+            gridPane.add(greenChannelChart, 0, 1);
+            gridPane.add(blueChannelChart, 0, 2);
             fxPanel.setScene(scene);
         });
     }
 
-    private BarChart<Number,Number> createRedChannelChart() {
+    private BarChart<String, Number> createRedChannelChart() {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
 
@@ -65,6 +65,8 @@ public class HistogramFrame extends JFrame{
                 new BarChart<String,Number>(xAxis,yAxis);
 
         bc.setTitle("Red");
+        bc.setBarGap(0);
+        bc.setCategoryGap(1);
         xAxis.setLabel("Value");
         yAxis.setLabel("Number");
         XYChart.Series redSeries = getRedSeries();
@@ -77,18 +79,18 @@ public class HistogramFrame extends JFrame{
         Series redSeries = new Series();
         redSeries.setName("Red");
         for (int i = 0; i < redChannel.length; ++i) {
-            redSeries.getData().add(new Data<>(i, redChannel[i]));
+            redSeries.getData().add(new Data<String,Number>(String.valueOf(i), redChannel[i]));
         }
         return redSeries;
     }
 
-    private BarChart<Number,Number> createGreenChannelChart() {
-        final NumberAxis xAxis = new NumberAxis();
+    private BarChart<String, Number> createGreenChannelChart() {
+        final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-
-        final BarChart<Number,Number> bc =
-                new BarChart<Number,Number>(xAxis,yAxis);
-
+        final BarChart<String,Number> bc =
+                new BarChart<String,Number>(xAxis,yAxis);
+        bc.setBarGap(0);
+        bc.setCategoryGap(1);
         bc.setTitle("Green");
         xAxis.setLabel("Value");
         yAxis.setLabel("Number");
@@ -102,18 +104,19 @@ public class HistogramFrame extends JFrame{
         Series greenSeries = new Series();
         greenSeries.setName("Green");
         for (int i = 0; i < greenChannel.length; ++i) {
-            greenSeries.getData().add(new Data<>(i, greenChannel[i]));
+            greenSeries.getData().add(new Data<String,Number>(String.valueOf(i), greenChannel[i]));
         }
         return greenSeries;
     }
 
-    private BarChart<Number,Number> createBlueChannelChart() {
-        final NumberAxis xAxis = new NumberAxis();
+    private BarChart<String, Number> createBlueChannelChart() {
+        final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
 
-        final BarChart<Number,Number> bc =
-                new BarChart<Number,Number>(xAxis,yAxis);
-
+        final BarChart<String,Number> bc =
+                new BarChart<String,Number>(xAxis,yAxis);
+        bc.setBarGap(0);
+        bc.setCategoryGap(1);
         bc.setTitle("Blue");
         xAxis.setLabel("Value");
         yAxis.setLabel("Number");
@@ -127,7 +130,7 @@ public class HistogramFrame extends JFrame{
         Series blueSeries = new Series();
         blueSeries.setName("Blue");
         for (int i = 0; i < blueChannel.length; ++i) {
-            blueSeries.getData().add(new Data<>(i, blueChannel[i]));
+            blueSeries.getData().add(new Data<String,Number>(String.valueOf(i), blueChannel[i]));
         }
         return blueSeries;
     }
