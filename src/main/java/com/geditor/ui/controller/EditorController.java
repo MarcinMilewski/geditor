@@ -5,6 +5,8 @@ import com.geditor.histogram.HistogramUtils;
 import com.geditor.transformation.point.PointTransformations;
 import com.geditor.ui.editor.Editor;
 
+import java.awt.image.BufferedImage;
+
 public class EditorController {
     private static final Editor editor = Editor.getInstance();
     private static EditorController instance = new EditorController();
@@ -60,23 +62,25 @@ public class EditorController {
     }
 
     public HistogramModel createHistogram() {
+        long startTime = System.currentTimeMillis();
         HistogramModel histogramModel = HistogramUtils.createHistogram(editor.getImage());
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println(elapsedTime);
         editor.setHistogramModel(histogramModel);
         editor.repaint();
         return histogramModel;
     }
 
-    public HistogramModel stretchHistogram() {
-        HistogramModel histogramModel = HistogramUtils.stretchHistogram(editor.getImage());
-        editor.setHistogramModel(histogramModel);
+    public void stretchHistogram() {
+        BufferedImage image = HistogramUtils.stretchHistogram(editor.getHistogramModel(), editor.getImage());
+        editor.setImage(image);
         editor.repaint();
-        return histogramModel;
     }
-    public HistogramModel equalizeHistogram() {
-        HistogramModel histogramModel = HistogramUtils.equalizeHistogram(editor.getImage());
-        editor.setHistogramModel(histogramModel);
+    public void equalizeHistogram() {
+        BufferedImage image  = HistogramUtils.equalizeHistogram(editor.getImage());
+        editor.setImage(image);
         editor.repaint();
-        return histogramModel;
     }
 
 

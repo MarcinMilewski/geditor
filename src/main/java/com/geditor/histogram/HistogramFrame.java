@@ -25,8 +25,11 @@ public class HistogramFrame extends JFrame{
     private final JButton stretchButton = new JButton("Stretch histogram");
     private final JButton equalizeButton = new JButton("Equalize histogram");
     private JFXPanel fxPanel = new JFXPanel();
-
+    private Container contentPane;
     public HistogramFrame() throws HeadlessException {
+        Platform.setImplicitExit(false);
+
+        System.out.println("HAH");
         initSwingComponents();
         initFxComponents();
         setVisible(true);
@@ -39,7 +42,7 @@ public class HistogramFrame extends JFrame{
         buttonPanel.add(stretchButton);
         buttonPanel.add(equalizeButton);
 
-        Container contentPane = getContentPane();
+        contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(fxPanel, BorderLayout.CENTER);
         contentPane.add(buttonPanel, BorderLayout.PAGE_START);
@@ -54,6 +57,7 @@ public class HistogramFrame extends JFrame{
 
     private void initFxComponents() {
         Platform.runLater(() -> {
+            System.out.println("DUPA");
             GridPane gridPane = new GridPane();
             gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
             Scene scene = new Scene(gridPane);
@@ -64,9 +68,8 @@ public class HistogramFrame extends JFrame{
             gridPane.add(greenChannelChart, 0, 1);
             gridPane.add(blueChannelChart, 0, 2);
             GridPane.setHgrow(redChannelChart, Priority.ALWAYS);
-            GridPane.setHgrow(greenChannelChart, Priority.ALWAYS);
-            GridPane.setHgrow(blueChannelChart, Priority.ALWAYS);
             fxPanel.setScene(scene);
+            repaint();
         });
     }
 
