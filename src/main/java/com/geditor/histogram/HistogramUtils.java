@@ -90,11 +90,11 @@ public class HistogramUtils {
         int minBlue = findMinIndex(histogramModel.getBlueChannel(), threshold);
         int maxBlue = findMaxIndex(histogramModel.getBlueChannel(), threshold);
 
-        int[] redLoT = createStretchingLoT(minRed, maxRed);
-        int[] greenLoT = createStretchingLoT(minGreen, maxGreen);
-        int[] blueLoT = createStretchingLoT(minBlue, maxBlue);
+        int[] redLUT = createStretchingLUT(minRed, maxRed);
+        int[] greenLUT = createStretchingLUT(minGreen, maxGreen);
+        int[] blueLUT = createStretchingLUT(minBlue, maxBlue);
 
-        return stretchHistogramInternal(redLoT, greenLoT, blueLoT, bufferedImage);
+        return stretchHistogramInternal(redLUT, greenLUT, blueLUT, bufferedImage);
     }
 
     private static int findMinIndex(int[] tab, int threshold) {
@@ -115,7 +115,7 @@ public class HistogramUtils {
         return 255;
     }
 
-    private static BufferedImage stretchHistogramInternal(int[] redLoT, int[] greenLoT, int[] blueLoT, BufferedImage bufferedImage) {
+    private static BufferedImage stretchHistogramInternal(int[] redLUT, int[] greenLUT, int[] blueLUT, BufferedImage bufferedImage) {
         BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
 
         ExecutorService executor = Executors.newWorkStealingPool();
@@ -127,9 +127,9 @@ public class HistogramUtils {
                     Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
 
                     result.setRGB(finalJ, finalI, new Color(
-                            redLoT[color.getRed()],
-                            greenLoT[color.getGreen()],
-                            blueLoT[color.getBlue()]).getRGB());
+                            redLUT[color.getRed()],
+                            greenLUT[color.getGreen()],
+                            blueLUT[color.getBlue()]).getRGB());
                 }
             });
         }
@@ -142,10 +142,10 @@ public class HistogramUtils {
         return result;
     }
 
-    private static int[] createStretchingLoT(int min, int max) {
+    private static int[] createStretchingLUT(int min, int max) {
         int[] result = new int[256];
         for (int i = 0; i < result.length; i++) {
-            result[i] = (int) (((double) (i - min) / (double) (max - min)) * 255);
+            result[i] = (int) Math.round (((double) (i - min) / (double) (max - min)) * 255);
             if (result[i] < 0) {
                 result[i] = 0;
             }
@@ -156,7 +156,73 @@ public class HistogramUtils {
         return result;
     }
 
+
     public static BufferedImage equalizeHistogram(BufferedImage bufferedImage) {
-        return null;
+        final int imageSize = bufferedImage.getWidth() * bufferedImage.getHeight();
+        HistogramModel histogramModel = createHistogram(bufferedImage);
+        float[] redDistribuant = computeDistribuant(imageSize, histogramModel.getRedChannel());
+        float[] greenDistribuant = computeDistribuant(imageSize, histogramModel.getGreenChannel());
+        float[] blueDistribuant = computeDistribuant(imageSize, histogramModel.getBlueChannel());
+
+        float redDistribuantFirstNonZeroValue = getFirstNonZeroValue(redDistribuant);
+        float greenDistribuantFirstNonZeroValue = getFirstNonZeroValue(greenDistribuant);
+        float blueDistribuantFirstNonZeroValue = getFirstNonZeroValue(blueDistribuant);
+        
+        int[] redLUT = createEqualizeLUT(redDistribuant, redDistribuantFirstNonZeroValue);
+        int[] greenLUT = createEqualizeLUT(greenDistribuant, greenDistribuantFirstNonZeroValue);
+        int[] blueLUT = createEqualizeLUT(blueDistribuant, blueDistribuantFirstNonZeroValue);
+
+        BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
+        ExecutorService executor = Executors.newWorkStealingPool();
+        for (int i = 0; i < bufferedImage.getHeight(); ++i) {
+            int finalI = i;
+            executor.execute(() -> {
+                for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+                    int finalJ = j;
+                    Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
+
+                    result.setRGB(finalJ, finalI, new Color(
+                            redLUT[color.getRed()],
+                            greenLUT[color.getGreen()],
+                            blueLUT[color.getBlue()]).getRGB());
+                }
+            });
+        }
+        executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            log.error(e);
+        }
+        return result;
+    }
+
+    private static int[] createEqualizeLUT(float[] distribuant, float firstNonZeroValue) {
+        int[] lut = new int[256];
+        for (int i = 0; i < lut.length; i++) {
+            lut[i] = Math.round((( distribuant[i] - firstNonZeroValue )/ (1 - firstNonZeroValue)) * 255);
+        }
+        return lut;
+    }
+
+    private static float getFirstNonZeroValue(float[] redDistribuant) {
+        for (int i = 0; i < redDistribuant.length; i++) {
+            if (Math.signum(redDistribuant[i]) == 1 ) return redDistribuant[i];
+        }
+        throw new IllegalArgumentException("Distribuant have only zero values.");
+    }
+
+    private static float[] computeDistribuant(int imageSize, int[] channel) {
+        float[] distribuant = new float[256];
+
+        distribuant[0] =  channel[0] ;
+        for (int i = 1; i < distribuant.length; i++) {
+            distribuant[i] = (distribuant[i - 1] + channel[i]);
+        }
+
+        for (int i = 0; i < distribuant.length; i++) {
+            distribuant[i] /= imageSize;
+        }
+        return distribuant;
     }
 }
