@@ -19,6 +19,7 @@ public class Editor extends JPanel{
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
     private static final Editor instance = new Editor();
     @Getter private BufferedImage image;
+    @Getter @Setter private BufferedImage imageCopy;
     @Getter @Setter private Drawer drawer;
     private EditorStrategy strategy;
     private Shape shape;

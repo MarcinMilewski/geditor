@@ -29,7 +29,6 @@ public class HistogramFrame extends JFrame{
     public HistogramFrame() throws HeadlessException {
         Platform.setImplicitExit(false);
 
-        System.out.println("HAH");
         initSwingComponents();
         initFxComponents();
         setVisible(true);
@@ -57,7 +56,6 @@ public class HistogramFrame extends JFrame{
 
     private void initFxComponents() {
         Platform.runLater(() -> {
-            System.out.println("DUPA");
             GridPane gridPane = new GridPane();
             gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
             Scene scene = new Scene(gridPane);

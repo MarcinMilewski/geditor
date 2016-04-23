@@ -1,5 +1,6 @@
 package com.geditor.ui.menu;
 
+import com.geditor.binarization.BinarizationFrame;
 import com.geditor.histogram.HistogramFrame;
 import com.geditor.ui.color.ColorConverterFrame;
 import com.geditor.ui.controller.EditorController;
@@ -20,6 +21,7 @@ public class MenuComponent extends JMenuBar {
     private final JMenu transformationMenu;
     private final JMenuItem brightness;
     private final JMenuItem histogram;
+    private final JMenuItem binarization;
     private RenderController renderController = new RenderController();
     private EditorController editorController = EditorController.getInstance();
 
@@ -56,6 +58,13 @@ public class MenuComponent extends JMenuBar {
         histogram.addActionListener(e -> new HistogramFrame());
         transformationMenu.add(histogram);
 
+        binarization = new JMenuItem("Binarization");
+        binarization.addActionListener(e -> {
+            editorController.createImageBackup();
+            new BinarizationFrame();
+        });
+
+        transformationMenu.add(binarization);
         add(transformationMenu);
 
     }

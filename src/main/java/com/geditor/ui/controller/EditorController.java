@@ -1,11 +1,14 @@
 package com.geditor.ui.controller;
 
+import com.geditor.binarization.BinarizationUtils;
 import com.geditor.histogram.HistogramModel;
 import com.geditor.histogram.HistogramUtils;
 import com.geditor.transformation.point.PointTransformations;
 import com.geditor.ui.editor.Editor;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 public class EditorController {
     private static final Editor editor = Editor.getInstance();
@@ -83,5 +86,22 @@ public class EditorController {
         editor.repaint();
     }
 
+    public void manualBinarization(int threshold) {
+        BufferedImage image  = BinarizationUtils.manual(editor.getImageCopy(), threshold);
+        editor.setImage(image);
+        editor.repaint();
+    }
 
+    public void percentBlackSelectionBinarization(int percent) {
+        BufferedImage image  = BinarizationUtils.percentBlackSelection(editor.getImageCopy(), percent);
+        editor.setImage(image);
+        editor.repaint();
+    }
+
+    public void createImageBackup() {
+        ColorModel cm = editor.getImage().getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = editor.getImage().copyData(null);
+        editor.setImageCopy(new BufferedImage(cm, raster, isAlphaPremultiplied, null));
+    }
 }
