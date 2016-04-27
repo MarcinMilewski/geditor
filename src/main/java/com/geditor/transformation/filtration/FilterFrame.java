@@ -16,6 +16,8 @@ public class FilterFrame extends JFrame{
     private final EditorController editorController = EditorController.getInstance();
     private final JButton highPassFilter1 = new JButton("High pass filter 1");
     private final JButton highPassFilter2 = new JButton("High pass filter 2");
+    private final JButton gauss1 = new JButton("Gauss 1");
+    private final JButton gauss2 = new JButton("Gauss 2");
 
     public FilterFrame() throws HeadlessException {
         super("Filters");
@@ -30,7 +32,9 @@ public class FilterFrame extends JFrame{
         medianTextField.setPreferredSize(new Dimension(50, 40));
         container.add(medianTextField, "wrap");
         container.add(highPassFilter1);
-        container.add(highPassFilter2);
+        container.add(highPassFilter2, "wrap");
+        container.add(gauss1);
+        container.add(gauss2);
         addListeners();
         setSize(new Dimension(800, 600));
         setVisible(true);
@@ -44,5 +48,7 @@ public class FilterFrame extends JFrame{
         medianButton.addActionListener(e -> editorController.medianFilter(Integer.parseInt(medianTextField.getText())));
         highPassFilter1.addActionListener(e -> editorController.filter(FilterUtils.getHighPass1FilterMask()));
         highPassFilter2.addActionListener(e -> editorController.filter(FilterUtils.getHighPass2FilterMask()));
+        gauss1.addActionListener(e -> editorController.filter(FilterUtils.getGauss1FilterMask()));
+        gauss2.addActionListener(e -> editorController.filter(FilterUtils.getGauss2FilterMask()));
     }
 }

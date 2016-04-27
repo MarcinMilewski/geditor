@@ -22,7 +22,7 @@ public class FilterUtils {
         List<Float> maskMatrix = new MaskMatrix(mask).getMaskList();
         final int range = mask.length / 2;
         final int maskSize = mask.length * mask.length;
-        final int maskSum = getMaskSum(mask);
+        int maskSum = getMaskSum(mask);
 
 //        log.debug("Filter with mask: " + float2dArrayToString(mask));
         for (int i = range; i < image.getHeight() - range; ++i) {
@@ -38,17 +38,21 @@ public class FilterUtils {
                     greenSum[0] += (color.getGreen() * scale);
                     blueSum[0] += (color.getBlue() * scale);
                 });
-                if (redSum[0] < 0) redSum[0] = 0;
-                if (redSum[0] > 255) redSum[0] = 255;
-                if (greenSum[0] < 0) greenSum[0] = 0;
-                if (greenSum[0] > 255) greenSum[0] = 255;
-                if (blueSum[0] < 0) blueSum[0] = 0;
-                if (blueSum[0] > 255) blueSum[0] = 255;
+                if (maskSum == 0) maskSum = 1;
+                int redColor = redSum[0] / maskSum;
+                int greenColor = greenSum[0] / maskSum;
+                int blueColor = blueSum[0] / maskSum;
+                if (redColor < 0) redColor = 0;
+                if (redColor > 255) redColor = 255;
+                if (greenColor < 0) greenColor = 0;
+                if (greenColor > 255) greenColor = 255;
+                if (blueColor < 0) blueColor = 0;
+                if (blueColor > 255) blueColor = 255;
 
                 if (maskSum > 0) {
-                    result.setRGB(j, i, new Color(redSum[0] / maskSum, greenSum[0] / maskSum, blueSum[0] / maskSum).getRGB());
+                    result.setRGB(j, i, new Color(redColor, greenColor, blueColor).getRGB());
                 } else {
-                    result.setRGB(j, i, new Color(redSum[0], greenSum[0], blueSum[0]).getRGB());
+                    result.setRGB(j, i, new Color(redColor, greenColor, blueColor).getRGB());
                 }
 
             }
@@ -176,5 +180,23 @@ public class FilterUtils {
         } else {
             return Math.round((list.get(middle) + list.get(middle - 1)) / 2);
         }
+    }
+
+    public static float[][] getGauss1FilterMask() {
+        return new float[][] {
+                {1, 2, 1},
+                {2, 4, 2},
+                {1, 2, 1}
+        };
+    }
+
+    public static float[][] getGauss2FilterMask() {
+        return new float[][] {
+                {1, 1, 2, 1, 1},
+                {1, 2, 4, 2, 1},
+                {2, 4, 8, 4, 2},
+                {1, 2, 4, 2, 1},
+                {1, 1, 2, 1, 1}
+        };
     }
 }
