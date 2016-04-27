@@ -10,6 +10,7 @@ import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j
 public class FilterUtils {
@@ -116,6 +117,22 @@ public class FilterUtils {
         };
     }
 
+    public static float[][] getHighPass1FilterMask() {
+        return new float[][] {
+                {0, -0.25f, 0},
+                {-0.25f, 2, -0.25f},
+                {0, -0.25f, 0}
+        };
+    }
+
+    public static float[][] getHighPass2FilterMask() {
+        return new float[][] {
+                {-1, -1, -1},
+                {-1, 9, -1},
+                {-1, -1, -1}
+        };
+    }
+
     private static String float2dArrayToString(float[][] tab) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < tab.length; i++) {
@@ -127,5 +144,37 @@ public class FilterUtils {
         return stringBuilder.toString();
     }
 
+    public static BufferedImage medianFilter(BufferedImage image, int matrixSize) {
+        if (matrixSize % 2 != 1) throw new IllegalArgumentException("Matrix size should be odd");
+        BufferedImage result = createImageBackup(image);
 
+        final int range = matrixSize / 2;
+        final int maskSize = matrixSize * matrixSize;
+
+//        log.debug("Median filtering, matrix size: " + matrixSize);
+        for (int i = range; i < image.getHeight() - range; ++i) {
+            for (int j = range; j < image.getWidth() - range; ++j) {
+                List<Color> colors = getColorsFromImage(image, j, i, maskSize, range);
+                List<Integer> redColors = colors.stream().map(e -> e.getRed()).sorted().collect(Collectors.toList());
+                List<Integer> greenColors = colors.stream().map(e -> e.getGreen()).sorted().collect(Collectors.toList());
+                List<Integer> blueColors = colors.stream().map(e -> e.getBlue()).sorted().collect(Collectors.toList());
+
+                final int redMedian = getMedian(redColors);
+                final int greenMedian = getMedian(greenColors);
+                final int blueMedian = getMedian(blueColors);
+                result.setRGB(j, i, new Color(redMedian, greenMedian, blueMedian).getRGB());
+            }
+        }
+        return result;
+    }
+
+    private static int getMedian(List<Integer> list) {
+        final int size = list.size();
+        final int middle = size / 2;
+        if (size % 2 == 1) {
+            return list.get(middle);
+        } else {
+            return Math.round((list.get(middle) + list.get(middle - 1)) / 2);
+        }
+    }
 }

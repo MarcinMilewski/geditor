@@ -112,4 +112,11 @@ public class EditorController {
         editor.setImage(image);
         editor.repaint();
     }
+
+    public void medianFilter(int matrixSize) {
+        createImageBackup();
+        BufferedImage image  = FilterUtils.medianFilter(editor.getImageCopy(), matrixSize);
+        editor.setImage(image);
+        editor.repaint();
+    }
 }
