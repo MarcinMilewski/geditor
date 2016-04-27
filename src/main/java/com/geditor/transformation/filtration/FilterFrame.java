@@ -1,10 +1,12 @@
 package com.geditor.transformation.filtration;
 
 import com.geditor.ui.controller.EditorController;
+import com.google.common.collect.Lists;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class FilterFrame extends JFrame{
     private final JButton smoothButton = new JButton("Smooth filter");
@@ -18,6 +20,8 @@ public class FilterFrame extends JFrame{
     private final JButton highPassFilter2 = new JButton("High pass filter 2");
     private final JButton gauss1 = new JButton("Gauss 1");
     private final JButton gauss2 = new JButton("Gauss 2");
+    private final JButton customFilterButton = new JButton("Custom filter");
+    private final TextArea customFilterTextArea = new TextArea("0,0,-1 ; 0,1,0 ; 0,0,0");
 
     public FilterFrame() throws HeadlessException {
         super("Filters");
@@ -34,7 +38,9 @@ public class FilterFrame extends JFrame{
         container.add(highPassFilter1);
         container.add(highPassFilter2, "wrap");
         container.add(gauss1);
-        container.add(gauss2);
+        container.add(gauss2, "wrap");
+        container.add(customFilterButton);
+        container.add(customFilterTextArea, "wrap");
         addListeners();
         setSize(new Dimension(800, 600));
         setVisible(true);
@@ -50,5 +56,39 @@ public class FilterFrame extends JFrame{
         highPassFilter2.addActionListener(e -> editorController.filter(FilterUtils.getHighPass2FilterMask()));
         gauss1.addActionListener(e -> editorController.filter(FilterUtils.getGauss1FilterMask()));
         gauss2.addActionListener(e -> editorController.filter(FilterUtils.getGauss2FilterMask()));
+        customFilterButton.addActionListener(e -> editorController.filter(parseMask()));
+    }
+
+    private float[][] parseMask() {
+        String content = customFilterTextArea.getText();
+        content.replaceAll("\\s+", "");
+        String[] rows = content.split(";");
+
+        List<List<Float>> mask = Lists.newArrayList();
+
+        for (int i = 0; i < rows.length; i++) {
+            mask.add(getNumbersFromRow(rows[i]));
+        }
+
+        float[][] array = new float[mask.size()][];
+
+        for (int i = 0; i < mask.size(); i++) {
+            List<Float> row = mask.get(i);
+            array[i] = new float[row.size()];
+            for (int j = 0; j < array.length; j++) {
+                array[i][j] = row.get(j).floatValue();
+            }
+        }
+
+        return array;
+    }
+
+    private List<Float> getNumbersFromRow(String row) {
+        List<Float> result = Lists.newArrayList();
+        String[] numbers = row.split(",");
+        for (int i = 0; i < numbers.length; i++) {
+            result.add(Float.valueOf(numbers[i]));
+        }
+        return result;
     }
 }
