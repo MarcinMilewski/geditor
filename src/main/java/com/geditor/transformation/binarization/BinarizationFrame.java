@@ -1,4 +1,4 @@
-package com.geditor.binarization;
+package com.geditor.transformation.binarization;
 
 import com.geditor.ui.controller.EditorController;
 import net.miginfocom.swing.MigLayout;

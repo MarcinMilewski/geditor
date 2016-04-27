@@ -1,6 +1,6 @@
-package com.geditor.binarization;
+package com.geditor.transformation.binarization;
 
-import com.geditor.histogram.HistogramUtils;
+import com.geditor.transformation.histogram.HistogramUtils;
 import lombok.extern.log4j.Log4j;
 
 import java.awt.*;

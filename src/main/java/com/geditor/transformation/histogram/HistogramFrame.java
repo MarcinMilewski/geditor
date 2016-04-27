@@ -1,4 +1,4 @@
-package com.geditor.histogram;
+package com.geditor.transformation.histogram;
 
 import com.geditor.ui.controller.EditorController;
 import javafx.application.Platform;

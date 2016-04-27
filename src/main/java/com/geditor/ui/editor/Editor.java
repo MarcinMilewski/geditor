@@ -5,7 +5,7 @@ package com.geditor.ui.editor;
  */
 
 import com.geditor.graphic.Drawer;
-import com.geditor.histogram.HistogramModel;
+import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.mode.EditorStrategy;
 import lombok.Getter;
 import lombok.Setter;

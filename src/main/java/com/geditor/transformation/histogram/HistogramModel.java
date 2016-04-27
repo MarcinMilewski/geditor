@@ -1,4 +1,4 @@
-package com.geditor.histogram;
+package com.geditor.transformation.histogram;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

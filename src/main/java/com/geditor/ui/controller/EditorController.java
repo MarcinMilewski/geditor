@@ -1,8 +1,9 @@
 package com.geditor.ui.controller;
 
-import com.geditor.binarization.BinarizationUtils;
-import com.geditor.histogram.HistogramModel;
-import com.geditor.histogram.HistogramUtils;
+import com.geditor.transformation.binarization.BinarizationUtils;
+import com.geditor.transformation.filtration.FilterUtils;
+import com.geditor.transformation.histogram.HistogramModel;
+import com.geditor.transformation.histogram.HistogramUtils;
 import com.geditor.transformation.point.PointTransformations;
 import com.geditor.ui.editor.Editor;
 
@@ -103,5 +104,12 @@ public class EditorController {
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = editor.getImage().copyData(null);
         editor.setImageCopy(new BufferedImage(cm, raster, isAlphaPremultiplied, null));
+    }
+
+    public void filter(float[][] mask) {
+        createImageBackup();
+        BufferedImage image  = FilterUtils.filter(editor.getImageCopy(), mask);
+        editor.setImage(image);
+        editor.repaint();
     }
 }

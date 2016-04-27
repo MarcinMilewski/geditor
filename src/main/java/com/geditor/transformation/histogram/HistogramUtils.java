@@ -1,4 +1,4 @@
-package com.geditor.histogram;
+package com.geditor.transformation.histogram;
 
 import lombok.extern.log4j.Log4j;
 
