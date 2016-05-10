@@ -18,6 +18,10 @@ public class BinarizationFrame extends JFrame {
 
     private final JLabel manualLabel = new JLabel("Manual");
     private final JLabel percentBlackSelectionLabel = new JLabel("Percent black selection");
+    private final JLabel meanIterativeSelectionLabel = new JLabel("Mean iterative selection");
+
+    private final JButton meanIterativeSelectionButton = new JButton("Submit");
+
     public BinarizationFrame() throws HeadlessException {
         super("Binarizaiton");
         Container container = getContentPane();
@@ -44,6 +48,8 @@ public class BinarizationFrame extends JFrame {
         percentTextField.setPreferredSize(new Dimension(60, 40));
         container.add(percentTextField, "wrap");
 
+        container.add(meanIterativeSelectionLabel);
+        container.add(meanIterativeSelectionButton, "wrap");
         addSliderEvents();
         addTextFieldEvents();
         addButtonEvents();
@@ -55,7 +61,7 @@ public class BinarizationFrame extends JFrame {
 
 
     private void addButtonEvents() {
-
+        meanIterativeSelectionButton.addActionListener(e -> editorController.meanIterativeSelection());
     }
 
     private void addTextFieldEvents() {

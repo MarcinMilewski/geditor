@@ -1,5 +1,6 @@
 package com.geditor.transformation.binarization;
 
+import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.transformation.histogram.HistogramUtils;
 import lombok.extern.log4j.Log4j;
 
@@ -60,6 +61,56 @@ public class BinarizationUtils {
 
         int lut[] = createBlackPercentLUT(percent, bufferedImage.getHeight() * bufferedImage.getWidth(), grayChannel);
         return createImage(bufferedImage, lut);
+    }
+
+    public static BufferedImage meanIterativeSelection(BufferedImage bufferedImage) {
+        int[] grayChannel = HistogramUtils.createHistogram(bufferedImage).getRedChannel();
+        final int histogramLength = grayChannel.length;
+        int estimatedThreshold = computeHistogramMean(grayChannel);
+        int leftPartMean = 0;
+        int rightPartMean = 0;
+        int previousChange = 0;
+        int currentChange = 1;
+        do {
+            previousChange = currentChange;
+            leftPartMean = computeHistogramMean(0, estimatedThreshold, grayChannel);
+            rightPartMean = computeHistogramMean(estimatedThreshold, histogramLength, grayChannel);
+            estimatedThreshold = (leftPartMean + rightPartMean) / 2;
+            currentChange = rightPartMean - leftPartMean;
+        } while (previousChange != currentChange);
+
+        log.debug("Iterative selection threshold: " + estimatedThreshold);
+        int lut[] = createManualBinaryThresholdLUT(estimatedThreshold);
+        return createImage(bufferedImage, lut);
+    }
+
+    private static long computeHistogramSize(int from, int to, int[] histogramChannel) {
+        long result = 0;
+        for (int i = from; i < to; i++) {
+            result += histogramChannel[i];
+        }
+        return result;
+    }
+
+    private static long computeWageHistogramSum(int from, int end, int[] histogramChannel) {
+        if (from > end || histogramChannel.length < end) throw new IllegalArgumentException();
+        long result = 0;
+        for (int i = from; i < end; i++) {
+            result += (i * histogramChannel[i]);
+        }
+        return result;
+    }
+
+    private static int computeHistogramMean(int from, int end, int[] histogramChannel) {
+        long sum = computeWageHistogramSum(from, end, histogramChannel);
+        long totalSize = computeHistogramSize(from, end, histogramChannel);
+        return (int) (sum / (totalSize));
+    }
+
+    private static int computeHistogramMean(int[] histogramChannel) {
+        long sum = computeWageHistogramSum(0, histogramChannel.length, histogramChannel);
+        long totalSize = computeHistogramSize(0, histogramChannel.length, histogramChannel);
+        return (int) (sum / totalSize);
     }
 
     private static int[] createBlackPercentLUT(int percent, int size, int[] grayChannel) {

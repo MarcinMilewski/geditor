@@ -99,6 +99,12 @@ public class EditorController {
         editor.repaint();
     }
 
+    public void meanIterativeSelection() {
+        BufferedImage image  = BinarizationUtils.meanIterativeSelection(editor.getImageCopy());
+        editor.setImage(image);
+        editor.repaint();
+    }
+
     public void createImageBackup() {
         ColorModel cm = editor.getImage().getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
