@@ -2,6 +2,7 @@ package com.geditor.mode.draw.mouse;
 
 import com.geditor.bezier.BezierCurve;
 import com.geditor.commons.Polyline2D;
+import com.geditor.commons.RectangleCustom;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.ui.editor.Editor;
 import com.google.common.base.Joiner;
@@ -17,6 +18,7 @@ public class BezierCurveDrawMouseAdapter extends CustomMouseAdapter {
     private Set<Point> controlPoints;
     private Polyline2D polyLineCurve;
     private boolean isEdition = false;
+    private boolean isEditionProgress = false;
     private Point editionPoint;
 
     public BezierCurveDrawMouseAdapter(Editor editor) {
@@ -28,10 +30,14 @@ public class BezierCurveDrawMouseAdapter extends CustomMouseAdapter {
     public void mousePressed(MouseEvent e) {
         Point currentPoint = new Point(e.getX(), e.getY());
         checkIfEdition(currentPoint);
-        if (isEdition) {
+        if (isEdition && !isEditionProgress) {
+            isEditionProgress = true;
+        } else if (isEdition && isEditionProgress) {
             log.debug("Bezier curve edited");
             isEdition = false;
-        } else {
+            isEditionProgress = false;
+        }
+        else {
             if (polyLineCurve == null) {
                 polyLineCurve = new Polyline2D();
                 addToControlPoints(new Point(e.getX(), e.getY()));
@@ -67,10 +73,10 @@ public class BezierCurveDrawMouseAdapter extends CustomMouseAdapter {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (isEdition) {
+        if (isEditionProgress) {
             editionPoint.x = e.getX();
             editionPoint.y = e.getY();
-            log.debug("Add point: x= " + e.getX() + ",y= " + e.getY());
+            log.debug("New point value: x= " + e.getX() + ",y= " + e.getY());
             log.debug("Bezier curve painting, c points=" + Joiner.on("\t").join(controlPoints));
             BezierCurve bezierCurve = new BezierCurve(controlPoints.stream().collect(Collectors.toList()), 100);
             polyLineCurve = new Polyline2D(bezierCurve.getCurve());
@@ -82,8 +88,8 @@ public class BezierCurveDrawMouseAdapter extends CustomMouseAdapter {
 
 
     public void checkIfEdition(Point p) {
-        Rectangle rectangle = new Rectangle(p.x - 20, p.y + 20, 100, 100);
-        log.debug("Rectangle " + rectangle);
+        RectangleCustom rectangle = new RectangleCustom(new Point(p.x - 10, p.y - 10), new Point(p.x + 10, p.y - 10),
+                new Point(p.x - 10, p.y + 10), new Point(p.x + 10, p.y + 10));
         for (Point controlPoint : controlPoints) {
             if (rectangle.contains(controlPoint)) {
                 log.debug("Edition started");
@@ -96,7 +102,7 @@ public class BezierCurveDrawMouseAdapter extends CustomMouseAdapter {
 
     private Point findEditionPoint(Point p) {
         for (Point controlPoint : controlPoints) {
-            if (p.equals(controlPoint)) return p;
+            if (p.equals(controlPoint)) return controlPoint;
         }
         return null;
     }

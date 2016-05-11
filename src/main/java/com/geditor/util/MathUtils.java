@@ -30,12 +30,4 @@ public class MathUtils {
         return  (binomial * Math.pow(t, i) * factor);
     }
 
-    public static boolean containsInRectangle(RectangleCustom rectangle, Point p) {
-        if (p.x >= rectangle.getA().getX() && p.x <= rectangle.getB().getX()
-                && p.y >= rectangle.getA().getY() && p.y <= rectangle.getD().getY()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
