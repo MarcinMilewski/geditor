@@ -1,5 +1,9 @@
 package com.geditor.util;
 
+import com.geditor.commons.RectangleCustom;
+
+import java.awt.*;
+
 public class MathUtils {
     public static long newtonBinomial(int n, int k) {
         long res = 1;
@@ -24,5 +28,14 @@ public class MathUtils {
         final double factor = Math.pow((1 - t), (n - i));
 
         return  (binomial * Math.pow(t, i) * factor);
+    }
+
+    public static boolean containsInRectangle(RectangleCustom rectangle, Point p) {
+        if (p.x >= rectangle.getA().getX() && p.x <= rectangle.getB().getX()
+                && p.y >= rectangle.getA().getY() && p.y <= rectangle.getD().getY()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -70,7 +70,6 @@ public class Drawer {
         for (int i = 0; i < points.size() -1; i++) {
             Point2D start = points.get(i);
             Point2D end = points.get(i+1);
-            logger.debug("Line, start: " + start + "end: " + end);
             g.draw(new Line2D.Double(start.getX(), start.getY(), end.getX(), end.getY()));
 //            g.drawLine((int)start.getX(),(int) start.getY(),(int) end.getX(),(int) end.getY());
         }

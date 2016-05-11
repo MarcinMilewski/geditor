@@ -1,5 +1,7 @@
 package com.geditor.mode.edit.mouse;
 
+import com.geditor.commons.Polyline2D;
+import com.geditor.mode.edit.strategy.PolyLineEditStrategy;
 import com.geditor.ui.editor.Editor;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.mode.edit.strategy.LineEditStrategy;
@@ -56,6 +58,10 @@ public class FigureEditMouseAdapter extends CustomMouseAdapter {
             else if (foundedShape instanceof Ellipse2D) {
                 logger.info("Ellipse founded " + foundedShape);
                 editor.setStrategy(new OvalEditStrategy(editor));
+            }
+            else if (foundedShape instanceof Polyline2D) {
+                logger.info("Polyline founded");
+                editor.setStrategy(new PolyLineEditStrategy(editor));
             }
             else {
                 logger.info("Invalid shape " + foundedShape);

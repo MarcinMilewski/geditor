@@ -45,6 +45,7 @@ public class Polyline2D implements Shape, Cloneable, Serializable {
 
     private static final float ASSUME_ZERO = 0.001f;
 
+
     /**
      * The total number of points.  The value of <code>npoints</code>
      * represents the number of points in this <code>Polyline2D</code>.

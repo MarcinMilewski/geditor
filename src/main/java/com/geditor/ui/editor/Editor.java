@@ -4,7 +4,6 @@ package com.geditor.ui.editor;
  * Created by marcin on 23.02.16.
  */
 
-import com.geditor.commons.Polyline2D;
 import com.geditor.graphic.Drawer;
 import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.mode.EditorStrategy;
@@ -12,9 +11,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Set;
 
 public class Editor extends JPanel{
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
@@ -31,6 +32,7 @@ public class Editor extends JPanel{
     @Getter @Setter private int greenShift = 0;
     @Getter @Setter private int blueShift = 0;
     @Getter @Setter private HistogramModel histogramModel;
+    @Getter @Setter private Set<Point> controlPoints;
 
     private Editor() {
         setDoubleBuffered(false);
@@ -57,7 +59,17 @@ public class Editor extends JPanel{
             if (shape != null)
             {
                 drawer.draw(shape, (Graphics2D) g);
+                drawControlPoints((Graphics2D) g);
             }
+    }
+
+    private void drawControlPoints(Graphics2D g) {
+        if (controlPoints != null) {
+            for (Point controlPoint : controlPoints) {
+                g.setStroke(new BasicStroke(10));
+                g.drawLine(controlPoint.x, controlPoint.y, controlPoint.x, controlPoint.y);
+            }
+        }
     }
 
 
