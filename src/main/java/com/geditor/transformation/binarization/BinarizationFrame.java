@@ -19,8 +19,10 @@ public class BinarizationFrame extends JFrame {
     private final JLabel manualLabel = new JLabel("Manual");
     private final JLabel percentBlackSelectionLabel = new JLabel("Percent black selection");
     private final JLabel meanIterativeSelectionLabel = new JLabel("Mean iterative selection");
+    private final JLabel entropySelectionLabel = new JLabel("Entropy selection");
 
     private final JButton meanIterativeSelectionButton = new JButton("Submit");
+    private final JButton entropySelectionButton = new JButton("Submit");
 
     public BinarizationFrame() throws HeadlessException {
         super("Binarizaiton");
@@ -50,6 +52,9 @@ public class BinarizationFrame extends JFrame {
 
         container.add(meanIterativeSelectionLabel);
         container.add(meanIterativeSelectionButton, "wrap");
+
+        container.add(entropySelectionLabel);
+        container.add(entropySelectionButton, "wrap");
         addSliderEvents();
         addTextFieldEvents();
         addButtonEvents();
@@ -62,6 +67,7 @@ public class BinarizationFrame extends JFrame {
 
     private void addButtonEvents() {
         meanIterativeSelectionButton.addActionListener(e -> editorController.meanIterativeSelection());
+        entropySelectionButton.addActionListener(e -> editorController.entropySelection());
     }
 
     private void addTextFieldEvents() {

@@ -77,6 +77,8 @@ public class Editor extends JPanel{
         drawer.setColor(Color.white);
         drawer.fillRect(0, 0, getSize().width, getSize().height);
         drawer.setColor(Color.black);
+        shape = null;
+        controlPoints = null;
         repaint();
     }
 
@@ -88,6 +90,7 @@ public class Editor extends JPanel{
         clearBuffer();
         clearDrawArea();
         shape = null;
+        controlPoints = null;
     }
 
     public void setColor(Color color) {

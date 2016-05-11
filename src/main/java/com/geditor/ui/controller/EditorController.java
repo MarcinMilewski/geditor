@@ -105,6 +105,12 @@ public class EditorController {
         editor.repaint();
     }
 
+    public void entropySelection() {
+        BufferedImage image = BinarizationUtils.entropySelection(editor.getImageCopy());
+        editor.setImage(image);
+        editor.repaint();
+    }
+
     public void createImageBackup() {
         ColorModel cm = editor.getImage().getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();

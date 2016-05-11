@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -31,8 +32,8 @@ public class BinarizationUtils {
                     Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
                     result.setRGB(finalJ, finalI, new Color(
                             lut[color.getRed()],
-                            lut[color.getGreen()],
-                            lut[color.getBlue()]).getRGB());
+                            lut[color.getRed()],
+                            lut[color.getRed()]).getRGB());
                 }
             });
         }
@@ -81,6 +82,35 @@ public class BinarizationUtils {
 
         log.debug("Iterative selection threshold: " + estimatedThreshold);
         int lut[] = createManualBinaryThresholdLUT(estimatedThreshold);
+        return createImage(bufferedImage, lut);
+    }
+
+    public static BufferedImage entropySelection(BufferedImage bufferedImage) {
+        double[] histogramNormalizedTable = new double[256];
+        double[] entropyTable = new double[256];
+        int[] histogramChannel = HistogramUtils.createHistogram(bufferedImage).getRedChannel();
+        final long imageSize = bufferedImage.getHeight() * bufferedImage.getWidth();
+
+        for (int i = 0; i < histogramNormalizedTable.length; i++) {
+            histogramNormalizedTable[i] = (double) histogramChannel[i] / (double) imageSize;
+        }
+
+        for (int i = 0; i < histogramNormalizedTable.length; i++) {
+            entropyTable[i] = histogramNormalizedTable[i] * Math.log(histogramNormalizedTable[i]);
+        }
+        log.debug("Histogram normalized table: " + Arrays.toString(histogramNormalizedTable));
+        log.debug("Histogram entropy table: " + Arrays.toString(entropyTable));
+        double entropyMin = entropyTable[0];
+        int threshold = 0;
+
+        for (int i = 0; i < histogramNormalizedTable.length; i++) {
+            if (entropyMin > entropyTable[i]) {
+                entropyMin = entropyTable[i];
+                threshold = i;
+            }
+        }
+        log.debug("Entropy selection threshold:  " + threshold);
+        int lut[] = createManualBinaryThresholdLUT(threshold);
         return createImage(bufferedImage, lut);
     }
 

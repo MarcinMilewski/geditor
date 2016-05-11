@@ -1,5 +1,6 @@
 package com.geditor.ui.main;
 
+import com.geditor.mode.DefaultStrategy;
 import com.geditor.mode.draw.strategy.*;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import com.geditor.ui.editor.Editor;
@@ -30,6 +31,7 @@ public class MainView {
             if (e.getSource() == clearButton) {
                 editor.clearBuffer();
                 editor.clearAll();
+                editor.setStrategy(new DefaultStrategy(editor));
             } else if(e.getSource() == pointButton) {
                 editor.setStrategy(new PointDrawStrategy(editor));
             } else if (e.getSource() == lineButton) {
@@ -118,8 +120,8 @@ public class MainView {
         root.add(rectangleButton);
         root.add(lineButton);
         root.add(clearButton);
-        root.add(editButton);
         root.add(bezierButton);
+        root.add(editButton);
         root.add(importButton);
         root.add(exportButton);
 
