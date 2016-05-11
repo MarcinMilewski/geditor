@@ -1,8 +1,8 @@
 package com.geditor.util;
 
 public class MathUtils {
-    public static int newtonBinomial(int n, int k) {
-        int res = 1;
+    public static long newtonBinomial(int n, int k) {
+        long res = 1;
 
         // Since C(n, k) = C(n, n-k)
         if ( k > n - k )
@@ -18,10 +18,11 @@ public class MathUtils {
         return res;
     }
 
-    public static float bernsteinPolynomial(int n, int i, float t) {
-        final int binomial = newtonBinomial(n, i);
-        final float factor = (float) Math.pow((1 - t), (n - i));
 
-        return (float) (binomial * Math.pow(t, i) * factor);
+    public static double bernsteinPolynomial(int n, int i, float t) {
+        final long binomial = newtonBinomial(n, i);
+        final double factor = Math.pow((1 - t), (n - i));
+
+        return  (binomial * Math.pow(t, i) * factor);
     }
 }

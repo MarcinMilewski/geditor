@@ -38,14 +38,15 @@ public class BezierCurve {
     }
 
     private Point2D.Float calculateValue(float t) {
-        float xValue = 0;
-        float yValue = 0;
+        double xValue = 0;
+        double yValue = 0;
+        final int N = n - 1;
         for (int i = 0; i < n; i++) {
-            float bernstainPolynomialValue = MathUtils.bernsteinPolynomial(n, i,t);
-            xValue += controlPoints.get(i).x * bernstainPolynomialValue;
-            yValue += controlPoints.get(i).y * bernstainPolynomialValue;
+            double bernstainPolynomialValue = MathUtils.bernsteinPolynomial(N, i,t);
+            xValue += (controlPoints.get(i).x * bernstainPolynomialValue);
+            yValue += (controlPoints.get(i).y * bernstainPolynomialValue);
         }
-        return new Point2D.Float(xValue, yValue);
+        return new Point2D.Float((float)xValue, (float)yValue);
     }
 
 
