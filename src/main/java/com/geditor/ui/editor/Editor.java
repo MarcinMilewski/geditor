@@ -59,6 +59,7 @@ public class Editor extends JPanel{
             }
     }
 
+
     public void clearDrawArea() {
         drawer.setColor(Color.white);
         drawer.fillRect(0, 0, getSize().width, getSize().height);

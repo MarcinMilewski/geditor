@@ -1,9 +1,6 @@
 package com.geditor.ui.main;
 
-import com.geditor.mode.draw.strategy.LineDrawStrategy;
-import com.geditor.mode.draw.strategy.OvalDrawStrategy;
-import com.geditor.mode.draw.strategy.PointDrawStrategy;
-import com.geditor.mode.draw.strategy.RectangleDrawStrategy;
+import com.geditor.mode.draw.strategy.*;
 import com.geditor.mode.edit.strategy.FigureEditStrategy;
 import com.geditor.ui.editor.Editor;
 import com.geditor.ui.menu.MenuComponent;
@@ -21,7 +18,7 @@ import java.awt.event.ActionListener;
 public class MainView {
     private JButton clearButton, lineButton, rectangleButton,
             ovalButton, pointButton, editButton
-            ,exportButton, importButton;
+            ,exportButton, importButton, bezierButton;
     private Editor editor = Editor.getInstance();
     private Container content;
     private JPanel root;
@@ -47,6 +44,8 @@ public class MainView {
                 createSaveFileChooserFrame();
             } else if (e.getSource() == importButton) {
                 createOpenFileChooserFrame();
+            } else if (e.getSource() == bezierButton) {
+                editor.setStrategy(new BezierCurveStrategy(editor));
             }
         }
     };
@@ -112,13 +111,15 @@ public class MainView {
         exportButton.addActionListener(actionListener);
         importButton = new JButton("Import");
         importButton.addActionListener(actionListener);
-
+        bezierButton = new JButton("Bezier");
+        bezierButton.addActionListener(actionListener);
         root.add(pointButton);
         root.add(ovalButton);
         root.add(rectangleButton);
         root.add(lineButton);
         root.add(clearButton);
         root.add(editButton);
+        root.add(bezierButton);
         root.add(importButton);
         root.add(exportButton);
 

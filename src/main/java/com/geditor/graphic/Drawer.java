@@ -1,5 +1,7 @@
 package com.geditor.graphic;
 
+import com.geditor.bezier.BezierCurve;
+import com.geditor.commons.Polyline2D;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -47,7 +49,11 @@ public class Drawer {
 
     public void draw(Shape shape) {
         if (shape != null) {
-            graphics.draw(shape);
+            if (shape instanceof Polyline2D) {
+               logger.debug("Polyline 2d painting");
+            } else {
+                graphics.draw(shape);
+            }
         }
     }
 
@@ -69,10 +75,10 @@ public class Drawer {
 
     public void redrawAll() {
         for (Shape editableFigure : editableFigures) {
-            graphics.draw(editableFigure);
+            draw(editableFigure);
         }
         for (Shape nonEditableFigure : nonEditableFigures) {
-            graphics.draw(nonEditableFigure);
+            draw(nonEditableFigure);
         }
     }
 

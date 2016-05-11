@@ -18,10 +18,9 @@ public class BezierCurve {
     public BezierCurve(List<Point> controlPoints, int density) {
         this.controlPoints = controlPoints;
         this.density = density;
-        domain = calculateDomain(density);
-        createCurve();
-        curve = createCurve();
         n = controlPoints.size();
+        domain = calculateDomain(density);
+        curve = createCurve();
     }
 
     public List<Point2D.Float> getCurve() {
@@ -32,13 +31,13 @@ public class BezierCurve {
         List<Point2D.Float> curvePoints = Lists.newArrayList();
 
         for (int t = 0; t < domain.length; ++t) {
-            curvePoints.add(calculateValue(t));
+            curvePoints.add(calculateValue(domain[t]));
         }
 
-        return null;
+        return curvePoints;
     }
 
-    private Point2D.Float calculateValue(int t) {
+    private Point2D.Float calculateValue(float t) {
         float xValue = 0;
         float yValue = 0;
         for (int i = 0; i < n; i++) {
@@ -52,7 +51,7 @@ public class BezierCurve {
 
     private float[] calculateDomain(int density) {
         float[] domain = new float[density];
-        final float delta = 1 / density;
+        final float delta = 1 / (float) density;
         for (int i = 1; i < density; ++i) {
             domain[i] = delta + domain[i-1];
         }
