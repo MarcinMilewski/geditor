@@ -8,6 +8,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,12 +50,29 @@ public class Drawer {
     }
 
     public void draw(Shape shape) {
+        draw(shape, graphics);
+    }
+
+    public void draw(Shape shape, Graphics2D g) {
         if (shape != null) {
             if (shape instanceof Polyline2D) {
-               logger.debug("Polyline 2d painting");
+                logger.debug("Polyline 2d painting");
+                drawPolyline((Polyline2D) shape, g);
             } else {
-                graphics.draw(shape);
+                ((Graphics2D)g).draw(shape);
             }
+        }
+    }
+
+    private void drawPolyline(Polyline2D polyLine, Graphics2D g) {
+        List<Point2D.Float> points = polyLine.getPoints();
+
+        for (int i = 0; i < points.size() -1; i++) {
+            Point2D start = points.get(i);
+            Point2D end = points.get(i+1);
+            logger.debug("Line, start: " + start + "end: " + end);
+            g.draw(new Line2D.Double(start.getX(), start.getY(), end.getX(), end.getY()));
+//            g.drawLine((int)start.getX(),(int) start.getY(),(int) end.getX(),(int) end.getY());
         }
     }
 

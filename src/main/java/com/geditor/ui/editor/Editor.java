@@ -4,6 +4,7 @@ package com.geditor.ui.editor;
  * Created by marcin on 23.02.16.
  */
 
+import com.geditor.commons.Polyline2D;
 import com.geditor.graphic.Drawer;
 import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.mode.EditorStrategy;
@@ -55,7 +56,7 @@ public class Editor extends JPanel{
         currentGraphics.setStroke(stroke);
             if (shape != null)
             {
-                ((Graphics2D)g).draw(shape);
+                drawer.draw(shape, (Graphics2D) g);
             }
     }
 

@@ -33,6 +33,7 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class has the same behavior than {@link Polygon2D}, except that
@@ -64,6 +65,12 @@ public class Polyline2D implements Shape, Cloneable, Serializable {
      *
      */
     public float[] ypoints;
+
+    private List<Point2D.Float> points;
+
+    public List<Point2D.Float> getPoints() {
+        return points;
+    }
 
     /**
      * Bounds of the Polyline2D.
@@ -106,6 +113,28 @@ public class Polyline2D implements Shape, Cloneable, Serializable {
         this.ypoints = new float[npoints+1];   // make space for one more to close the polyline
         System.arraycopy(xpoints, 0, this.xpoints, 0, npoints);
         System.arraycopy(ypoints, 0, this.ypoints, 0, npoints);
+        calculatePath();
+    }
+
+    public Polyline2D(List<Point2D.Float> points) {
+        this.points = points;
+        float[] xPoints = new float[points.size()];
+        float[] yPoints = new float[points.size()];
+        int nPoints = points.size();
+        int i = 0;
+        for (Point2D.Float point : points) {
+            xPoints[i] = (float) point.getX();
+            yPoints[i] = (float) point.getY();
+            ++i;
+        }
+        if (nPoints > xPoints.length || nPoints > yPoints.length) {
+            throw new IndexOutOfBoundsException("npoints > xpoints.length || npoints > ypoints.length");
+        }
+        this.npoints = nPoints;
+        this.xpoints = new float[npoints+1];   // make space for one more to close the polyline
+        this.ypoints = new float[npoints+1];   // make space for one more to close the polyline
+        System.arraycopy(xPoints, 0, this.xpoints, 0, npoints);
+        System.arraycopy(yPoints, 0, this.ypoints, 0, npoints);
         calculatePath();
     }
 

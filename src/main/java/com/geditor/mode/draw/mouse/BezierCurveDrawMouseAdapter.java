@@ -1,5 +1,6 @@
 package com.geditor.mode.draw.mouse;
 
+import com.geditor.bezier.BezierCurve;
 import com.geditor.commons.Polyline2D;
 import com.geditor.mode.CustomMouseAdapter;
 import com.geditor.ui.editor.Editor;
@@ -14,33 +15,42 @@ import java.awt.event.MouseEvent;
 
 @Log4j
 public class BezierCurveDrawMouseAdapter  extends CustomMouseAdapter {
-    private List<Point> controlPoints = Lists.newArrayList();
+    private List<Point> controlPoints;
     private Polyline2D polyLineCurve;
 
     public BezierCurveDrawMouseAdapter(Editor editor) {
         super(editor);
-        polyLineCurve = new Polyline2D();
+        controlPoints = Lists.newArrayList();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON3) {
-            log.debug("Bezier curve painting, c points=" + Joiner.on("\t").join(controlPoints));
-            editor.setShape(new Polyline2D());
-            Polyline2D polyline2D = new Polyline2D();
-            drawer.addEditable(editor.getShape());
-            drawer.draw(editor.getShape());
-            editor.repaint();
-            editor.setShape(null);
-        } else {
-            log.debug("Add point: x= " + e.getX() + ",y= " + e.getY());
-            log.debug("Bezier curve painting, c points=" + Joiner.on("\t").join(controlPoints));
-            editor.setShape(polyLineCurve);
-            Polyline2D polyline2D = new Polyline2D();
-            drawer.draw(editor.getShape());
-            editor.repaint();
+        if (polyLineCurve == null) {
+            polyLineCurve = new Polyline2D();
             controlPoints.add(new Point(e.getX(), e.getY()));
+            log.debug("Add point: x= " + e.getX() + ",y= " + e.getY());
+            log.debug("C points=" + Joiner.on("\t").join(controlPoints));
         }
+        else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                log.debug("Bezier curve saved, c points=" + Joiner.on("\t").join(controlPoints));
+                editor.setShape(polyLineCurve);
+                drawer.addEditable(polyLineCurve);
+                drawer.draw(polyLineCurve);
+                editor.repaint();
+                editor.setShape(null);
+            } else {
+                controlPoints.add(new Point(e.getX(), e.getY()));
+                log.debug("Add point: x= " + e.getX() + ",y= " + e.getY());
+                log.debug("Bezier curve painting, c points=" + Joiner.on("\t").join(controlPoints));
+                BezierCurve bezierCurve = new BezierCurve(controlPoints, 100);
+                log.debug("Bezier points: " + Joiner.on("\t").join(bezierCurve.getCurve()));
+                polyLineCurve = new Polyline2D(bezierCurve.getCurve());
+                editor.setShape(polyLineCurve);
+                editor.repaint();
+            }
+        }
+
     }
 
 }
