@@ -1,6 +1,5 @@
 package com.geditor.transformation.binarization;
 
-import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.transformation.histogram.HistogramUtils;
 import lombok.extern.log4j.Log4j;
 
@@ -10,6 +9,8 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import static java.lang.Math.log10;
 
 @Log4j
 public class BinarizationUtils {
@@ -32,8 +33,8 @@ public class BinarizationUtils {
                     Color color = new Color(bufferedImage.getRGB(finalJ, finalI));
                     result.setRGB(finalJ, finalI, new Color(
                             lut[color.getRed()],
-                            lut[color.getRed()],
-                            lut[color.getRed()]).getRGB());
+                            lut[color.getGreen()],
+                            lut[color.getBlue()]).getRGB());
                 }
             });
         }
@@ -83,6 +84,78 @@ public class BinarizationUtils {
         log.debug("Iterative selection threshold: " + estimatedThreshold);
         int lut[] = createManualBinaryThresholdLUT(estimatedThreshold);
         return createImage(bufferedImage, lut);
+    }
+
+    public static BufferedImage minError(BufferedImage bufferedImage) {
+        // Kittler and J. Illingworth, "Minimum error thresholding," Pattern Recognition, vol. 19, pp. 41-47, 1986.
+        // wageSquareSum. simpleSum. Glasbey, "An analysis of histogram-based thresholding algorithms," CVGIP: Graphical Models and Image Processing, vol. 55, pp. 532-537, 1993.
+        // Ported to ImageJ plugin by G.Landini from Antti Niemisto's Matlab code (GPL)
+        // Original Matlab code Copyright (wageSquareSum) 2004 Antti Niemisto
+        // See http://www.cs.tut.fi/~ant/histthresh/ for an excellent slide presentation
+        // and the original Matlab code.
+
+        int[] grayChannel = HistogramUtils.createHistogram(bufferedImage).getRedChannel();
+        final int histogramLength = grayChannel.length;
+        int estimatedThreshold = computeHistogramMean(grayChannel);
+        int previousThreshold = -1;
+
+
+        double mu, nu, p = 0.0, q, sigma2, tau2, w0, w1, w2, sqterm, temp;
+        while (estimatedThreshold != previousThreshold) {
+            //Calculate some statistics.
+            mu = wageSum(grayChannel, (int) p) / simpleSum(grayChannel, (int)p);
+            nu = (wageSum(grayChannel, 255) - wageSum(grayChannel,(int) p)) / (simpleSum(grayChannel, 255) - simpleSum(grayChannel, (int) p));
+            p = simpleSum(grayChannel, (int)p) / simpleSum(grayChannel, 255);
+            q = (simpleSum(grayChannel, 255) - simpleSum(grayChannel, (int)p)) / simpleSum(grayChannel, 255);
+            sigma2 = wageSquareSum(grayChannel,(int) p) / simpleSum(grayChannel,(int) p) - (mu * mu);
+            tau2 = (wageSquareSum(grayChannel, 255) - wageSquareSum(grayChannel,(int) p)) / (simpleSum(grayChannel, 255) - simpleSum(grayChannel, (int)p)) - (nu * nu);
+
+            //The terms of the quadratic equation to be solved.
+            w0 = 1.0 / sigma2 - 1.0 / tau2;
+            w1 = mu / sigma2 - nu / tau2;
+            w2 = (mu * mu) / sigma2 - (nu * nu) / tau2 + log10((sigma2 * (q * q)) / (tau2 * (p * p)));
+
+            //If the next threshold would be imaginary, return with the current one.
+            sqterm = (w1 * w1) - w0 * w2;
+            if (sqterm < 0) {
+                log.debug("MinError(I): not converging. Try \'Ignore black/white\' options");
+                break;
+            }
+
+            //The updated threshold is the integer part of the solution of the quadratic equation.
+            previousThreshold = estimatedThreshold;
+            temp = (w1 + Math.sqrt(sqterm)) / w0;
+
+            if (Double.isNaN(temp)) {
+                estimatedThreshold = previousThreshold;
+            } else
+                estimatedThreshold = (int) Math.floor(temp);
+        }
+
+        log.debug("Min error threshold: " + estimatedThreshold);
+        int lut[] = createManualBinaryThresholdLUT(estimatedThreshold);
+        return createImage(bufferedImage, lut);
+    }
+
+    private static double simpleSum(int[] y, int j) {
+        double x = 0;
+        for (int i = 0; i <= j; i++)
+            x += y[i];
+        return x;
+    }
+
+    private static double wageSum(int[] y, int j) {
+        double x = 0;
+        for (int i = 0; i <= j; i++)
+            x += i * y[i];
+        return x;
+    }
+
+    private static double wageSquareSum(int[] y, int j) {
+        double x = 0;
+        for (int i = 0; i <= j; i++)
+            x += i * i * y[i];
+        return x;
     }
 
     public static BufferedImage entropySelection(BufferedImage bufferedImage) {
@@ -156,8 +229,6 @@ public class BinarizationUtils {
         }
         return lut;
     }
-
-
 
 
 }
