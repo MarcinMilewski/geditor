@@ -22,7 +22,6 @@ public class D2EditorPanel extends JPanel {
     @Getter private BufferedImage image;
 
     private RectanglePolygon shape;
-    private BasicStroke stroke;
 
     public D2EditorPanel() {
         setDoubleBuffered(false);
@@ -64,18 +63,30 @@ public class D2EditorPanel extends JPanel {
 
         for (int i = X_CENTER + DECIMAL_PART, j = 1; i <= WIDTH; i += DECIMAL_PART, j++) {
             imageGraphics.drawString(String.valueOf(j), i, Y_CENTER);
+            setDottedStroke();
+            imageGraphics.drawLine(i, 0, i, HEIGHT);
+            setSolidStroke();
         }
 
         for (int i = X_CENTER - DECIMAL_PART, j = -1; i >= 0; i -= DECIMAL_PART, j--) {
             imageGraphics.drawString(String.valueOf(j), i, Y_CENTER);
+            setDottedStroke();
+            imageGraphics.drawLine(i, 0, i, HEIGHT);
+            setSolidStroke();
         }
 
         for (int i = Y_CENTER - DECIMAL_PART, j = 1; i >= 0; i -= DECIMAL_PART, j++) {
             imageGraphics.drawString(String.valueOf(j), X_CENTER, i);
+            setDottedStroke();
+            imageGraphics.drawLine(0, i, WIDTH, i);
+            setSolidStroke();
         }
 
         for (int i = Y_CENTER + DECIMAL_PART, j = -1; i <= HEIGHT; i += DECIMAL_PART, j--) {
             imageGraphics.drawString(String.valueOf(j), X_CENTER, i);
+            setDottedStroke();
+            imageGraphics.drawLine(0, i, WIDTH, i);
+            setSolidStroke();
         }
 
 
@@ -88,17 +99,17 @@ public class D2EditorPanel extends JPanel {
     }
 
     private void setDottedStroke() {
-        stroke = new BasicStroke(
-                1f,
+        imageGraphics.setStroke(new BasicStroke(
+                0.2f,
                 BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_ROUND,
                 1f,
                 new float[] {2f},
-                0f);
+                0f));
     }
 
     private void setSolidStroke() {
-        stroke = new BasicStroke();
+        imageGraphics.setStroke(new BasicStroke());
     }
 
 }
