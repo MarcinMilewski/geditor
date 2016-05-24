@@ -1,6 +1,7 @@
 package com.geditor.ui.menu;
 
 import com.geditor.transformation.binarization.BinarizationFrame;
+import com.geditor.transformation.d2.D2EditorFrame;
 import com.geditor.transformation.filtration.FilterFrame;
 import com.geditor.transformation.histogram.HistogramFrame;
 import com.geditor.ui.color.ColorConverterFrame;
@@ -24,6 +25,8 @@ public class MenuComponent extends JMenuBar {
     private final JMenuItem histogram;
     private final JMenuItem binarization;
     private final JMenuItem filters;
+    private final JMenuItem d2Transformation;
+
     private RenderController renderController = new RenderController();
     private EditorController editorController = EditorController.getInstance();
 
@@ -71,7 +74,12 @@ public class MenuComponent extends JMenuBar {
         filters = new JMenuItem("Filters");
         filters.addActionListener(e -> new FilterFrame());
         transformationMenu.add(filters);
+
+        d2Transformation = new JMenuItem("2D transformations");
+        d2Transformation.addActionListener(e -> new D2EditorFrame());
+        transformationMenu.add(d2Transformation);
         add(transformationMenu);
+
 
     }
 
