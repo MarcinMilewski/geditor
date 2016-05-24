@@ -3,6 +3,7 @@ package com.geditor.commons;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+
 import java.awt.*;
 
 @RequiredArgsConstructor
@@ -21,4 +22,5 @@ public class RectangleCustom {
             return false;
         }
     }
+
 }
