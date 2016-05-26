@@ -3,6 +3,7 @@ package com.geditor.transformation.d2;
 import com.geditor.commons.RectanglePolygon;
 import com.geditor.ui.editor.Editor;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -11,23 +12,30 @@ import java.awt.image.BufferedImage;
 
 public class D2EditorPanel extends JPanel {
     private static final Logger logger = Logger.getLogger(Editor.class.getName());
-    private final int X_CENTER = 400;
+    private static final D2EditorPanel instance = new D2EditorPanel();
+    private static final int X_CENTER = 400;
     private final int Y_CENTER = X_CENTER;
     private final int WIDTH = 800;
     private final int HEIGHT = WIDTH;
-    private final int DECIMAL_PART = WIDTH / 10;
+    @Getter private final int DECIMAL_PART = WIDTH / 10;
 
     private Graphics2D currentGraphics;
     private Graphics2D imageGraphics;
     @Getter private BufferedImage image;
 
+    @Getter @Setter
     private RectanglePolygon shape;
 
-    public D2EditorPanel() {
+    private D2EditorPanel() {
+
         setDoubleBuffered(false);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
+    }
+
+    public static D2EditorPanel getInstance() {
+        return instance;
     }
 
     @Override
@@ -45,6 +53,10 @@ public class D2EditorPanel extends JPanel {
             initShape();
         }
         g.drawImage(image, 0, 0, null);
+
+        if (shape != null) {
+            currentGraphics.drawPolygon(shape.getPolygon());
+        }
     }
 
     private void initShape() {
@@ -53,7 +65,6 @@ public class D2EditorPanel extends JPanel {
         Point c = new Point(X_CENTER + DECIMAL_PART, Y_CENTER + DECIMAL_PART);
         Point d = new Point(X_CENTER -DECIMAL_PART, Y_CENTER + DECIMAL_PART);
         shape = new RectanglePolygon(a, b, c, d);
-        imageGraphics.drawPolygon(shape.getPolygon());
     }
 
     private void drawCoordinateSystem() {

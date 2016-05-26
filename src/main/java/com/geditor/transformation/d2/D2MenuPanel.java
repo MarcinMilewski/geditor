@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class D2MenuPanel extends JPanel {
+    private final D2TransformationController d2TransformationController = D2TransformationController.getInstance();
     private final JButton squareButton = new JButton("Reset");
     private final JButton translationButton = new JButton("Translation");
     private final JButton rotationButton = new JButton("Rotation");
@@ -29,6 +30,13 @@ public class D2MenuPanel extends JPanel {
     private final JTextField scaleTextField = new JTextField("1");
     private final Dimension textFieldDimension = new Dimension(60, 30);
     public D2MenuPanel() {
+        translationButton.addActionListener(e -> {
+            double dx = Double.parseDouble((xTranslationTextField.getText()));
+            double dy = Double.parseDouble((yTranslationTextField.getText()));
+            d2TransformationController.translate(dx, dy);
+        });
+
+
         xTranslationTextField.setPreferredSize(textFieldDimension);
         yTranslationTextField.setPreferredSize(textFieldDimension);
         xRotationTextField.setPreferredSize(textFieldDimension);
@@ -44,6 +52,7 @@ public class D2MenuPanel extends JPanel {
         add(xTranslationTextField, "wrap");
         add(yLabel);
         add(yTranslationTextField, "wrap");
+        add(translationButton, "wrap");
 
         add(rotationLabel, "wrap");
 //        add(xLabel);
