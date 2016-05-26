@@ -63,13 +63,15 @@ public class D2TransformationController {
 
             Matrix2D translationToPivotMatrix = new Matrix2D();
             translationToPivotMatrix.translate(-xPivotScaled, -yPivotScaled);
-            Vector2D translatedToBegin = translationToPivotMatrix.vec_postmultiply(pointVector);
-            Vector2D rotatedPointVector =  rotationMatrix.vec_postmultiply(translatedToBegin);
+            Vector2D translatedtoPivotVector = translationToPivotMatrix.vec_postmultiply(pointVector);
+
+            Vector2D rotatedPointVector =  rotationMatrix.vec_postmultiply(translatedtoPivotVector);
+
             Matrix2D translationToLocalMatrix = new Matrix2D();
             translationToLocalMatrix.translate(xPivotScaled, yPivotScaled);
-            Vector2D translatedToOrigin = translationToLocalMatrix.vec_postmultiply(rotatedPointVector);
+            Vector2D translatedToLocalVector = translationToLocalMatrix.vec_postmultiply(rotatedPointVector);
             synchronized (this) {
-                rotatedPoints.add(new Point((int)translatedToOrigin.get_x(), (int)translatedToOrigin.get_y()));
+                rotatedPoints.add(new Point((int)translatedToLocalVector.get_x(), (int)translatedToLocalVector.get_y()));
             }
         });
 
@@ -79,5 +81,38 @@ public class D2TransformationController {
 
     public void reset() {
         d2Editor.reset();
+    }
+
+    public void scale(double xScale, double yScale, double xOrigin, double yOrigin) {
+        final double kCp = xScale;
+        final double xOriginScaled = CENTER_X + (xOrigin * SCALE);
+        final double yOriginScaled = CENTER_Y + (yOrigin * SCALE);
+
+        RectanglePolygon current = d2Editor.getShape();
+        List<Point> points = current.getPoints();
+
+        List<Point> scaledPoints = Lists.newArrayList();
+        points.stream().parallel().forEachOrdered(point -> {
+            Vector2D pointVector = new Vector2D(point.getX(), point.getY());
+            Matrix2D scaleMatrix = new Matrix2D();
+            scaleMatrix.scale(xScale, yScale);
+
+            Matrix2D translationToOriginMatrix = new Matrix2D();
+            translationToOriginMatrix.translate(-xOriginScaled, -yOriginScaled);
+            Vector2D translatedToOriginVector = translationToOriginMatrix.vec_postmultiply(pointVector);
+
+            Vector2D scaledPointVector =  scaleMatrix.vec_postmultiply(translatedToOriginVector);
+
+            Matrix2D translationToLocalMatrix = new Matrix2D();
+            translationToLocalMatrix.translate(xOriginScaled, yOriginScaled);
+            Vector2D translatedToLocal = translationToLocalMatrix.vec_postmultiply(scaledPointVector);
+            synchronized (this) {
+                scaledPoints.add(new Point((int)translatedToLocal.get_x(), (int)translatedToLocal.get_y()));
+            }
+        });
+
+        d2Editor.setShape(new RectanglePolygon(scaledPoints));
+        d2Editor.repaint();
+
     }
 }
