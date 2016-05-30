@@ -21,4 +21,19 @@ public class MorphologicBinaryMask {
             };
 
 
+    public static final boolean[][] inverseCross3x3 =
+            new boolean[][]{
+                    {T, F, T},
+                    {F, F, F},
+                    {T, F, T}
+            };
+
+    public static final boolean[][] inverseCircural5x5 =
+            new boolean[][] {
+                    {T, T, F, T, T},
+                    {T, F, F, F, T},
+                    {F ,F, F, F, F},
+                    {T, F, F, F, T},
+                    {T, T, F, T, T}
+            };
 }

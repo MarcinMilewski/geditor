@@ -37,5 +37,28 @@ public class MorphologicBinaryFilter {
                 });
         return result;
     }
+    public static BufferedImage erosionFilter(BufferedImage image, boolean[][] mask) {
+        BufferedImage result = ImageUtils.createImageBackup(image);
+        final List<Boolean> maskMatrix = new BinaryMaskMatrix(mask).getMaskList();
+        final int margin = mask.length / 2;
+        final int maskSize = mask.length * mask.length;
+
+        IntStream.range(margin, image.getHeight() - margin)
+                .parallel()
+                .forEach(i -> {
+                        IntStream.range(margin, image.getWidth() - margin).parallel().forEach(j -> {
+                            List<Boolean> imageWindow = ImageUtils.getValuesFromRange(image, j, i, maskSize, margin).stream().map(MorphologicBinaryFilter::getPixelValue).collect(Collectors.toList());
+                            result.setRGB(j, i, Color.BLACK.getRGB());
+                            for (int index = 0; index < maskSize; ++index) {
+                                if (imageWindow.get(index) == false && maskMatrix.get(index) == false) {
+                                    result.setRGB(j, i, Color.WHITE.getRGB());
+                                    break;
+                                }
+                            }
+                        });
+                });
+        return result;
+    }
+
 
 }

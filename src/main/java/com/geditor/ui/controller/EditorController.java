@@ -139,8 +139,8 @@ public class EditorController {
         editor.repaint();
     }
 
-    public void dilatationFilter(boolean[][] cross3x3) {
-        BufferedImage image  = MorphologicBinaryFilter.dilatationFilter(editor.getImage(), cross3x3);
+    public void dilatationFilter(boolean[][] mask) {
+        BufferedImage image  = MorphologicBinaryFilter.dilatationFilter(editor.getImage(), mask);
         editor.setImage(image);
         editor.repaint();
     }
@@ -149,4 +149,11 @@ public class EditorController {
         editor.setImage(editor.getImageCopy());
         editor.repaint();
     }
+
+    public void erosionFilter(boolean[][] mask) {
+        BufferedImage image  = MorphologicBinaryFilter.erosionFilter(editor.getImage(), mask);
+        editor.setImage(image);
+        editor.repaint();
+    }
+
 }
