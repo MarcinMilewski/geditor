@@ -60,5 +60,14 @@ public class MorphologicBinaryFilter {
         return result;
     }
 
+    public static BufferedImage openingFilter(BufferedImage image, boolean[][] dilatationMask, boolean[][] erosionMask) {
+        BufferedImage afterErosion = erosionFilter(image, erosionMask);
+        return dilatationFilter(afterErosion, dilatationMask);
+    }
+
+    public static BufferedImage closingFilter(BufferedImage image, boolean[][] dilatationMask, boolean[][] erosionMask) {
+        BufferedImage afterDilatation = dilatationFilter(image, dilatationMask);
+        return erosionFilter(afterDilatation, erosionMask);
+    }
 
 }

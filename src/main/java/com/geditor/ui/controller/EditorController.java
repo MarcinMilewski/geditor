@@ -17,7 +17,9 @@ public class EditorController {
     private static EditorController instance = new EditorController();
 
     private EditorController() {
-    };
+    }
+
+    ;
 
     public static EditorController getInstance() {
         return instance;
@@ -82,26 +84,27 @@ public class EditorController {
         editor.setImage(image);
         editor.repaint();
     }
+
     public void equalizeHistogram() {
-        BufferedImage image  = HistogramUtils.equalizeHistogram(editor.getImage());
+        BufferedImage image = HistogramUtils.equalizeHistogram(editor.getImage());
         editor.setImage(image);
         editor.repaint();
     }
 
     public void manualBinarization(int threshold) {
-        BufferedImage image  = BinarizationUtils.manual(editor.getImageCopy(), threshold);
+        BufferedImage image = BinarizationUtils.manual(editor.getImageCopy(), threshold);
         editor.setImage(image);
         editor.repaint();
     }
 
     public void percentBlackSelectionBinarization(int percent) {
-        BufferedImage image  = BinarizationUtils.percentBlackSelection(editor.getImageCopy(), percent);
+        BufferedImage image = BinarizationUtils.percentBlackSelection(editor.getImageCopy(), percent);
         editor.setImage(image);
         editor.repaint();
     }
 
     public void meanIterativeSelection() {
-        BufferedImage image  = BinarizationUtils.meanIterativeSelection(editor.getImageCopy());
+        BufferedImage image = BinarizationUtils.meanIterativeSelection(editor.getImageCopy());
         editor.setImage(image);
         editor.repaint();
     }
@@ -127,20 +130,20 @@ public class EditorController {
 
     public void filter(float[][] mask) {
         createImageBackup();
-        BufferedImage image  = FilterUtils.filter(editor.getImageCopy(), mask);
+        BufferedImage image = FilterUtils.filter(editor.getImageCopy(), mask);
         editor.setImage(image);
         editor.repaint();
     }
 
     public void medianFilter(int matrixSize) {
         createImageBackup();
-        BufferedImage image  = FilterUtils.medianFilter(editor.getImageCopy(), matrixSize);
+        BufferedImage image = FilterUtils.medianFilter(editor.getImageCopy(), matrixSize);
         editor.setImage(image);
         editor.repaint();
     }
 
     public void dilatationFilter(boolean[][] mask) {
-        BufferedImage image  = MorphologicBinaryFilter.dilatationFilter(editor.getImage(), mask);
+        BufferedImage image = MorphologicBinaryFilter.dilatationFilter(editor.getImage(), mask);
         editor.setImage(image);
         editor.repaint();
     }
@@ -151,7 +154,19 @@ public class EditorController {
     }
 
     public void erosionFilter(boolean[][] mask) {
-        BufferedImage image  = MorphologicBinaryFilter.erosionFilter(editor.getImage(), mask);
+        BufferedImage image = MorphologicBinaryFilter.erosionFilter(editor.getImage(), mask);
+        editor.setImage(image);
+        editor.repaint();
+    }
+
+    public void openingFilter(boolean[][] dilatationMask, boolean[][] erosionMask) {
+        BufferedImage image = MorphologicBinaryFilter.openingFilter(editor.getImage(), dilatationMask, erosionMask);
+        editor.setImage(image);
+        editor.repaint();
+    }
+
+    public void closingFilter(boolean[][] dilatationMask, boolean[][] erosionMask) {
+        BufferedImage image = MorphologicBinaryFilter.closingFilter(editor.getImage(), dilatationMask, erosionMask);
         editor.setImage(image);
         editor.repaint();
     }
