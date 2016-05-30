@@ -2,6 +2,7 @@ package com.geditor.ui.controller;
 
 import com.geditor.transformation.binarization.BinarizationUtils;
 import com.geditor.transformation.filtration.FilterUtils;
+import com.geditor.transformation.filtration.morphologic.binary.MorphologicBinaryFilter;
 import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.transformation.histogram.HistogramUtils;
 import com.geditor.transformation.point.PointTransformations;
@@ -135,6 +136,17 @@ public class EditorController {
         createImageBackup();
         BufferedImage image  = FilterUtils.medianFilter(editor.getImageCopy(), matrixSize);
         editor.setImage(image);
+        editor.repaint();
+    }
+
+    public void dilatationFilter(boolean[][] cross3x3) {
+        BufferedImage image  = MorphologicBinaryFilter.dilatationFilter(editor.getImage(), cross3x3);
+        editor.setImage(image);
+        editor.repaint();
+    }
+
+    public void getImageBackup() {
+        editor.setImage(editor.getImageCopy());
         editor.repaint();
     }
 }

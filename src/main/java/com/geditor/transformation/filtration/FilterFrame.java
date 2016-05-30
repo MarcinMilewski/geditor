@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 public class FilterFrame extends JFrame{
+
     private final JButton smoothButton = new JButton("Smooth filter");
     private final JButton sobelHorizontalButton = new JButton("Sobel horizontal");
     private final JButton sobelVerticalButton = new JButton("Sobel vertical");

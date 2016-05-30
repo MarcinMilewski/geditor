@@ -1,13 +1,11 @@
 package com.geditor.transformation.filtration;
 
 import com.geditor.commons.MaskMatrix;
+import com.geditor.util.ImageUtils;
 import lombok.extern.log4j.Log4j;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +15,7 @@ public class FilterUtils {
 
     public static BufferedImage filter(BufferedImage image, float[][] mask) {
         checkMaskLengthShouldBeOdd(mask);
-        BufferedImage result = createImageBackup(image);
+        BufferedImage result = ImageUtils.createImageBackup(image);
 
         List<Float> maskMatrix = new MaskMatrix(mask).getMaskList();
         final int range = mask.length / 2;
@@ -27,7 +25,7 @@ public class FilterUtils {
 //        log.debug("Filter with mask: " + float2dArrayToString(mask));
         for (int i = range; i < image.getHeight() - range; ++i) {
             for (int j = range; j < image.getWidth() - range; ++j) {
-                List<Color> colors = getColorsFromImage(image, j, i, maskSize, range);
+                List<Color> colors = ImageUtils.getValuesFromRange(image, j, i, maskSize, range);
                 Iterator<Float> maskIterator = maskMatrix.iterator();
                 final int[] redSum = {0};
                 final int[] greenSum = {0};
@@ -70,16 +68,6 @@ public class FilterUtils {
         return Math.round(sum);
     }
 
-    private static List<Color> getColorsFromImage(BufferedImage image, final int row, final int col, final int maskSize, final int range) {
-        List<Color> colors = new ArrayList<>();
-        for (int i = row - range; i <= row + range; ++i) {
-            for (int j = col - range; j <= col + range; ++j) {
-                colors.add(new Color(image.getRGB(i, j)));
-            }
-        }
-        return colors;
-    }
-
     private static void checkMaskLengthShouldBeOdd(float[][] mask) {
         final int length = mask.length;
         if (length % 2 != 1 && length >= 3) {
@@ -88,13 +76,6 @@ public class FilterUtils {
         for (int i = 0; i < length; i++) {
             if (mask[i].length != length) throw new IllegalArgumentException("Invalid mask - should be NxN");
         }
-    }
-
-    private static BufferedImage createImageBackup(BufferedImage image) {
-        ColorModel cm = image.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = image.copyData(null);
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
     public static float[][] getSmoothMask() {
@@ -150,7 +131,7 @@ public class FilterUtils {
 
     public static BufferedImage medianFilter(BufferedImage image, int matrixSize) {
         if (matrixSize % 2 != 1) throw new IllegalArgumentException("Matrix size should be odd");
-        BufferedImage result = createImageBackup(image);
+        BufferedImage result = ImageUtils.createImageBackup(image);
 
         final int range = matrixSize / 2;
         final int maskSize = matrixSize * matrixSize;
@@ -158,7 +139,7 @@ public class FilterUtils {
 //        log.debug("Median filtering, matrix size: " + matrixSize);
         for (int i = range; i < image.getHeight() - range; ++i) {
             for (int j = range; j < image.getWidth() - range; ++j) {
-                List<Color> colors = getColorsFromImage(image, j, i, maskSize, range);
+                List<Color> colors = ImageUtils.getValuesFromRange(image, j, i, maskSize, range);
                 List<Integer> redColors = colors.stream().map(e -> e.getRed()).sorted().collect(Collectors.toList());
                 List<Integer> greenColors = colors.stream().map(e -> e.getGreen()).sorted().collect(Collectors.toList());
                 List<Integer> blueColors = colors.stream().map(e -> e.getBlue()).sorted().collect(Collectors.toList());
