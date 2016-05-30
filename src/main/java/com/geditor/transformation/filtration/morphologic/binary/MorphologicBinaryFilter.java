@@ -22,9 +22,9 @@ public class MorphologicBinaryFilter {
         final int maskSize = mask.length * mask.length;
 
         IntStream.range(margin, image.getHeight() - margin)
-                .sequential()
+                .parallel()
                 .forEach(i -> {
-                        IntStream.range(margin, image.getWidth() - margin).forEach(j -> {
+                        IntStream.range(margin, image.getWidth() - margin).parallel().forEach(j -> {
                             List<Boolean> imageWindow = ImageUtils.getValuesFromRange(image, j, i, maskSize, margin).stream().map(MorphologicBinaryFilter::getPixelValue).collect(Collectors.toList());
                             result.setRGB(j, i, Color.WHITE.getRGB());
                             for (int index = 0; index < maskSize; ++index) {
