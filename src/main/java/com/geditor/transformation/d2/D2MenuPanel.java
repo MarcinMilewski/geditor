@@ -44,7 +44,6 @@ public class D2MenuPanel extends JPanel {
         resetButton.addActionListener(e -> {
             d2TransformationController.reset();
         });
-
         translationButton.addActionListener(e -> {
             double dx = Double.parseDouble((xTranslationTextField.getText()));
             double dy = Double.parseDouble((yTranslationTextField.getText()));
