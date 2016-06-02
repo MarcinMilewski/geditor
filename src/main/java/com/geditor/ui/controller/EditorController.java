@@ -3,6 +3,7 @@ package com.geditor.ui.controller;
 import com.geditor.transformation.binarization.BinarizationUtils;
 import com.geditor.transformation.filtration.FilterUtils;
 import com.geditor.transformation.filtration.color.ColorCounterFilter;
+import com.geditor.transformation.filtration.color.ColorCounterFilteredImageFrame;
 import com.geditor.transformation.filtration.morphologic.binary.MorphologicBinaryFilter;
 import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.transformation.histogram.HistogramUtils;
@@ -21,8 +22,6 @@ public class EditorController {
 
     private EditorController() {
     }
-
-    ;
 
     public static EditorController getInstance() {
         return instance;
@@ -190,8 +189,8 @@ public class EditorController {
         ColorCounterFilter colorCounterFilter = new ColorCounterFilter();
         Pair<BufferedImage, Double> imageColorCountPair = colorCounterFilter.countGreen(editor.getImage(), threshold);
         JOptionPane.showMessageDialog(null, imageColorCountPair.getValue() + "%", "Percent Green Counter", JOptionPane.INFORMATION_MESSAGE);
-        editor.setImage(imageColorCountPair.getKey());
-        editor.repaint();
+        ColorCounterFilteredImageFrame colorCounterFilteredImageFrame = new ColorCounterFilteredImageFrame(imageColorCountPair.getKey());
+        colorCounterFilteredImageFrame.repaint();
     }
 
 }
