@@ -171,4 +171,15 @@ public class EditorController {
         editor.repaint();
     }
 
+    public void thickeningFilter() {
+        BufferedImage image = MorphologicBinaryFilter.thickening(editor.getImage());
+        editor.setImage(image);
+        editor.repaint();
+    }
+    public void thinningFilter() {
+        BufferedImage image = MorphologicBinaryFilter.thinning(editor.getImage());
+        editor.setImage(image);
+        editor.repaint();
+    }
+
 }

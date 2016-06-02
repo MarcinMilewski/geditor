@@ -70,4 +70,10 @@ public class MorphologicBinaryFilter {
         return erosionFilter(afterDilatation, erosionMask);
     }
 
+    public static BufferedImage thickening(BufferedImage bufferedImage) {
+        return new ThickeningFilter().filterImage(bufferedImage);
+    }
+    public static BufferedImage thinning(BufferedImage bufferedImage) {
+        return new ThinningFilter().filterImage(bufferedImage);
+    }
 }
