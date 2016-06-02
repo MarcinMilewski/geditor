@@ -2,12 +2,15 @@ package com.geditor.ui.controller;
 
 import com.geditor.transformation.binarization.BinarizationUtils;
 import com.geditor.transformation.filtration.FilterUtils;
+import com.geditor.transformation.filtration.color.ColorCounterFilter;
 import com.geditor.transformation.filtration.morphologic.binary.MorphologicBinaryFilter;
 import com.geditor.transformation.histogram.HistogramModel;
 import com.geditor.transformation.histogram.HistogramUtils;
 import com.geditor.transformation.point.PointTransformations;
 import com.geditor.ui.editor.Editor;
+import org.apache.commons.lang3.tuple.Pair;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -176,9 +179,18 @@ public class EditorController {
         editor.setImage(image);
         editor.repaint();
     }
+
     public void thinningFilter() {
         BufferedImage image = MorphologicBinaryFilter.thinning(editor.getImage());
         editor.setImage(image);
+        editor.repaint();
+    }
+
+    public void countGreen(int threshold) {
+        ColorCounterFilter colorCounterFilter = new ColorCounterFilter();
+        Pair<BufferedImage, Double> imageColorCountPair = colorCounterFilter.countGreen(editor.getImage(), threshold);
+        JOptionPane.showMessageDialog(null, imageColorCountPair.getValue() + "%", "Percent Green Counter", JOptionPane.INFORMATION_MESSAGE);
+        editor.setImage(imageColorCountPair.getKey());
         editor.repaint();
     }
 
