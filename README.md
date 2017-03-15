@@ -1,7 +1,7 @@
-Project contains implementation of graphic editor contains features like:
+Graphic editor with features such as:
 - Simple painting and editing (line, ellipse, rectangle)
 - PPMp3, PPMp6, JPG import/export
-- CMYK - RGB / RGB - CMYK color conversion
+- CMYK to RGB and RGB to CMYK color conversion
 - RGB cube, HSV cone painting
 - Point transformations of image (addition, multiplication)
 - To gray conversion (simple and YUV)
